@@ -9,10 +9,11 @@
   "analysis": {
     "direction": "Essentia on FLAC masters (native)",
     "retired": ["Offtrack/Echo-Nest cue heuristic (≈chance signal)", "Offtrack cue_sec timing", "Supabase/Lovable taghag v1", "hag-side track_identity/asset_file usage"],
-    "similarity": "Voyager vectors",
+    "similarity": "pgvector ANN via tools/similarity/sonic_discovery.py (DECISIONS_LOCKED §8). Voyager/Annoy benched but NOT adopted.",
     "deferred": "Klio / Apache Beam (overkill for ~18k local FLACs; use local multiprocessing)"
   },
   "writes_to_slut_via": "SQL / payloads file handed to slut; slut applies. NO direct writes to music_v4.db.",
-  "join_keys": ["content_sha256", "ISRC"],
+  "join_keys": ["content_sha256 (primary)", "track_id (secondary)"],
+  "join_keys_note": "ISRC is a nullable tertiary key (~25.2k/31.4k coverage), not the primary join. Corrects earlier spine event #4.",
   "notes": "Snapshot only. Durable history is handoffs/handoff.jsonl; locked decisions are DECISIONS_LOCKED (see README migration note)."
 }

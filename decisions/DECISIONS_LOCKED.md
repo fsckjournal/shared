@@ -13,7 +13,7 @@ stubs, not content. Edit **only this file**.
 > Decisions are recorded here by the side that owns the lane (see below) — don't
 > re-author another side's calls; reference their doc.
 
-## The lane split (from `slut:docs/architecture/slut_hag_split.md` — the governing invariant)
+## The lane split (from `hag:docs/architecture/slut_hag_split.md` — the governing invariant)
 - **Tagslut (slut) owns identity:** ISRC/UPC, provider IDs, `content_sha256`, fingerprint, file
   location, provenance, safety. System of record for "*which file is this and where did it come from.*"
 - **Taghag (hag) owns understanding:** audio analysis / MIR, embeddings, cues, crates, transitions,

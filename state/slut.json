@@ -8,8 +8,8 @@
   "data_stores": {
     "sqlite": {
       "db": "music_v4.db ($TAGSLUT_DB)",
-      "writer_policy": "SINGLE WRITER = slut only. hag never writes music_v4.db.",
-      "join_keys": ["content_sha256", "ISRC"],
+      "writer_policy": "SINGLE WRITER = slut only, BY POLICY NOT MECHANISM. Audit 2026-07-02 F-014: three runnable hag scripts still write here; guard is absent in code pending R1.",
+      "join_keys": ["content_sha256 (primary)", "track_id (secondary)", "ISRC (nullable tertiary, ~25.2k/31.4k)"],
       "intake_from_hag": "hag hands slut SQL or a payloads file; slut snapshots, validates, then applies (as with the 18,492 spotify_id aliases)"
     },
     "master_library": "$MASTER_LIBRARY (FLAC masters, local-only, canonical working audio)"
