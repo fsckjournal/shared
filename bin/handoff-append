@@ -62,12 +62,35 @@ def _resources():
     return r or None
 
 
+def _next_id():
+    """Monotonic id = max existing id + 1. Replaces hand-numbered MSG-NNN."""
+    mx = 0
+    if os.path.exists(LOG):
+        for ln in open(LOG, encoding="utf-8"):
+            ln = ln.strip()
+            if not ln:
+                continue
+            try:
+                mx = max(mx, int(json.loads(ln).get("id", 0)))
+            except Exception:
+                pass
+    return mx + 1
+
+
+DEFAULT_STATUS = {
+    "handoff": "open", "blocked": "open", "question": "open",
+    "answer": "answered", "data-release": "fyi", "note": "fyi",
+}
+
+
 def _validate(evt):
     """Minimal self-contained validation against the required rules.
 
     We avoid a jsonschema dependency; this enforces the invariants that matter.
     """
     errs = []
+    if evt.get("status") not in {"open", "answered", "fyi"}: errs.append("bad status")
+    if "re" in evt and (not isinstance(evt["re"], int) or evt["re"] < 1): errs.append("re must be a positive int")
     if evt["from"] not in REPOS: errs.append(f"from must be one of {REPOS}")
     if evt["to"] not in REPOS | {"both"}: errs.append("to must be hag|slut|both")
     if evt["kind"] not in {"handoff","blocked","question","answer","data-release","note"}:
@@ -96,6 +119,10 @@ def main():
                    help="path[:repo[:sha256[:generation]]]")
     p.add_argument("--session", default=None)
     p.add_argument("--env", default=None, choices=["local","web","phone","unknown"])
+    p.add_argument("--re", dest="re", type=int, default=None,
+                   help="id of the event this replies to / corrects")
+    p.add_argument("--status", default=None, choices=["open","answered","fyi"],
+                   help="defaults by kind: handoff/blocked/question=open, answer=answered, note/data-release=fyi")
     args = p.parse_args()
 
     artifacts = []
@@ -109,12 +136,15 @@ def main():
 
     evt = {
         "schema_version": SCHEMA_VERSION,
+        "id": _next_id(),
         "ts": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "from": args.frm,
         "to": args.to,
         "kind": args.kind,
+        "status": args.status or DEFAULT_STATUS[args.kind],
         "summary": args.summary,
     }
+    if args.re is not None: evt["re"] = args.re
     g = _detect_git()
     if g: evt["git"] = g
     evt["env"] = args.env or _detect_env()
@@ -131,13 +161,18 @@ def main():
         for e in errs: print("  - " + e, file=sys.stderr)
         sys.exit(2)
 
-    line = json.dumps(evt, ensure_ascii=False, sort_keys=True)
     os.makedirs(os.path.dirname(LOG), exist_ok=True)
-    # O_APPEND makes the single write atomic across concurrent producers.
-    fd = os.open(LOG, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o644)
+    # Hold an exclusive lock so (read max id) + (append) is atomic across the
+    # two repos' concurrent writers — no duplicate ids, no interleaved lines.
+    import fcntl
+    fd = os.open(LOG, os.O_RDWR | os.O_CREAT | os.O_APPEND, 0o644)
     try:
+        fcntl.flock(fd, fcntl.LOCK_EX)
+        evt["id"] = _next_id()          # recompute under lock — authoritative
+        line = json.dumps(evt, ensure_ascii=False, sort_keys=True)
         os.write(fd, (line + "\n").encode("utf-8"))
     finally:
+        fcntl.flock(fd, fcntl.LOCK_UN)
         os.close(fd)
     print(line)
 

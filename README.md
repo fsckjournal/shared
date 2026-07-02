@@ -15,6 +15,24 @@ whole sessions dead-ended because a handoff assumed a `$TAGSLUT_DB` that wasn't
 mounted. This spine makes handoffs **typed, ordered, durable, and machine-readable
 by either agent without the human as courier.**
 
+### Supersedes
+
+- **`hag/RELAY.md`** — the hand-numbered `MSG-NNN` thread. It lived only in
+  `hag`, so the slut side reached it by absolute path and couldn't commit its own
+  messages with clean git provenance. Replaced by this log, which lives in a
+  neutral repo both sides push to; ids are machine-assigned (no MSG-NNN
+  collisions), `re`/`status` preserve the thread/answered workflow. **RELAY.md is
+  frozen at MSG-007 for history**; its 4 open threads were carried over as events
+  #2–#5.
+- **The hand-mirrored `DECISIONS_LOCKED.md`** — kept as the decision *ledger*, but
+  stop copying it into `slut:docs/v4/HANDOFF_TO_HAG_*.md`. (Optional next step:
+  move it to `shared/decisions/` so there is one copy.)
+
+### Event fields worth knowing
+
+`id` (auto, monotonic), `re` (id this replies to), `status` (`open|answered|fyi`).
+A reply with `--re <id> --status answered` clears that id from `handoff-tail --open`.
+
 ## Layout
 
 ```

@@ -57,26 +57,33 @@ def main():
         g = e.get("git", {})
         pos = f" @{g.get('sha','?')}/{g.get('branch','?')}" if g else ""
         env = e.get("env", "?")
-        print(f"[{e.get('ts','?')}] {e.get('from','?')}→{e.get('to','?')} "
-              f"{e.get('kind','?').upper()}{pos} ({env})")
+        re_s = f" re#{e['re']}" if e.get("re") else ""
+        st = e.get("status", "?")
+        print(f"#{e.get('id','?')} [{e.get('ts','?')}] {e.get('from','?')}→{e.get('to','?')} "
+              f"{e.get('kind','?').upper()}/{st}{re_s}{pos} ({env})")
         print(f"    {e.get('summary','').strip()}")
         for a in e.get("artifacts", []):
             gen = f" gen{a['generation']}" if 'generation' in a else ""
             print(f"    · artifact: {a.get('repo','?')}:{a['path']}{gen}")
 
     if args.open:
-        print("\n--- still open ---")
+        # An event with status=open is cleared when a later event replies to it
+        # (re==id) with status=answered. Scan the FULL log, not just the filtered tail.
+        full = load()
+        answered = {e["re"] for e in full if e.get("status") == "answered" and e.get("re")}
+        print("\n--- still open (needs a reply/action) ---")
         any_open = False
-        # A question is 'answered' if a later event of kind=answer references it loosely;
-        # we keep it simple: show all questions/needs from the last 50 events.
-        for e in evts[-50:]:
-            for q in e.get("open_questions", []):
+        for e in full:
+            if e.get("status") == "open" and e.get("id") not in answered:
+                # respect --to filter if given
+                if args.to and e.get("to") not in (args.to, "both"):
+                    continue
                 any_open = True
-                print(f"  ? [{e.get('from')}] {q}")
-            if e.get("kind") == "blocked":
+                print(f"  #{e['id']} [{e.get('from')}→{e.get('to')}] {e.get('summary','').strip()[:120]}")
+                for q in e.get("open_questions", []):
+                    print(f"        ? {q}")
                 for nd in e.get("needs", []):
-                    any_open = True
-                    print(f"  ⛔ [{e.get('from')}] needs: {nd}")
+                    print(f"        ⛔ needs: {nd}")
         if not any_open:
             print("  (nothing open)")
 

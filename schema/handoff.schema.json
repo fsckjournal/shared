@@ -5,12 +5,27 @@
   "description": "One append-only event on the shared handoff spine between the taghag (brain) and tagslut (backbone) repos.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "ts", "from", "to", "kind", "summary"],
+  "required": ["schema_version", "id", "ts", "from", "to", "kind", "status", "summary"],
   "properties": {
     "schema_version": {
       "type": "integer",
       "const": 1,
       "description": "Bump only on breaking schema changes; readers must check this."
+    },
+    "id": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Monotonic event id, auto-assigned by handoff-append (max existing + 1). Replaces hand-numbered MSG-NNN."
+    },
+    "re": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "id of the event this one replies to / corrects. Threads the conversation."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "answered", "fyi"],
+      "description": "open=needs a reply/action; answered=resolved; fyi=informational. A reply with status=answered and re=<id> clears that id from the open list."
     },
     "ts": {
       "type": "string",

@@ -4,8 +4,11 @@
 ## Cross-repo handoff spine (read before doing anything)
 
 This repo coordinates with its sibling through `~/Projects/tag/shared`, an
-append-only handoff log. Do **not** hand-write `HANDOFF_*.md` files or paste
-free-text handoff summaries between sessions — that channel is deprecated.
+append-only handoff log. Do **not** hand-write `HANDOFF_*.md` files, paste
+free-text handoff summaries, or add `MSG-NNN` blocks to `hag/RELAY.md` — those
+channels are **superseded**. `hag/RELAY.md` is frozen at MSG-007 (read it for
+history only); `DECISIONS_LOCKED.md` remains the decision ledger but is no
+longer hand-mirrored between repos.
 
 **On session start (step 0), always:**
 
@@ -29,6 +32,15 @@ HANDOFF_SRC="$PWD" ~/Projects/tag/shared/bin/handoff-append \
 then: git -C ~/Projects/tag/shared add -A && \
       git -C ~/Projects/tag/shared commit -m "handoff: <THIS_REPO>→<OTHER_REPO>" && \
       git -C ~/Projects/tag/shared push
+```
+
+**To reply to / resolve an open item**, reference its id and set status —
+that clears it from everyone's `--open` list:
+
+```bash
+~/Projects/tag/shared/bin/handoff-append --from <THIS_REPO> --to <OTHER_REPO> \
+  --kind answer --re <ID> --status answered \
+  --summary "<the answer>"
 ```
 
 **If you cannot proceed because a resource is missing** (e.g. `$TAGSLUT_DB` or

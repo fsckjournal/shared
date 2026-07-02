@@ -1,18 +1,18 @@
 {
   "repo": "slut",
-  "role": "backbone — identity, provenance, acquisition, safety; system of record",
+  "role": "backbone — identity, provenance, acquisition, safety",
+  "owns": "which file is this and where did it come from (ISRC/UPC, provider IDs, content_sha256, fingerprint, file location, provenance)",
   "system_of_record": true,
-  "updated": null,
+  "updated": "2026-07-02",
   "current_focus": null,
   "data_stores": {
     "sqlite": {
-      "db": "$TAGSLUT_DB",
-      "current_generation": "music_v4",
-      "identity_table": "track_identity",
-      "join_keys": ["ISRC", "content_sha256"],
-      "role": "authoritative identity; publishes versioned exports for hag to consume"
+      "db": "music_v4.db ($TAGSLUT_DB)",
+      "writer_policy": "SINGLE WRITER = slut only. hag never writes music_v4.db.",
+      "join_keys": ["content_sha256", "ISRC"],
+      "intake_from_hag": "hag hands slut SQL or a payloads file; slut snapshots, validates, then applies (as with the 18,492 spotify_id aliases)"
     },
-    "master_library": "$MASTER_LIBRARY (FLAC masters, local-only)"
+    "master_library": "$MASTER_LIBRARY (FLAC masters, local-only, canonical working audio)"
   },
-  "notes": "Snapshot of slut's current state. Last-writer-wins; the durable history is handoffs/handoff.jsonl, not this file."
+  "notes": "Snapshot only. Durable history is handoffs/handoff.jsonl; locked decisions are DECISIONS_LOCKED (see README migration note)."
 }

@@ -1,15 +1,18 @@
 {
   "repo": "hag",
-  "role": "brain — audio understanding, similarity, harmonic transition planning",
+  "role": "brain — audio understanding and mixing",
+  "owns": "what does it sound like / how does it mix (MIR analysis, embeddings, cues, crates, transitions, similarity, rendering)",
   "system_of_record": false,
-  "updated": null,
+  "read_only_on_slut": true,
+  "updated": "2026-07-02",
   "current_focus": null,
-  "data_stores": {
-    "supabase": {
-      "vectors": ["apple_hybrid_v1", "sonic7_v1"],
-      "join_keys": ["ISRC", "content_sha256"],
-      "role": "derived analysis; read-only on slut identity"
-    }
+  "analysis": {
+    "direction": "Essentia on FLAC masters (native)",
+    "retired": ["Offtrack/Echo-Nest cue heuristic (≈chance signal)", "Offtrack cue_sec timing", "Supabase/Lovable taghag v1", "hag-side track_identity/asset_file usage"],
+    "similarity": "Voyager vectors",
+    "deferred": "Klio / Apache Beam (overkill for ~18k local FLACs; use local multiprocessing)"
   },
-  "notes": "Snapshot of hag's current state. Last-writer-wins; the durable history is handoffs/handoff.jsonl, not this file."
+  "writes_to_slut_via": "SQL / payloads file handed to slut; slut applies. NO direct writes to music_v4.db.",
+  "join_keys": ["content_sha256", "ISRC"],
+  "notes": "Snapshot only. Durable history is handoffs/handoff.jsonl; locked decisions are DECISIONS_LOCKED (see README migration note)."
 }
