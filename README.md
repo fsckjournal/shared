@@ -101,3 +101,8 @@ Add this checkout as a sibling (already at `~/Projects/tag/shared`) or as a
 submodule, then paste the boot-block from `AGENT_BOOTBLOCK.md` into each repo's
 `AGENT.md`. Step 0 of any resume is `git -C ~/Projects/tag/shared pull` then
 `handoff-tail`.
+
+**Remote:** `github.com/fsckjournal/shared` (branch `master`). This is the
+durable, machine-independent copy — it survives machine loss and is reachable
+from the iPhone Code tab. Always `pull --ff-only` on resume and `push` after
+appending, so both sides and all environments see the same log.
