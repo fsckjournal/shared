@@ -24,9 +24,11 @@ by either agent without the human as courier.**
   collisions), `re`/`status` preserve the thread/answered workflow. **RELAY.md is
   frozen at MSG-007 for history**; its 4 open threads were carried over as events
   #2–#5.
-- **The hand-mirrored `DECISIONS_LOCKED.md`** — kept as the decision *ledger*, but
-  stop copying it into `slut:docs/v4/HANDOFF_TO_HAG_*.md`. (Optional next step:
-  move it to `shared/decisions/` so there is one copy.)
+- **The hand-mirrored `DECISIONS_LOCKED.md`** — collapsed to one canonical copy at
+  `decisions/DECISIONS_LOCKED.md` here. The old `hag:DECISIONS_LOCKED.md` and
+  `slut:DECISIONS_LOCKED.md` are now pointer stubs; the mirror block in
+  `slut:docs/v4/HANDOFF_TO_HAG_2026-07-01.md` is banner-marked superseded. Edit only
+  the canonical file, then record the change with a `note` event.
 
 ### Event fields worth knowing
 
