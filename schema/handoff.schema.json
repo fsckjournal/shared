@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://tag.local/schema/handoff.schema.json",
+  "title": "Tag cross-repo handoff event",
+  "description": "One append-only event on the shared handoff spine between the taghag (brain) and tagslut (backbone) repos.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "ts", "from", "to", "kind", "summary"],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1,
+      "description": "Bump only on breaking schema changes; readers must check this."
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC ISO-8601 timestamp of when the event was written."
+    },
+    "from": {
+      "type": "string",
+      "enum": ["hag", "slut"],
+      "description": "Repo that produced this event."
+    },
+    "to": {
+      "type": "string",
+      "enum": ["hag", "slut", "both"],
+      "description": "Intended consumer repo."
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["handoff", "blocked", "question", "answer", "data-release", "note"],
+      "description": "handoff=work passed over; blocked=cannot proceed (see needs); question/answer=cross-repo Q&A; data-release=new versioned identity export available; note=informational."
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000,
+      "description": "Human/agent-readable one-paragraph statement of what happened or what is needed."
+    },
+    "git": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Source-repo git position at write time.",
+      "properties": {
+        "sha": { "type": "string", "pattern": "^[0-9a-f]{7,40}$" },
+        "branch": { "type": "string" }
+      }
+    },
+    "env": {
+      "type": "string",
+      "enum": ["local", "web", "phone", "unknown"],
+      "description": "Environment the producing session ran in. web/phone often lack DB + library mounts."
+    },
+    "resources": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Whether the heavy local resources were actually present in the producing session.",
+      "properties": {
+        "tagslut_db": { "type": "boolean" },
+        "master_library": { "type": "boolean" },
+        "supabase": { "type": "boolean" }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Unresolved decisions the consumer must answer."
+    },
+    "needs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "For kind=blocked: what must exist/happen to unblock (e.g. 'local $TAGSLUT_DB', 'ISRC export v4')."
+    },
+    "artifacts": {
+      "type": "array",
+      "description": "Files/tables this event references. Paths are repo-relative or absolute; include a checksum when it matters.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path"],
+        "properties": {
+          "path": { "type": "string" },
+          "repo": { "type": "string", "enum": ["hag", "slut", "shared"] },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "generation": { "type": "integer" }
+        }
+      }
+    },
+    "session": {
+      "type": "string",
+      "description": "Producing Claude Code session id, for traceback into the transcript."
+    }
+  }
+}

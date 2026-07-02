@@ -1,0 +1,8 @@
+# Nothing heavy lives here. Guard against accidental data/secret commits.
+*.db
+*.sqlite
+*.flac
+*.parquet
+.env
+.DS_Store
+_secret*/

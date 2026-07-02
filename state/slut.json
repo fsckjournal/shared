@@ -1,0 +1,18 @@
+{
+  "repo": "slut",
+  "role": "backbone — identity, provenance, acquisition, safety; system of record",
+  "system_of_record": true,
+  "updated": null,
+  "current_focus": null,
+  "data_stores": {
+    "sqlite": {
+      "db": "$TAGSLUT_DB",
+      "current_generation": "music_v4",
+      "identity_table": "track_identity",
+      "join_keys": ["ISRC", "content_sha256"],
+      "role": "authoritative identity; publishes versioned exports for hag to consume"
+    },
+    "master_library": "$MASTER_LIBRARY (FLAC masters, local-only)"
+  },
+  "notes": "Snapshot of slut's current state. Last-writer-wins; the durable history is handoffs/handoff.jsonl, not this file."
+}

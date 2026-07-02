@@ -1,0 +1,15 @@
+{
+  "repo": "hag",
+  "role": "brain — audio understanding, similarity, harmonic transition planning",
+  "system_of_record": false,
+  "updated": null,
+  "current_focus": null,
+  "data_stores": {
+    "supabase": {
+      "vectors": ["apple_hybrid_v1", "sonic7_v1"],
+      "join_keys": ["ISRC", "content_sha256"],
+      "role": "derived analysis; read-only on slut identity"
+    }
+  },
+  "notes": "Snapshot of hag's current state. Last-writer-wins; the durable history is handoffs/handoff.jsonl, not this file."
+}
