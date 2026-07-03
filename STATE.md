@@ -44,10 +44,12 @@ sibling `music_v3.db` as an interim; the v4 write-side port is **drafted, not bu
 redirect); streamrip download-path routing fixed; membership policy locked (§11); Qobuz
 metadata-on-download authority fix shipped (`2329e539` + cover-art `10c11f14`, v3 lane);
 cover-art xfail closed (`bcc7304a`, suite 54/0); STATE.md current-truth layer + freshness hook.
-**Directed (Fable):** v4 intake write-contract — coexistence = **incremental-migration bridge
-on `content_sha256`**, not dual-write. **NEXT PRIORITY = Q5: make `music_v4.db` reproducible
-from the repo** (no build recipe exists = catalog-loss risk); resolver+bridge parked until new
-downloads must land in v4 (operator undecided; Q5 doesn't depend on it).
+**Directed (Fable):** v4 intake write-contract §9 — **Q1–Q4 CLOSED**: Q1 coexistence =
+incremental-migration bridge on `content_sha256` (not dual-write); Q2 fingerprint = slut-lane
+but shipped OFF (2% coverage); Q3 id-map = dissolved (sha256 is the key); Q4 duration-Δ =
+configurable default. **Q5 OPEN = NEXT PRIORITY: make `music_v4.db` reproducible from the
+repo** (no build recipe = catalog-loss risk); resolver+bridge parked until new downloads must
+land in v4 (operator undecided; Q5 doesn't depend on it).
 **Open flag (spine #31):** `_prune_orphan_stage_m3u_files` could trash a populated real
 `PLAYLIST_ROOT` on a fresh-db stage run — guard pending intake-owner go-ahead.
 **Blockers to the full v4 migration:** (1) no identity match-or-create resolver for v4;
