@@ -41,9 +41,15 @@ sibling `music_v3.db` as an interim; the v4 write-side port is **drafted, not bu
 ## slut section (identity / acquisition / safety) — maintained by slut
 **Done recently:** v4 catalog built (31,445 tracks, gates green); ts-stage v3-redirect
 **discriminator bug fixed** (`da06e00a` — empty v4 scaffolding no longer defeats the
-redirect); streamrip download-path routing fixed; membership policy locked (§11).
-**In flight / next:** v4 intake write-contract is a **draft** awaiting review + its 5 open
-questions; membership/receipt spec rollout not started (migration 0030 not yet applied).
+redirect); streamrip download-path routing fixed; membership policy locked (§11); Qobuz
+metadata-on-download authority fix shipped (`2329e539` + cover-art `10c11f14`, v3 lane);
+cover-art xfail closed (`bcc7304a`, suite 54/0); STATE.md current-truth layer + freshness hook.
+**Directed (Fable):** v4 intake write-contract — coexistence = **incremental-migration bridge
+on `content_sha256`**, not dual-write. **NEXT PRIORITY = Q5: make `music_v4.db` reproducible
+from the repo** (no build recipe exists = catalog-loss risk); resolver+bridge parked until new
+downloads must land in v4 (operator undecided; Q5 doesn't depend on it).
+**Open flag (spine #31):** `_prune_orphan_stage_m3u_files` could trash a populated real
+`PLAYLIST_ROOT` on a fresh-db stage run — guard pending intake-owner go-ahead.
 **Blockers to the full v4 migration:** (1) no identity match-or-create resolver for v4;
 (2) `release_package_membership` migration not applied; (3) live DB build recipe not in
 repo (not reproducible); (4) `SCHEMA_v4.sql` under-documents live shape; (5) `@stamps_v4`
