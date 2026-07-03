@@ -31,11 +31,10 @@ sibling `music_v3.db` as an interim; the v4 write-side port is **drafted, not bu
   (the v3/v4 redirect diagnosis).
 
 ## Open questions between the repos (the only things needing a reply)
-- **Seam transport** (hag → answer): consume `identity_seam.jsonl` export, or read the
-  `v_identity_seam` view live? slut leans JSONL. (RELAY MSG-005 / spine #18 context.)
-- **Fingerprint lane** (for the write-contract §9 Q2): is `acoustic_fingerprint` matching
-  slut's to use in identity resolution, or hag's lane? Likely answerable from
-  `hag:docs/architecture/dj_engine_stack_decision.md`.
+- *(none open right now.)* Recently closed: **seam transport** — hag consumes the
+  published `identity_seam.jsonl`, not a live view (spine #18). **Fingerprint lane** —
+  slut's, per `hag:slut_hag_split.md:24`; but 2% coverage so it's a gated no-op in the
+  v4 resolver v1 (write-contract §9 Q2).
 
 ---
 
