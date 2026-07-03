@@ -14,11 +14,20 @@ longer hand-mirrored between repos.
 
 ```bash
 git -C ~/Projects/tag/shared pull --ff-only
-~/Projects/tag/shared/bin/handoff-tail --to <THIS_REPO> --open
+cat ~/Projects/tag/shared/STATE.md          # current truth, both repos — read FIRST
+cat ./STATE.md                              # this repo's current truth
+~/Projects/tag/shared/bin/handoff-tail --to <THIS_REPO> --open   # only OPEN items
 ```
 
-Act on anything addressed to `<THIS_REPO>` (or `both`) and resolve open
+`STATE.md` is the reconstructed current state — read it instead of walking the
+log. The log answers "what happened, in order"; `STATE.md` answers "what is true
+now." Act on anything addressed to `<THIS_REPO>` (or `both`) and resolve open
 questions/blocks before starting new work.
+
+**When you finish, UPDATE `STATE.md`** (both this repo's and the shared cross-repo
+file) so the next session doesn't have to reconstruct it. Reserve log events
+(`handoff-append`) for things the OTHER side must act on — questions, answers,
+data-releases, blocks — **not status prose**. Status lives in `STATE.md`.
 
 **When you finish a unit of work, hand it over:**
 

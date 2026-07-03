@@ -3,16 +3,16 @@
   "role": "backbone — identity, provenance, acquisition, safety",
   "owns": "which file is this and where did it come from (ISRC/UPC, provider IDs, content_sha256, fingerprint, file location, provenance)",
   "system_of_record": true,
-  "updated": "2026-07-02",
-  "current_focus": null,
+  "updated": "2026-07-03",
+  "current_focus": "v4 intake write-contract (DRAFT, needs review); intake stays v3-native via fixed _stage_redirect_v3_schema until the port lands",
   "data_stores": {
     "sqlite": {
-      "db": "music_v4.db ($TAGSLUT_DB)",
-      "writer_policy": "SINGLE WRITER = slut only, BY POLICY NOT MECHANISM. Audit 2026-07-02 F-014: three runnable hag scripts still write here; guard is absent in code pending R1.",
-      "join_keys": ["content_sha256 (primary)", "track_id (secondary)", "ISRC (nullable tertiary, ~25.2k/31.4k)"],
+      "db": "music_v4.db ($TAGSLUT_DB); intake redirects to sibling music_v3.db ($TAGSLUT_V3_DB) — v4 write-side not built yet",
+      "writer_policy": "SINGLE WRITER = slut only. F-014 hag writers RETIRED to _retired/; @stamps_v4 sentinel wired to check, decorators on write commands + launchd job still pending.",
+      "join_keys": ["content_sha256 (primary, 97.6% covered)", "track_id (secondary)", "ISRC (nullable tertiary, ~26.5k/31.4k)"],
       "intake_from_hag": "hag hands slut SQL or a payloads file; slut snapshots, validates, then applies (as with the 18,492 spotify_id aliases)"
     },
     "master_library": "$MASTER_LIBRARY (FLAC masters, local-only, canonical working audio)"
   },
-  "notes": "Snapshot only. Durable history is handoffs/handoff.jsonl; locked decisions are DECISIONS_LOCKED (see README migration note)."
+  "notes": "Machine snapshot. Human current-state is STATE.md (slut root + shared/STATE.md). Durable history is handoffs/handoff.jsonl; locked decisions are DECISIONS_LOCKED."
 }
