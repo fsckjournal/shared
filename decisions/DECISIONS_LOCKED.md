@@ -46,6 +46,18 @@ stubs, not content. Edit **only this file**.
    taghag brain DB. **DONE.**
 7. **Identity/provenance/join-keys/file-location are slut's system of record.** slut provides the
    identity→file-path seam that hag's analysis consumes.
+11. **Compilations are release memberships, never duplicates.** *(Added 2026-07-03, operator-approved;
+    spec: `slut:docs/v4/2026-07-03-ts-stage-membership-and-receipt-spec.md`.)* Recording identity (ISRC)
+    and release membership are different facts: the same recording on an album AND a compilation is two
+    memberships of one recording, not a duplicate. Binding on intake: (a) ISRC dedupe governs
+    **download avoidance only** — it may never delete, skip-and-forget, or dissolve a membership;
+    (b) when the library already holds a **bit-identical** file (`file_hash_sha256` match), the
+    compilation slot is satisfied by **copy/hardlink**, not re-download and not silent skip; (c) an
+    incoming release grouping is **never re-grouped by ISRC** into albums — "directory scope is not
+    release identity" cuts both ways; (d) every skipped/copied/virtual membership decision lands in the
+    per-run intake receipt AND as a `release_package_membership` row at intake time — the deferred
+    `virtual_release_membership_or_physical_duplicate` CSV parking lot is retired. Physical-by-copy is
+    the default; virtual membership is an explicit flag, never a silent fallback.
 
 ## C. HAG-LANE decisions (hag's call — recorded by REFERENCE, not re-authored by slut)
 See `hag:docs/architecture/dj_engine_stack_decision.md`. In brief, endorsed against existing code:
