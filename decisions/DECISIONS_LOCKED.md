@@ -97,6 +97,21 @@ stubs, not content. Edit **only this file**.
     a real download failure. The manual recovery for an already-staged album remains
     `ts-stage '<staged dir>' --source qobuz --execute` (registers → integrity → promote → verify off
     the on-disk files, no re-download).
+15. **v4 is a read-only catalog for now; live intake stays v3-native. The resolver + append-only
+    bridge are PARKED; the only near-term v4 work is reproducibility (Q5).** *(Added 2026-07-04,
+    operator-decided — resolves the write-contract spec §9 "one open operator decision".)* New
+    download output does **not** need to appear in `music_v4.db` near-term. Intake keeps writing the
+    v3 layer (`track_identity`/`asset_file` → `music_v3.db` via the row-presence redirect); v4's
+    catalog graph (`track`/`track_file`/`track_alias`/`release`) is rederivable from v3, so there is
+    no second divergent live store. Consequence (accepted): a freshly downloaded track is invisible to
+    v4/hag until the next migrate run — acceptable because hag's automix pool is curated and fed by the
+    identity gate + ISRC/Essentia batch enrichment (spine #39/#40/#41), not by live v4 intake.
+    **The one thing that flips this:** a real need for "download → immediately query-able/mixable in
+    v4" — then build `identity_resolver.py` (spec §3) and wire the append-only bridge (make
+    `migrate_v3_to_v4.py` append-only, spec §6). **NOW (independent of this, standing risk):** Q5 —
+    make `music_v4.db` reproducible from the repo (`v4-intake-write-contract-spec.md` §5.3/§9.5). The
+    strategy (incremental-migration bridge, NOT dual-write, NOT a full intake rewrite) remains as
+    decided by Fable review 2026-07-03 in that spec §6 whenever the bridge is built.
 
 ## C. HAG-LANE decisions (hag's call — recorded by REFERENCE, not re-authored by slut)
 See `hag:docs/architecture/dj_engine_stack_decision.md`. In brief, endorsed against existing code:

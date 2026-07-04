@@ -48,8 +48,9 @@ cover-art xfail closed (`bcc7304a`, suite 54/0); STATE.md current-truth layer + 
 incremental-migration bridge on `content_sha256` (not dual-write); Q2 fingerprint = slut-lane
 but shipped OFF (2% coverage); Q3 id-map = dissolved (sha256 is the key); Q4 duration-Δ =
 configurable default. **Q5 OPEN = NEXT PRIORITY: make `music_v4.db` reproducible from the
-repo** (no build recipe = catalog-loss risk); resolver+bridge parked until new downloads must
-land in v4 (operator undecided; Q5 doesn't depend on it).
+repo** (no build recipe = catalog-loss risk); resolver+bridge **PARKED — operator decided
+2026-07-04 (LEDGER §15, spine #44): v4 stays a read-only catalog, live intake stays v3-native.**
+Unparks only when "download → immediately mixable in v4" becomes a real need; Q5 doesn't depend on it.
 **Open flag (spine #31):** `_prune_orphan_stage_m3u_files` could trash a populated real
 `PLAYLIST_ROOT` on a fresh-db stage run — guard pending intake-owner go-ahead.
 **Blockers to the full v4 migration:** (1) no identity match-or-create resolver for v4;
