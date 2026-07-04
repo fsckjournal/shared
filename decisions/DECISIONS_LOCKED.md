@@ -80,9 +80,14 @@ stubs, not content. Edit **only this file**.
     pinned **`mikelandzelo173/streamrip`** fork at `~/Projects/streamrip/.venv/bin/rip` — **never run
     `streamrip --upgrade`** and never let a stray `/usr/local/bin/rip` handle a get; (c) **auth ≠
     download**: fetching a token (Postman/browser/API login) is independent of the fork, which is the
-    *download* engine, not the credential source. Retiring the fork is a separate, still-unverified
-    question (can upstream download with a pre-supplied `use_auth_token`?), not answered by how the
-    token is obtained.
+    *download* engine, not the credential source. **Verified 2026-07-04:** stock streamrip 2.2.0
+    downloads correctly with a pre-supplied `use_auth_token` (Roni Size – New Forms, 53/53 FLACs
+    integrity-valid, via `/usr/local/bin/rip` v2.2.0). The pinned checkout at
+    `~/Projects/streamrip/.venv/bin/rip` is upstream **2.2.0 + exactly one commit** (`81a803e`,
+    "new Qobuz login flow") that only touches email/password login — a path tagslut's token-based
+    flow (`use_auth_token = true`) never exercises. So the fork is **insurance, not a requirement**:
+    any 2.2.0 downloads correctly. Keep routing through the pinned checkout anyway (zero downside) to
+    prevent a stray PATH `rip` or a `streamrip --upgrade` from silently becoming the downloader.
 14. **A complete, integrity-valid Qobuz download is never discarded on a nonzero streamrip exit.**
     *(Added 2026-07-04, operator-approved.)* The pinned streamrip fork can exit nonzero on a benign
     trailing error (e.g. a single track unavailable at the target hi-res quality) while still writing
