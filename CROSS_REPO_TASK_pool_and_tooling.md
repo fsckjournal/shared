@@ -1,8 +1,10 @@
 # Cross-repo task — pool boundaries → tool-adoption decision
 
 **Status:** OPEN task brief · **Created:** 2026-07-04 by hag · **Owners:** operator + slut + hag
-**Terminal deliverable:** a locked decision — *for each analysis feature the automix engine
-needs, which tool/source we adopt and in what role* — plus the plan that gets us there.
+**Terminal deliverable:** a locked, **evidence-based** decision — *for each analysis feature the
+automix engine needs, which tool/source we adopt and in what role*, each backed by an attached
+experiment result — plus the plan that gets us there. Coverage and lane are tie-breakers, never the
+reason a tool is chosen (the standard set when Essentia was adopted on evidence, spine #33).
 
 This is a **prompt for a working session** (Claude and/or Gemini, either repo). It does not
 itself decide anything; it routes an agent through the record to a decision the operator ratifies.
@@ -82,36 +84,60 @@ excludes; recompute after ratification).
 
 ---
 
-## 3. The tool-adoption decision (terminal deliverable)
+## 3. The tool-adoption decision (terminal deliverable) — **evidence-based**
 
-**Frame it on the §A.12 provenance axis, not tool names** (that axis is locked; re-expressing it as
-tool names already caused drift — spine #46). The stack has **redundant coverage** of several
-features; the decision is *which instrument we adopt per feature, in what role (owner / enricher /
-validation / fallback)*, and the coverage/reproducibility trade each carries.
+**The decision is made on evidence of fitness-for-purpose, not on coverage or lane.** This is the
+standard the stack already holds itself to: Essentia was adopted and the Offtrack/Echo-Nest cue
+heuristic retired **on empirical grounds** — shuffle-control ≈ chance, `Offtrack ∩ Mixonset = 0`
+overlap, non-reconstructability (spine #33; `ANALYSIS_STACK_capability_assessment.md §7`). The
+assessment is explicit: **"coverage invoked only to break a genuine tie."** So coverage, provenance
+lane (§A.12), and reproducibility are **constraints and tie-breakers — never the reason a tool is
+adopted.** A tool earns a role by *measurably doing its job*; only then do lane/coverage place it.
 
-Produce a filled matrix — one row per feature, columns: **feature · adopted source · role · lane
-(§A.12) · coverage today · fallback · open risk**. The candidate sources per feature:
+**The evidence base is already in hand — this stack's gift is redundancy.** Most features are
+measured by *several independent tools*, and there is a real validation corpus. Use both:
 
-| Feature | Candidate sources (redundancy to resolve) | Governing note |
+- **Cross-source agreement** is evidence. Energy has 3 independent measurers (MIK / Lexicon-local /
+  Essentia), BPM has 4 (Rekordbox / Beatport-store / Essentia / Echo-Nest payloads), timed structure
+  has 2 (Apple MU / Echo-Nest payloads) — and the payload and MU cohorts **overlap** on the 17,875
+  bridged members, a natural head-to-head. Where independent tools agree, trust is earned; where they
+  diverge (e.g. half-time BPM), the disagreement itself is the signal and the tie-breaker is which one
+  matches ground truth.
+- **DJ ground truth** decides the matcher. Real prep/play history exists: MIK collection
+  (`Collection11.mikdb`, 2,101 tracks), `gig_set_tracks`/`dj_playlist_track` (populate them),
+  `dj_admission` (889 admitted). Tracks the operator actually mixed together are labelled positives.
+- **The 27,074 Echo-Nest payloads are the designated validation corpus** (#38) — hold-out truth for
+  structure/tempo, and the ISRC bridge to Spotify features for the matcher bake-off.
+
+**Deliverable = a filled matrix, one row per feature, columns: `feature · candidate sources ·
+validation test (metric + ground truth) · result · adopted source · role · lane (tie-break only) ·
+open risk`.** The **validation-test column is mandatory and comes before "adopted"** — no cell is
+filled from coverage alone. Candidate sources and the test to run per feature:
+
+| Feature | Candidate sources | Validation test (evidence that decides) |
 |---|---|---|
-| Identity / provider IDs | slut v4 (`track`/`track_alias`), Beatport `ref_bp_*` (#54) | slut lane (§B.7); #54 must resolve first |
-| Provider BPM / initial key | Beatport `ref_bp_track.bpm` (10,185), Lexicon, `canonical_bpm/key` | slut lane, provider (§A.12) |
-| Measured BPM / beatgrid | Rekordbox (SQLCipher-locked master.db — export-only), Essentia, Echo-Nest payloads | hag lane, measured |
-| Energy scalar (1–10) | MIK `Collection11.mikdb`, Lexicon (local-file rows only), Essentia | hag measured; **Lexicon streaming-row energy is Spotify-cached = provider, inadmissible** (#46/ADR-0007) |
-| Energy trajectory | MIK (native — 19,454 segments), Echo-Nest payloads (loudness envelope) | hag measured; feeds cues/`dynamic_evolution` |
-| Mood / danceability / genre | Essentia (`track_analysis`), Spotify valence (1 axis ≠ 4-mood) | hag measured; **only Essentia emits the 4-mood taxonomy** (§A.1) |
-| Timed structure / loudness / pace | Apple MU (`apple_analyzer`, 459 sidecars), Echo-Nest payloads (27,074 → 17,875 gate members) | hag measured; payloads are **validation-only per #38** unless this decision changes it |
-| **Similarity vector (`sonic7_v1`)** | Essentia 4-mood + measured energy/BPM **vs** Spotify-feature space | **#38 pt4 — the pivotal call; everything above cascades from it** |
+| Identity / provider IDs | slut v4 (`track`/`track_alias`), Beatport `ref_bp_*` (#54) | agreement of Beatport linkage vs ISRC/alias; #54 must resolve first — lane (slut, §B.7) is the tie-break, not the decider |
+| Provider BPM / initial key | Beatport `ref_bp_track.bpm` (10,185), Lexicon, `canonical_bpm/key` | agreement with measured BPM; disagreement rate = the half-time-detector signal |
+| Measured BPM / beatgrid | Rekordbox (export-only, SQLCipher), Essentia, Echo-Nest payloads | cross-tool agreement on the overlap cohort; accuracy vs beatgrid on a hand-checked sample |
+| Energy scalar (1–10) | MIK `Collection11.mikdb`, Lexicon (local-file only), Essentia | 3-way agreement; correlation with the energy trajectory's own peak; **Lexicon streaming-row energy is provider Spotify cache = inadmissible** (#46/ADR-0007) |
+| Energy trajectory | MIK (native, 19,454 segments), Echo-Nest payload loudness envelope | do the two envelopes agree on peak/breakdown placement on the overlap cohort? |
+| Mood / danceability / genre | Essentia (`track_analysis`), Spotify valence | Essentia is the **only** 4-mood emitter (§A.1) — test is discriminative validity (do its axes separate tracks a DJ hears as different?), not a bake-off it can't have |
+| Timed structure / loudness / pace | Apple MU (`apple_analyzer`, 459 sidecars), Echo-Nest payloads (17,875 members) | head-to-head on the overlap cohort: section-boundary agreement; which better predicts real transition points |
+| **Similarity vector (`sonic7_v1`)** | Essentia 4-mood space **vs** Spotify-feature space | **the decisive bake-off — see below** |
 
-**The pivotal decision (#38 pt4)** to drive to closure: does the matcher stay on Essentia's 4-mood
-`sonic7_v1`, or migrate to Spotify features? Weigh explicitly:
-- **Essentia path:** owns the 4-mood taxonomy nothing else emits; local, reproducible, uniform on all
-  masters; but requires the mood batch to run (30k tracks) to grow past 236.
-- **Spotify-feature path:** free at ISRC-scale via the 17,875-member payload/Anna's-Archive bridge +
-  `ref_audio_features` (7,931); but it's **provider** data (slut-lane, ADR-0007 caveats), only 1 mood
-  axis (valence), and coverage-bound to the ISRC cohort.
-- **Reproducibility constraint:** slut Q5 (v4 not yet reproducible) — any path leaning on v4-resident
-  provider tables inherits that risk.
+**The pivotal experiment (#38 pt4).** Do **not** decide Essentia-vs-Spotify-feature matcher by argument.
+Run it: build both candidate vectors on the **same** cohort (the 17,875 members that have Essentia
+moods *and* payload/`ref_audio_features` Spotify features), and score each space against DJ ground
+truth with a **shuffle-control** (the exact test that settled #33):
+
+- *Positives* = track pairs the operator actually mixed / sequenced (gig history, real sets, MIK-adjacent).
+- *Metric* = do true neighbors rank above random pairs (precision@k, or median-rank of positives vs a
+  shuffled null)? A space whose positives ≈ chance is rejected, whichever tool it came from.
+- *Then* apply constraints as tie-breakers only: coverage (Essentia = uniform on all masters once the
+  batch runs; Spotify = ISRC-bound), reproducibility (slut Q5 — provider tables in v4 inherit that
+  risk), and provenance (§A.12: Essentia moods are hag-measured; Spotify features are slut-lane provider).
+
+The decision is whatever the shuffle-control says, constrained by — not overridden by — coverage/lane.
 
 ---
 
@@ -123,14 +149,26 @@ Produce a filled matrix — one row per feature, columns: **feature · adopted s
    population; write the SQL view (`POOL_DEFINITION §5`).
 3. **Close the analyzer-coverage gaps** (no decision needed): ingest the 459 MU sidecars; point
    Essentia/MIK/MU at the identity-gated masters; build the energy ingest from `Collection11.mikdb`.
-   These make the matrix's "coverage today" columns real instead of ingest-gap artifacts.
-4. **Fill the tool matrix** (§3) from the *verified* coverage numbers — every cell cites a query.
-5. **Decide #38 pt4** with the matrix in hand: Essentia vs Spotify-feature matcher, with the
-   coverage/reproducibility/taxonomy trade explicit. This is the 3-way call.
-6. **Lock it.** Record the per-feature adoption as a new `DECISIONS_LOCKED` section (implements §A.12,
-   cites it, stays on its axis — do not re-encode as tool names), update `POOL_DEFINITION`, close the
-   spine questions, and reconcile the stale `status` fields.
+   These turn "coverage today" from ingest-gap artifacts into real numbers **and** assemble the
+   overlap cohorts the experiments need.
+4. **Build the ground truth** (the gate for everything downstream): assemble the labelled positive
+   pairs — real DJ sets / gig history / MIK-adjacency / `dj_admission` — into a held-out evaluation
+   set. Without this, step 5 cannot run and the decision is opinion, not evidence.
+5. **Run the experiments** (§3) — this is where the decision is actually made, not step 6:
+   - cross-source agreement per feature (energy ×3, BPM ×4, structure ×2) on the overlap cohorts;
+   - the **#38-pt4 shuffle-control bake-off**: Essentia-space vs Spotify-feature-space scored against
+     the ground truth, positives-vs-null. Record precision@k / median-rank, not adjectives.
+   Every matrix cell's "result" column is a number from this step.
+6. **Fill the matrix and let the evidence decide.** Adopt per feature by test result; invoke
+   coverage/lane/reproducibility **only** to break a genuine tie (assessment §7). If an experiment is
+   inconclusive, say so and keep the tool provisional — do not resolve it by lane.
+7. **Lock it.** Record the per-feature adoption as a new `DECISIONS_LOCKED` section (implements §A.12,
+   cites it, stays on its axis — do not re-encode as tool names), with the **evidence attached**
+   (the query/metric that decided each). Update `POOL_DEFINITION`, close the spine questions, reconcile
+   the stale `status` fields.
 
-**Deliverables:** (a) filled tool-adoption matrix; (b) ratified nature-gate rule set + population
-count; (c) #38-pt4 decision with rationale; (d) the ledger entry + spine closures; (e) an ordered
-implementation backlog for the coverage work.
+**Deliverables:** (a) the ground-truth evaluation set (reusable); (b) experiment results per feature +
+the #38-pt4 bake-off numbers; (c) filled tool-adoption matrix, every cell backed by a metric; (d)
+ratified nature-gate rule set + population count; (e) the ledger entry (evidence attached) + spine
+closures; (f) an ordered implementation backlog. **A decision without an attached experiment result is
+not done** — that is the bar this task is held to.
