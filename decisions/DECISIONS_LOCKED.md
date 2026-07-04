@@ -23,16 +23,27 @@ stubs, not content. Edit **only this file**.
 ---
 
 ## A. JOINT decisions (all three agreed)
-1. **Essentia pivot (analysis direction).** The Offtrack/Echo-Nest cue heuristic is **RETIRED** —
-   shuffle-control showed the extracted cues carry ~0 usable signal (≈ 53% = chance) and `mixability`
-   is a proprietary, non-reconstructable score. Native **Essentia on the FLAC masters** is the analysis
-   direction going forward. (*Where Essentia runs and where its output lands = hag's lane, §C.*)
+1. **Essentia (analysis direction) — CONFIRMED & SCOPED.** The Offtrack/Echo-Nest cue heuristic stays
+   **RETIRED** (shuffle-control ≈ chance; `mixability` proprietary/non-reconstructable). **Native Essentia
+   on the FLAC masters is retained as the owner of the mood / danceability / genre layer** — it writes
+   `track_analysis` (`happy, aggressive, relaxed, party, danceability, genres_json`, keyed by master
+   `sha256`), which supplies **5 of the 7 dimensions** of the `track_embedding` similarity vector
+   (`sonic7_v1`). The 2026-07-03 "Essentia obsolete" conclusion is **superseded by code evidence**
+   (spine #32→#35): MIK / Rekordbox / Apple MU produce none of the mood dimensions. Essentia is scoped
+   *out* of the scalar features other tools own better — see §12.
 2. **Offtrack cue timing = discarded noise.** Do not use Offtrack `cue_sec` for transition timing
    anywhere. (hag's own ΔE-alignment test + slut's inspection agree.)
 3. **Klio deferred.** Apache Beam is overkill for 18k local FLACs; plain local multiprocessing covers
    it. Revisit only at cloud/cluster scale.
 4. **Security.** AWS keys / Lambda URLs recovered from the Offtrack binary → local-only work; never
    authenticate against their backend; keep decoders/keys out of both repos.
+
+12. **Analysis feature authorities (complementary stack — all owned or open-source).** *(Added 2026-07-04, operator-approved; resolves spine #32; assessment: `knowledge/ANALYSIS_STACK_capability_assessment.md`.)*
+    - **Energy, Key → MIK** (Mixed In Key).
+    - **BPM, beatgrid → Rekordbox** (+ phrase, vocal detection).
+    - **Timed structure (sections/segments/phrases), loudness, pace, on-device analysis of the masters → Apple Music Understanding** (`apple_analyzer`).
+    - **Mood (happy/aggressive/relaxed/party), danceability, genre, and the similarity vector → Essentia** (`track_analysis` → `track_embedding`).
+    - Similarity engine `sonic7_v1` = `[energy(MIK), bpm(RBX), danceability, party, happy, aggressive, relaxed(Essentia)]`. The four tools are **complementary, not competing**; none is a general replacement for another.
 
 ## B. SLUT-LANE decisions (slut's authority — hag must honor)
 5. **`music_v4.db` has exactly ONE writer: the slut side.** This is the `slut_hag_split.md` invariant
