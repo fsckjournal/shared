@@ -69,6 +69,29 @@ stubs, not content. Edit **only this file**.
     per-run intake receipt AND as a `release_package_membership` row at intake time — the deferred
     `virtual_release_membership_or_physical_duplicate` CSV parking lot is retired. Physical-by-copy is
     the default; virtual membership is an explicit flag, never a silent fallback.
+13. **Qobuz download identity & auth.** *(Added 2026-07-04, operator-confirmed.)* The **paid,
+    download-eligible** Qobuz account is **`county-cog.6z@icloud.com`** (user_id **`12779111`**).
+    The free account `spindly_rhythms2u@icloud.com` (user_id `12024329`) is **download-ineligible**
+    (`IneligibleError: Free accounts are not eligible`) and is what the Postman env holds — so bare
+    `ts-auth qobuz` (Postman-import path) silently re-auths the *free* account and clobbers a working
+    paid token. Binding: (a) re-auth only via **`tools/auth qobuz --user county-cog.6z@icloud.com`**
+    (interactive password prompt; fixed in `slut:tagslut/cli/commands/auth.py`, commit `c369789f` —
+    the `--email` branch no longer short-circuits to Postman import); (b) the download engine is the
+    pinned **`mikelandzelo173/streamrip`** fork at `~/Projects/streamrip/.venv/bin/rip` — **never run
+    `streamrip --upgrade`** and never let a stray `/usr/local/bin/rip` handle a get; (c) **auth ≠
+    download**: fetching a token (Postman/browser/API login) is independent of the fork, which is the
+    *download* engine, not the credential source. Retiring the fork is a separate, still-unverified
+    question (can upstream download with a pre-supplied `use_auth_token`?), not answered by how the
+    token is obtained.
+14. **A complete, integrity-valid Qobuz download is never discarded on a nonzero streamrip exit.**
+    *(Added 2026-07-04, operator-approved.)* The pinned streamrip fork can exit nonzero on a benign
+    trailing error (e.g. a single track unavailable at the target hi-res quality) while still writing
+    a complete, valid album to disk. `slut:tools/get` now salvages this: on nonzero exit it runs
+    `validate_streamrip_flacs` against the touched batch root and, if every FLAC passes integrity,
+    logs a warning and continues to intake instead of aborting. Only a **missing or corrupt** batch is
+    a real download failure. The manual recovery for an already-staged album remains
+    `ts-stage '<staged dir>' --source qobuz --execute` (registers → integrity → promote → verify off
+    the on-disk files, no re-download).
 
 ## C. HAG-LANE decisions (hag's call — recorded by REFERENCE, not re-authored by slut)
 See `hag:docs/architecture/dj_engine_stack_decision.md`. In brief, endorsed against existing code:
