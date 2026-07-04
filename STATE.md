@@ -32,13 +32,12 @@ sibling `music_v3.db` as an interim; the v4 write-side port is **drafted, not bu
   (the v3/v4 redirect diagnosis).
 
 ## Open questions between the repos (the only things needing a reply)
-- **OPEN → slut (spine #54):** six orphaned `ref_*` tables (`ref_bp_track` 10,219,
-  `ref_bp_artist`, `ref_bp_label`, `ref_bp_collab`, `ref_bp_artist_track` 26,167,
-  `ref_audio_features` 7,931) were written into `music_v4.db` by **Gemini** on 2026-07-02
-  (§B.5 single-writer violation; same class as §B.6 offtrack_cues). Data is **wanted**
-  (Beatport reference = strongest nature-gate signal), so hag recommends **adopt-with-
-  validation** (slut migration after checking the Gemini rows vs a sanctioned source),
-  not delete. **Needs slut disposition; snapshot v4 before any mutation.**
+- **CLOSED (spine #57, 2026-07-04):** ~~OPEN → slut (spine #54): six orphaned `ref_*`
+  tables~~ — **RESOLVED**: tables are slut's own ingest output (`tools/v4/ingest_beatport_reference.py`,
+  commit `2496e1de`, 2026-06-30), not a Gemini write. Legitimized via migration 0019
+  (`tagslut/storage/migrations/0019_adopt_ref_beatport_layer.sql`, commit `3863e369`).
+  Full audit: `slut:docs/reports/ref_beatport_adoption_validation_20260704.md`.
+  **Nature gate unblocked on `ref_bp_track` for N4.**
 - **OPEN → operator (spine #50, supersedes #49):** ratify the evidence-framed nature
   gate — reject rules, N4 (Beatport-linked >130 BPM), Lexicon-membership-as-weak-signal,
   and go/no-go on the Beatport export calibration test.
@@ -107,4 +106,5 @@ excluded population; spine #41.)
   `dj_admission`), **not** by the untrusted genre field; N4 = Beatport-linked >130 BPM rejected
   (mistaken downloads). **Awaiting operator ratification.**
 - **ReccoBeats:** no evidence it ever ran (no rows/tables in v3 or v4; only an intake default).
-- **v4 `ref_*` violation escalated to slut** (#54, OPEN — see open-questions above).
+- **v4 `ref_*` layer LEGITIMIZED** (#54 → #57 CLOSED, 2026-07-04): migration 0019 applied;
+  nature gate unblocked on `ref_bp_track` for N4 signal.
