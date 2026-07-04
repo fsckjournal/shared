@@ -6,8 +6,9 @@ current state so a fresh session (or the operator) does not have to walk the log
 Locked policy lives in `decisions/DECISIONS_LOCKED.md`. **Update this file at the end of
 a session; use the log only for events the other side must act on.**
 
-Last updated: **2026-07-03** by slut. · Convention: slut maintains the slut section,
-hag the hag section; the shared header is either.
+Last updated: **2026-07-04** by hag (hag section + open-questions; slut section as of
+2026-07-03). · Convention: slut maintains the slut section, hag the hag section; the
+shared header is either.
 
 ---
 
@@ -31,7 +32,17 @@ sibling `music_v3.db` as an interim; the v4 write-side port is **drafted, not bu
   (the v3/v4 redirect diagnosis).
 
 ## Open questions between the repos (the only things needing a reply)
-- *(none open right now.)* Recently closed: **seam transport** — hag consumes the
+- **OPEN → slut (spine #54):** six orphaned `ref_*` tables (`ref_bp_track` 10,219,
+  `ref_bp_artist`, `ref_bp_label`, `ref_bp_collab`, `ref_bp_artist_track` 26,167,
+  `ref_audio_features` 7,931) were written into `music_v4.db` by **Gemini** on 2026-07-02
+  (§B.5 single-writer violation; same class as §B.6 offtrack_cues). Data is **wanted**
+  (Beatport reference = strongest nature-gate signal), so hag recommends **adopt-with-
+  validation** (slut migration after checking the Gemini rows vs a sanctioned source),
+  not delete. **Needs slut disposition; snapshot v4 before any mutation.**
+- **OPEN → operator (spine #50, supersedes #49):** ratify the evidence-framed nature
+  gate — reject rules, N4 (Beatport-linked >130 BPM), Lexicon-membership-as-weak-signal,
+  and go/no-go on the Beatport export calibration test.
+- *Recently closed:* **seam transport** — hag consumes the
   published `identity_seam.jsonl`, not a live view (spine #18). **Fingerprint lane** —
   slut's, per `hag:slut_hag_split.md:24`; but 2% coverage so it's a gated no-op in the
   v4 resolver v1 (write-contract §9 Q2).
@@ -67,12 +78,33 @@ heuristic retired); similarity = pgvector via `tools/similarity/sonic_discovery.
 MIR output lives in the taghag DB keyed to the slut seam — **never** in `music_v4.db`.
 **Interface with slut:** consumes the published identity seam; `spotify_id` bridge done
 (18,492 aliases handed to slut, ingested). **Owes slut:** the seam-transport answer above.
-**Automix pool defined** (spine #39, `hag:docs/automix/POOL_DEFINITION.md`, awaiting
-operator sign-off as proposed §C.13): membership = identity gate (present master +
-`content_sha256`) ∧ analysis gate (5 Essentia moods + `sonic7_v1` embedding); eligible
-now **236** / after Essentia enrichment **30,507** / excluded 938 missing masters.
-(The 17,707 Lexicon `spotify:` rows are aliases of 17,681 OWNED tracks — the export
-round-trip mechanism, not an excluded population; corrected in spine #41.)
-Two defects surfaced: matcher's `vector_schema='sonic7_v1'` matches none of the
-306 stored `essentia-7d-v1` embeddings (retrieval = 0 today); `dj_tag.energy` NULL on
-all rows (everything rides the 5.0 default).
+**Automix pool** (`hag:docs/automix/POOL_DEFINITION.md`, awaiting operator sign-off as
+proposed §C.13). Membership now **three gates**: nature (mixable material) ∧ identity
+(present master + `content_sha256`) ∧ analysis (5 Essentia moods + `sonic7_v1` embedding).
+Eligible now **236** / identity-gate ceiling **30,507** / 938 missing masters. (The 17,707
+Lexicon `spotify:` rows are aliases of 17,681 OWNED tracks — round-trip mechanism, not an
+excluded population; spine #41.)
+
+**Session 2026-07-04 (spine #40–#54) — what changed:**
+- **`sonic7_v1` retrieval defect RESOLVED** (#40): recompute chosen over rename (stored
+  `essentia-7d-v1` dim0/dim1 differ from the query vector); **435 `sonic7_v1` rows** upserted,
+  matcher candidate query returns candidates again (was 0). `essentia-7d-v1` rows kept.
+- **Energy authority = provenance axis** (#41a/#46, LEDGER §A.12): measured energy is hag's,
+  **any measurer** (MIK/Lexicon/Essentia); Lexicon **local-file** energy admissible, but
+  Lexicon **streaming-row** energy is cached **Spotify** features = provider data (ADR 0007),
+  **not** admissible as `sonic7_v1` dim0. `dj_tag.energy` still NULL on all rows (rides 5.0
+  default) — closer is a fresh measured pass; ingest side not built.
+- **Measured-energy surfaces quantified** (#48): **13,018/30,507** gate members already hold a
+  measured energy somewhere. Primary source = **MIK `Collection11.mikdb`** (2.3 GB, 2,101 tracks
+  w/ scalar energy + 19,454 trajectory segments) — query the apps' DBs, not exports.
+- **MIK energy = trajectory**, scalar is a reduction (#47); live batches on `/Volumes/PLAYGROUND`.
+- **`automix_payloads/` linkage** (#52): 27,074 Echo Nest analyses → **17,875 gate members** via
+  the ISRC/Spotify bridge; role stays validation-only (#38 pt4 open).
+- **Apple MU coverage is an INGEST gap, not 3** (#53): **459 `.cuecifer.json` sidecars** on disk
+  (167 beside masters). Three disjoint analysis cohorts (Essentia-435 / MIK-559 / MU-459) —
+  point all analyzers at identity-gated masters (#42), ingest sidecars first.
+- **Nature gate added** (#49→#50): admission **by evidence** (Beatport presence, MIK/gig history,
+  `dj_admission`), **not** by the untrusted genre field; N4 = Beatport-linked >130 BPM rejected
+  (mistaken downloads). **Awaiting operator ratification.**
+- **ReccoBeats:** no evidence it ever ran (no rows/tables in v3 or v4; only an intake default).
+- **v4 `ref_*` violation escalated to slut** (#54, OPEN — see open-questions above).
