@@ -99,9 +99,13 @@ excluded population; spine #41.)
 - **MIK energy = trajectory**, scalar is a reduction (#47); live batches on `/Volumes/PLAYGROUND`.
 - **`automix_payloads/` linkage** (#52): 27,074 Echo Nest analyses → **17,875 gate members** via
   the ISRC/Spotify bridge; role stays validation-only (#38 pt4 open).
-- **Apple MU coverage is an INGEST gap, not 3** (#53): **459 `.cuecifer.json` sidecars** on disk
-  (167 beside masters). Three disjoint analysis cohorts (Essentia-435 / MIK-559 / MU-459) —
-  point all analyzers at identity-gated masters (#42), ingest sidecars first.
+- **Apple MU: sidecars are a dead end** (#53 → #60, corrected 2026-07-04): the **459
+  `.cuecifer.json` sidecars yield 0 identity-gated ingest** (present-FLAC ∩ v4 present-master
+  content-hash = 0; ∩ audio_file = 2 POC leftovers). MU-459 was computed on non-master
+  bit-content, disjoint from the gate. Analyzer verified viable (macOS 27, masters reachable
+  at `/Volumes/MUSIC/MASTER_LIBRARY/`); real bottleneck is `audio_file`=3,672 vs 30,507 gate.
+  Corrected plan: drop sidecar-ingest → probe masters into audio_file (#42) → run analyzer in
+  resumable tranches behind operator go. Detail: `hag:docs/automix/MU_COVERAGE_GAP_audit_20260704.md`.
 - **Nature gate added** (#49→#50): admission **by evidence** (Beatport presence, MIK/gig history,
   `dj_admission`), **not** by the untrusted genre field; N4 = Beatport-linked >130 BPM rejected
   (mistaken downloads). **Awaiting operator ratification.**
