@@ -66,4 +66,10 @@ heuristic retired); similarity = pgvector via `tools/similarity/sonic_discovery.
 MIR output lives in the taghag DB keyed to the slut seam — **never** in `music_v4.db`.
 **Interface with slut:** consumes the published identity seam; `spotify_id` bridge done
 (18,492 aliases handed to slut, ingested). **Owes slut:** the seam-transport answer above.
-*(hag: edit this section on your next session to correct/expand.)*
+**Automix pool defined** (spine #39, `hag:docs/automix/POOL_DEFINITION.md`, awaiting
+operator sign-off as proposed §C.13): membership = identity gate (present master +
+`content_sha256`) ∧ analysis gate (5 Essentia moods + `sonic7_v1` embedding); eligible
+now **236** / after Essentia enrichment **30,507** / excluded 938 missing + streaming
+rows. Two defects surfaced: matcher's `vector_schema='sonic7_v1'` matches none of the
+306 stored `essentia-7d-v1` embeddings (retrieval = 0 today); `dj_tag.energy` NULL on
+all rows (everything rides the 5.0 default).
