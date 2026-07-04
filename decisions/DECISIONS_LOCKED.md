@@ -38,12 +38,11 @@ stubs, not content. Edit **only this file**.
 4. **Security.** AWS keys / Lambda URLs recovered from the Offtrack binary → local-only work; never
    authenticate against their backend; keep decoders/keys out of both repos.
 
-12. **Analysis feature authorities (complementary stack — all owned or open-source).** *(Added 2026-07-04, operator-approved; resolves spine #32; assessment: `knowledge/ANALYSIS_STACK_capability_assessment.md`.)*
-    - **Energy, Key → MIK** (Mixed In Key).
-    - **BPM, beatgrid → Rekordbox** (+ phrase, vocal detection).
-    - **Timed structure (sections/segments/phrases), loudness, pace, on-device analysis of the masters → Apple Music Understanding** (`apple_analyzer`).
-    - **Mood (happy/aggressive/relaxed/party), danceability, genre, and the similarity vector → Essentia** (`track_analysis` → `track_embedding`).
-    - Similarity engine `sonic7_v1` = `[energy(MIK), bpm(RBX), danceability, party, happy, aggressive, relaxed(Essentia)]`. The four tools are **complementary, not competing**; none is a general replacement for another.
+12. **Analysis feature authorities — by PROVENANCE (measured vs provider), not by tool.** *(Revised 2026-07-04, operator-approved; governed by slut ADR `docs/decisions/0010-tagslut-taghag-analysis-boundary.md` + `hag:docs/architecture/slut_hag_split.md:176`; resolves spine #32 and #45; supersedes the earlier tool-named form. Assessment: `knowledge/ANALYSIS_STACK_capability_assessment.md`.)*
+    - **Ownership is by provenance, not by measuring tool.** Which app emits a number (MIK, Rekordbox, Lexicon, Apple MU, Essentia) is an implementation detail, never the owner.
+    - **slut owns PROVIDER-sourced values:** provider BPM and initial/provider key (Beatport/Lexicon-sourced `canonical_bpm`/`canonical_key`).
+    - **hag owns MEASURED values:** measured BPM + beatgrid; **energy** — both the scalar 1–10 *and* the per-cue trajectory (any measurer: MIK app, Lexicon, Essentia); timed structure/segments, loudness, pace (Apple MU `apple_analyzer`); mood (happy/aggressive/relaxed/party), danceability, genre, and the similarity vector (Essentia, `track_analysis` → `track_embedding`).
+    - Similarity engine `sonic7_v1` = `[energy, bpm, danceability, party, happy, aggressive, relaxed]`, all **measured** (hag's lane): dim0 = measured energy scalar (MIK or Lexicon, ÷10), dim1 = measured BPM, dims 2–6 = Essentia mood/danceability. The analyzers are **complementary, not competing**; none replaces another.
 
 ## B. SLUT-LANE decisions (slut's authority — hag must honor)
 5. **`music_v4.db` has exactly ONE writer: the slut side.** This is the `slut_hag_split.md` invariant
