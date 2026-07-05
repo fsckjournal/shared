@@ -1,6 +1,12 @@
 # Gemini handover — Supabase brain ingest + Spotify-AA collab graph
 **From:** Claude Sonnet, hag session 9c6784d5 — 2026-07-05
 
+> **This is the only current version. If you are reading a document with sections labeled
+> §D/§E/§E.1/§E.3, or anything mentioning a filename/naming-template step — that is a
+> superseded draft that never existed in this repo (not on disk, not in git history; verified
+> 2026-07-05). Discard it. This file uses Phase 0-5 (Section A) and Step 1-3 (Section B) only.
+> `git pull` and re-read this file fresh before continuing.**
+
 Boot: `cd ~/Projects/tag/shared && git pull && cat decisions/DECISIONS_LOCKED.md && tail -10 handoffs/handoff.jsonl | python3 -c "import sys,json;[print(json.loads(l)['id'],json.loads(l)['summary'][:100]) for l in sys.stdin]"`
 
 ---
@@ -10,6 +16,8 @@ Boot: `cd ~/Projects/tag/shared && git pull && cat decisions/DECISIONS_LOCKED.md
 **Config:** `hag/.env` — `TAGHAG_SUPABASE_URL`, `TAGHAG_SUPABASE_SECRET_KEY`, `TAGHAG_OWNER_USER_ID=d4c61173-8432-432f-b238-9bd72c7285e3`, `TAGHAG_DB_POSTGRES_URL` (direct Postgres).
 
 ⚠️ Rotate the service-role key at Supabase dashboard before any INSERT. It was leaked in a prior commit. New key → `hag/.env` as `TAGHAG_SUPABASE_SECRET_KEY`. Verify `TAGHAG_OWNER_USER_ID` exists in `auth.users`.
+
+⚠️ **`TAGHAG_DB_POSTGRES_URL` is currently MISSING from `hag/.env`** (verified 2026-07-05 — only `TAGHAG_SUPABASE_URL`, `TAGHAG_SUPABASE_SECRET_KEY`, `TAGHAG_OWNER_USER_ID`, `VITE_*` are set). Phases 0/2/3/4 below use `psycopg2` and need this. Get it from the Supabase dashboard → Project Settings → Database → Connection string (use the session pooler, port 6543) — this needs the DB password, a separate secret from the service-role key. Add it to `hag/.env` as `TAGHAG_DB_POSTGRES_URL` before running any psycopg2 script. (If you'd rather not add a new secret, Phases 0/2/3/4 can be rewritten to use `TaghagDbClient` REST upserts instead, like Phase 1 already does — slower for ~30k rows but needs no new credential.)
 
 **Two connection modes in the codebase:**
 - `TaghagDbClient` (in `hag/tools/taghag_import/db_client.py`) — PostgREST REST API, uses `TAGHAG_SUPABASE_SECRET_KEY`
