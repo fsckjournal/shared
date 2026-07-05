@@ -88,13 +88,12 @@ stubs, not content. Edit **only this file**.
     intake instead of aborting. Only a **missing or corrupt** batch is a real download failure. The 
     manual recovery for an already-staged album remains `ts-stage '<staged dir>' --source qobuz --execute` 
     (registers → integrity → promote → verify off the on-disk files, no re-download).
-15. **v4 is a read-only catalog for now; live intake stays v3-native. The resolver + append-only
+15. **v4 is write-frozen but LOAD-BEARING for the identity seam; live intake stays v3-native. The resolver + append-only
     bridge are PARKED; the only near-term v4 work is reproducibility (Q5).** *(Added 2026-07-04,
-    operator-decided — resolves the write-contract spec §9 "one open operator decision".)* New
-    download output does **not** need to appear in `music_v4.db` near-term. Intake keeps writing the
-    v3 layer (`track_identity`/`asset_file` → `music_v3.db` via the row-presence redirect); v4's
-    catalog graph (`track`/`track_file`/`track_alias`/`release`) is rederivable from v3, so there is
-    no second divergent live store. Consequence (accepted): a freshly downloaded track is invisible to
+    operator-decided; amended 2026-07-05).* New download output does **not** need to appear in `music_v4.db` near-term. 
+    Intake keeps writing the v3 layer (`track_identity`/`asset_file` → `music_v3.db` via the row-presence redirect). 
+    However, **v4 is NOT inert or out of the path**: the taghag brain population strictly reads `v4.track_file.file_hash_sha256` 
+    because v3 lacks full SHA coverage. Consequence (accepted): a freshly downloaded track is invisible to
     v4/hag until the next migrate run — acceptable because hag's automix pool is curated and fed by the
     identity gate + ISRC/Essentia batch enrichment (spine #39/#40/#41), not by live v4 intake.
     **The one thing that flips this:** a real need for "download → immediately query-able/mixable in
@@ -112,6 +111,7 @@ See `hag:docs/architecture/dj_engine_stack_decision.md`. In brief, endorsed agai
    2026-07-02); no second renderer. Transition cue timing comes from mixslice's beatgrid.
 10. **MIR / embeddings / cues / Essentia output live in the taghag DB**, keyed to the slut identity
     seam — never in `music_v4.db`.
+16. **Automix pool membership (nature gate).** *(Added 2026-07-05).* A track is in the automix pool iff (nature) it is mixable material by *evidence*: not `rejected` in `dj_admission`, not a mixed DJ set/continuous mix, not N4 (Beatport-linked with a 140s *store* BPM as a flag, verdict decided by genre + Essentia mood, not BPM alone), and not genre-excluded-with-zero-positive-DJ-signals — where positive signals are Beatport presence, MIK/gig prep history, and manual `admitted` (which overrides everything; genre is an untrusted corroborator, never a sole excluder; Lexicon library membership is **not** a signal — dropped as circular), **and** (identity) it is an active v4 track whose `archive_master` FLAC is present on disk under MASTER_LIBRARY with a `content_sha256`, **and** (analysis) its latest `track_analysis` carries all five Essentia mood/danceability values and it has a `track_embedding` row in the matcher's vector schema. The nature gate also bounds the analysis batches themselves. ISRC/spotify_id, measured energy, measured BPM/beatgrid, and Apple MU structure are enrichers — they affect mix quality and enrichment reach, never membership. Membership is evaluated per v4 track identity. Spec: `hag:docs/automix/POOL_DEFINITION.md`.
 
 > **slut FYI (not a veto — hag's lane):** the Offtrack `mixability`/`energy` *vector* (distinct from the
 > discarded cue *timing*) only exists for the ~18k covered tracks and can't be reconstructed beyond
