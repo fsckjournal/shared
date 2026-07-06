@@ -1,64 +1,68 @@
 # REM — Tag Knowledge Digest
 
-_Generated 2026-07-03T21:46+00:00 · aggregation only, credential values redacted_
+_Generated 2026-07-06T07:33+00:00 · aggregation only, credential values redacted_
 
-**188 tag sessions · 36768 messages · 2026-01-15 → 2026-07-03**
+**405 tag sessions · 63416 messages · 2026-01-15 → 2026-07-05**
 
 ## Recurring topics
 
-- `tagslut` — 10234
-- `master_library` — 2386
-- `taghag` — 2172
-- `music_v3` — 1424
-- `tag/slut` — 1192
-- `tag/hag` — 739
-- `cuecifer` — 667
-- `offtrack` — 599
-- `music_v4` — 589
-- `mixslice` — 505
-- `magikbox` — 503
-- `decisions_locked` — 335
-- `canonical_writeback` — 296
-- `tag/shared` — 252
-- `handoff-tail` — 120
+- `tagslut` — 13750
+- `master_library` — 3505
+- `taghag` — 2855
+- `music_v3` — 2246
+- `tag/slut` — 1907
+- `tag/hag` — 1353
+- `music_v4` — 1313
+- `offtrack` — 1049
+- `decisions_locked` — 1007
+- `cuecifer` — 822
+- `mixslice` — 690
+- `magikbox` — 631
+- `tag/shared` — 571
+- `canonical_writeback` — 349
+- `handoff-tail` — 253
 
 ## Recent tag sessions
 
-- **05cf5c6a-audit** · cowork · 2026-07-03 · 125 msgs
-  `masters/cowork/05cf5c6a-audit.jsonl`
-- **6bafe8c9-9a90c109-2ce6-4d85-b7e0-9f398ae8e8b1** · cowork · 2026-07-03 · 122 msgs
-  `masters/cowork/6bafe8c9-9a90c109-2ce6-4d85-b7e0-9f398ae8e8b1.jsonl`
-- **e4ccde04-audit** · cowork · 2026-07-03 · 123 msgs
-  `masters/cowork/e4ccde04-audit.jsonl`
-- **6e32f3be-9a90c109-2ce6-4d85-b7e0-9f398ae8e8b1** · cowork · 2026-07-03 · 120 msgs
-  `masters/cowork/6e32f3be-9a90c109-2ce6-4d85-b7e0-9f398ae8e8b1.jsonl`
-- **d6a0872d-4d62c10a-7b68-4719-a899-110c2b9b60e8** · claude-code · 2026-07-03 · 43 msgs
-  `masters/claude-code/d6a0872d-4d62c10a-7b68-4719-a899-110c2b9b60e8.jsonl`
-- **09d153d7-5575b17e-a4c6-4746-ae03-d560cc83249d** · claude-code · 2026-07-03 · 831 msgs
-  `masters/claude-code/09d153d7-5575b17e-a4c6-4746-ae03-d560cc83249d.jsonl`
-- **bd00d4d5-8c96120a-cfb5-4a5c-b1df-68e0bf40c7ef** · claude-code · 2026-07-03 · 100 msgs
-  `masters/claude-code/bd00d4d5-8c96120a-cfb5-4a5c-b1df-68e0bf40c7ef.jsonl`
-- **c5895cc5-05c2ad88-3a11-4bf1-b057-10ae615a484b** · claude-code · 2026-07-03 · 2 msgs
-  `masters/claude-code/c5895cc5-05c2ad88-3a11-4bf1-b057-10ae615a484b.jsonl`
-- **66ca6b07-abd78314-4d73-495b-82a6-5d4d186d008a** · claude-code · 2026-07-03 · 353 msgs
-  `masters/claude-code/66ca6b07-abd78314-4d73-495b-82a6-5d4d186d008a.jsonl`
-- **f1935e65-94d2e9b6-2836-4201-87ee-05c45a46e3be** · claude-code · 2026-07-03 · 350 msgs
-  `masters/claude-code/f1935e65-94d2e9b6-2836-4201-87ee-05c45a46e3be.jsonl`
-- **9ff79514-afdb0963-0d97-430d-b534-9b6b8d1f4463** · cowork · 2026-07-03 · 339 msgs
-  `masters/cowork/9ff79514-afdb0963-0d97-430d-b534-9b6b8d1f4463.jsonl`
-- **2b7f0ba3-audit** · cowork · 2026-07-03 · 396 msgs
-  `masters/cowork/2b7f0ba3-audit.jsonl`
-- **453ae271-agent-af8e17306e9fb0a0e** · claude-code · 2026-07-03 · 12 msgs
-  `masters/claude-code/453ae271-agent-af8e17306e9fb0a0e.jsonl`
-- **9d91c3cc-agent-a962bdd9b8d788644** · claude-code · 2026-07-03 · 18 msgs
-  `masters/claude-code/9d91c3cc-agent-a962bdd9b8d788644.jsonl`
-- **53ce8798-agent-a67d9cb45ba60e5ff** · claude-code · 2026-07-03 · 22 msgs
-  `masters/claude-code/53ce8798-agent-a67d9cb45ba60e5ff.jsonl`
+- **b285c954-audit** · cowork · 2026-07-05 · 760 msgs
+  `masters/cowork/b285c954-audit.jsonl`
+- **d785e86d-9a90c109-2ce6-4d85-b7e0-9f398ae8e8b1** · cowork · 2026-07-05 · 770 msgs
+  `masters/cowork/d785e86d-9a90c109-2ce6-4d85-b7e0-9f398ae8e8b1.jsonl`
+- **725be026-audit** · cowork · 2026-07-05 · 14 msgs
+  `masters/cowork/725be026-audit.jsonl`
+- **9415bf90-ddee831a-8b91-48dd-8fe6-eb0e07d5cd95** · cowork · 2026-07-05 · 31 msgs
+  `masters/cowork/9415bf90-ddee831a-8b91-48dd-8fe6-eb0e07d5cd95.jsonl`
+- **09362293-c6d2c450-4a3b-49a0-b219-13af133f23f7** · cowork · 2026-07-05 · 19 msgs
+  `masters/cowork/09362293-c6d2c450-4a3b-49a0-b219-13af133f23f7.jsonl`
+- **593b96b4-audit** · cowork · 2026-07-05 · 18 msgs
+  `masters/cowork/593b96b4-audit.jsonl`
+- **ca905c63-audit** · cowork · 2026-07-05 · 536 msgs
+  `masters/cowork/ca905c63-audit.jsonl`
+- **148879f8-4e2e9267-2960-46c7-9379-53601124ae24** · cowork · 2026-07-05 · 518 msgs
+  `masters/cowork/148879f8-4e2e9267-2960-46c7-9379-53601124ae24.jsonl`
+- **dbb7f788-4e2e9267-2960-46c7-9379-53601124ae24** · cowork-zip · 2026-07-05 · 517 msgs
+  `masters/cowork-zip/dbb7f788-4e2e9267-2960-46c7-9379-53601124ae24.jsonl`
+- **95776dbd-audit** · cowork · 2026-07-05 · 529 msgs
+  `masters/cowork/95776dbd-audit.jsonl`
+- **1930323e-4e2e9267-2960-46c7-9379-53601124ae24** · cowork · 2026-07-05 · 511 msgs
+  `masters/cowork/1930323e-4e2e9267-2960-46c7-9379-53601124ae24.jsonl`
+- **481107cc-4e2e9267-2960-46c7-9379-53601124ae24** · cowork-zip · 2026-07-05 · 498 msgs
+  `masters/cowork-zip/481107cc-4e2e9267-2960-46c7-9379-53601124ae24.jsonl`
+- **7100327d-audit** · cowork · 2026-07-05 · 433 msgs
+  `masters/cowork/7100327d-audit.jsonl`
+- **d20f3b37-4a845536-e233-425a-a510-80f5608854c4** · cowork · 2026-07-05 · 449 msgs
+  `masters/cowork/d20f3b37-4a845536-e233-425a-a510-80f5608854c4.jsonl`
+- **a52be2ae-9c6784d5-5225-461e-b0f6-710fd657c5ab** · claude-code · 2026-07-05 · 68 msgs
+  `masters/claude-code/a52be2ae-9c6784d5-5225-461e-b0f6-710fd657c5ab.jsonl`
 
-## All tag sessions (188)
+## All tag sessions (405)
 
 Search any of it: `rem query "<topic>"` — returns provenance + turn.
 
+- 4d62c10a-7b68-4719-a899-110c2b9b60e8 · 8adfe980-session-export-1783110905960 · 43
+- local-session-state · 8adfe980-session-export-1783110905960 · 1
+- metadata · 8adfe980-session-export-1783110905960 · 1
+- 01125c58-agent-ab59f04 · claude-code · 1
 - 06a9906d-agent-a0c0751862caa94df · claude-code · 21
 - 0943f3c0-agent-a35cd4b · claude-code · 43
 - 09a11f41-agent-a5fa627 · claude-code · 49
@@ -74,18 +78,28 @@ Search any of it: `rem query "<topic>"` — returns provenance + turn.
 - 20b5f4a9-8992966e-6428-464b-8def-c8012f189e75 · claude-code · 15
 - 2113bce5-agent-a93876957f9dff380 · claude-code · 190
 - 251f179a-agent-a950e69 · claude-code · 161
+- 2966666b-agent-add5d53b65dab32c3 · claude-code · 62
 - 29f76ff7-83aa44a7-7acb-475a-a158-11a0593a6dc3 · claude-code · 5
 - 2c072e9d-agent-a12b1ce · claude-code · 18
+- 2c10fa8d-f9fd8a62-63e0-4fa9-89c5-31107b2fa2b7 · claude-code · 252
 - 2dca175a-fb87d0b2-36d8-4ecc-a5ee-0a9f49cb36b1 · claude-code · 65
 - 2dfc14de-8294fbfc-3356-4203-b889-ea5d96f55f80 · claude-code · 108
 - 2ef81977-ef4b3222-ea97-41f1-b7b3-41f8fcc41fa2 · claude-code · 2
+- 2fa46cd6-agent-ac7a5b381fa12310b · claude-code · 37
+- 31497b7b-4d62c10a-7b68-4719-a899-110c2b9b60e8 · claude-code · 43
 - 32530cd4-agent-a4d7710 · claude-code · 45
 - 326884cc-agent-a6ad28c · claude-code · 49
 - 33530afc-agent-ab7cd0d · claude-code · 22
+- 337930d7-5492771b-564a-4b34-84d6-b32c650c91ea · claude-code · 22
 - 33cb2ee3-6ca74cc7-5f5e-45ce-8360-1636989a1df4 · claude-code · 282
 - 34c8272c-agent-aeb95e49e2269f8c2 · claude-code · 23
+- 36dd729b-761c0eb5-da07-45be-9535-99407ede047e · claude-code · 5
+- 382472d2-9d126a3c-3307-4a99-a218-d19ef07e9189 · claude-code · 27
+- 3b0da029-bbcae857-bcf9-40a1-8fd1-10db12384226 · claude-code · 312
 - 3d1da4ce-b560f913-ed46-43dd-89bf-5514648b0e05 · claude-code · 30
 - 3eaca1ce-c032f082-1db1-49b8-b0ff-886102a0d37d · claude-code · 2
+- 40d68afa-098db93e-a34d-44e0-9f4d-5562af7257c9 · claude-code · 6
+- 43e8df97-agent-af0b1d7 · claude-code · 40
 - 453ae271-agent-af8e17306e9fb0a0e · claude-code · 12
 - 463f655f-agent-acompact-f0d0c46a8a2903b2 · claude-code · 2
 - 46541951-84615083-a4b7-48e5-af92-2e86f971b14a · claude-code · 5
@@ -93,13 +107,19 @@ Search any of it: `rem query "<topic>"` — returns provenance + turn.
 - 490a7611-agent-a2a0e6e9bc744d38b · claude-code · 25
 - 4ba1ed97-cb11d7ee-46e9-4674-9c45-ec679170f068 · claude-code · 254
 - 4c109651-31f4038f-6afe-4779-ab82-48c1f545b42a · claude-code · 98
+- 4c5092d7-agent-a9d6806 · claude-code · 1
 - 5060e888-ffc1d98a-49fa-4091-ba9b-1dc463abd96c · claude-code · 5
+- 50ded7cd-agent-af71b9f · claude-code · 42
 - 53b4d475-agent-aab9f50 · claude-code · 62
+- 53c4b8fa-agent-a4cee8a · claude-code · 24
 - 53ce8798-agent-a67d9cb45ba60e5ff · claude-code · 22
+- 554bd70c-agent-acc9a6e · claude-code · 28
 - 56fcf668-26ef5601-e1d6-4cf1-8a62-1cd4b44e4ff7 · claude-code · 75
 - 5775c5a7-agent-a9f2ac6 · claude-code · 53
 - 5e28e90a-agent-a3b25ed · claude-code · 42
 - 5e4ef54b-agent-ac2bfd0 · claude-code · 48
+- 5f2a8550-f7d886a6-8e30-4286-bb21-e2d00ed65deb · claude-code · 5
+- 60c4f79d-ab5b2386-0619-4fec-808d-8390b6f62391 · claude-code · 5
 - 6118b50e-2a1ea7cd-0739-4141-b0d2-af02a54ed8f2 · claude-code · 247
 - 6245f85b-62f31094-4dca-4b73-8b48-b5c4e9e6d072 · claude-code · 110
 - 634c87fb-c9eaf091-46a8-4486-be03-aa1e5189f3c1 · claude-code · 41
@@ -110,9 +130,11 @@ Search any of it: `rem query "<topic>"` — returns provenance + turn.
 - 67d36341-bdc74d61-453b-448d-9b46-bda740a6b0fc · claude-code · 142
 - 6903e927-agent-a9b80b21d7b5e0b35 · claude-code · 35
 - 69a91f9b-agent-a78c49653b622f3e7 · claude-code · 34
+- 6cef94cd-agent-aeace48 · claude-code · 25
 - 6d1aaec2-4445fa84-25ef-46fe-85bd-7775c1ab8cf9 · claude-code · 46
 - 6f097c8e-agent-a13ee92 · claude-code · 35
 - 6ffcc41c-agent-acompact-8276d52c32f788fc · claude-code · 168
+- 70ffe935-5cdffa44-a9b0-4d37-a342-6c9a23b44be3 · claude-code · 3
 - 7139dc22-agent-a105b377f03e28cff · claude-code · 48
 - 735cb9f7-8eb510aa-553f-4baa-bfde-82e080276515 · claude-code · 21
 - 736dffbb-95d4e236-bb25-4602-b2d9-8dc4cce9b173 · claude-code · 187
@@ -120,24 +142,30 @@ Search any of it: `rem query "<topic>"` — returns provenance + turn.
 - 75f3c213-8fa29bab-f276-4523-8f42-8394ae61fad9 · claude-code · 160
 - 76bda87c-40e5b24d-6f05-45e7-8e2f-876a0feb897d · claude-code · 25
 - 76f2e11b-a4aebfeb-7ecf-4e36-a054-27f08648624d · claude-code · 3
+- 773534cc-8c96120a-cfb5-4a5c-b1df-68e0bf40c7ef · claude-code · 100
 - 77c48701-agent-a554d0d · claude-code · 41
 - 7a8ecad9-60b1d6fc-7849-43a5-8f03-41487bf6589e · claude-code · 73
 - 7b3c0bc0-3d1d1354-7747-4a7e-867e-96a7646f63a2 · claude-code · 35
 - 7c86cb5d-248e82ea-7993-4a12-8792-d77a51b7d385 · claude-code · 60
+- 7d9adf56-fab80562-3cbf-4504-bf68-957bddaaf81d · claude-code · 2
 - 80558bf9-4f6cc2bd-a49d-43ba-948b-d2d59ab70572 · claude-code · 86
+- 8076fdc6-agent-a9a6a40 · claude-code · 32
 - 82b07aed-agent-a6c2ca3 · claude-code · 41
 - 82e8f253-agent-af44994 · claude-code · 26
 - 82ea0ee1-agent-a1ee82c · claude-code · 126
 - 83f52069-acafcb09-c227-4356-8d0d-e148b4d0a64d · claude-code · 68
+- 84097837-agent-a7bfa80 · claude-code · 1
 - 84881997-agent-a64c712 · claude-code · 54
 - 884d396c-agent-ae266fcd6b9508f85 · claude-code · 28
 - 885d91bb-agent-a91ee41ad7e632542 · claude-code · 14
 - 8984614b-agent-a4e8d7b6dd6408b43 · claude-code · 65
 - 8a101795-0f15022b-982f-4b40-9949-68b7e85de5e6 · claude-code · 99
 - 8b0c9530-f71a37fd-4a65-4573-b6c6-b5035c67b99d · claude-code · 10
+- 8b29ac55-b8da3a9f-f280-46e8-88af-aa620a9f08b4 · claude-code · 75
 - 90150ab2-86133999-824b-4b7d-8c43-c04e7e800d90 · claude-code · 162
 - 93e99043-agent-ab8ec32 · claude-code · 49
 - 96ef5cc9-agent-ac4c70852387b55f4 · claude-code · 28
+- 96f708f9-agent-ae9bf34 · claude-code · 44
 - 972aa428-ee6dd3f3-2071-4057-aa53-4bfb9b5bc363 · claude-code · 3
 - 98d691c2-agent-a94b7d8 · claude-code · 19
 - 9b95b26d-c4563eae-7778-44bd-8d15-1beafa1d51e4 · claude-code · 10
@@ -145,7 +173,9 @@ Search any of it: `rem query "<topic>"` — returns provenance + turn.
 - 9d91c3cc-agent-a962bdd9b8d788644 · claude-code · 18
 - 9e789a8a-af7b6095-3e0c-4176-a06a-0c1b869e1fca · claude-code · 12
 - a183ee6d-d8a40047-f76a-4b81-8721-4d660c6ed301 · claude-code · 5
+- a3c316ad-aa654dce-9d80-4007-9fe6-c8c2087d4c86 · claude-code · 1
 - a4e639bf-agent-a972cf272d8605ac6 · claude-code · 3
+- a52be2ae-9c6784d5-5225-461e-b0f6-710fd657c5ab · claude-code · 68
 - a6f243a3-agent-ac562984e1b1988a7 · claude-code · 67
 - a8e4b373-955d3216-b690-4573-b1e0-bbf4569fa7ac · claude-code · 32
 - a8e65d13-6781485d-00b3-4510-a3c8-93fb68cd9847 · claude-code · 10
@@ -157,7 +187,9 @@ Search any of it: `rem query "<topic>"` — returns provenance + turn.
 - b82ef5de-agent-ac26a87774225b0b7 · claude-code · 38
 - ba942c22-4c83fa77-d064-4d45-a955-f8fad24ba8c6 · claude-code · 3
 - bbc94784-20f5dbea-51e5-4db5-b25f-9ce877c701ec · claude-code · 263
+- bbe57649-2bd67992-2fa1-4325-91e7-156f745883b8 · claude-code · 199
 - bc59f2c3-2fb46ed6-d6a0-484a-a4c7-c336cc061bf2 · claude-code · 3
+- bcfc7610-agent-a9aba0d · claude-code · 27
 - bd00d4d5-8c96120a-cfb5-4a5c-b1df-68e0bf40c7ef · claude-code · 100
 - bef79261-agent-ad3edb632b87258b2 · claude-code · 27
 - c09f8498-d353b999-ff83-4d4f-aff0-4d75477251a3 · claude-code · 33
@@ -169,6 +201,7 @@ Search any of it: `rem query "<topic>"` — returns provenance + turn.
 - c55a5f81-agent-a5d64c41e6f700a43 · claude-code · 43
 - c5895cc5-05c2ad88-3a11-4bf1-b057-10ae615a484b · claude-code · 2
 - c6f17890-9857be29-70f0-4a2a-b0e2-a2bb43271f93 · claude-code · 6
+- c7eba184-agent-a2d12c2 · claude-code · 26
 - c936db67-agent-a1f315d0f09c0ff65 · claude-code · 44
 - c97daa32-2646fcdc-a795-4fc3-aca3-d28db0ee722c · claude-code · 10
 - c9c6aa4f-agent-af5541f · claude-code · 219
@@ -182,68 +215,252 @@ Search any of it: `rem query "<topic>"` — returns provenance + turn.
 - d325b3f0-agent-af8eca5 · claude-code · 43
 - d606d503-agent-aspawn-an-agent-9e057c7edcaa87c6 · claude-code · 132
 - d6a0872d-4d62c10a-7b68-4719-a899-110c2b9b60e8 · claude-code · 43
+- d72e3dc0-agent-a6e8c3c · claude-code · 30
 - d923cb2e-00a63a83-1ea3-43dc-843a-dc398539065d · claude-code · 3
 - da558034-agent-acompact-2660a9994bbaaf89 · claude-code · 113
 - dc1a9d57-12f336bd-23dc-4da0-95e3-3295da2e1f1d · claude-code · 1759
 - dd9bf77a-agent-a3fc28b · claude-code · 46
 - def11d28-agent-a3b2e067d79b737c0 · claude-code · 88
+- e07d12f1-5575b17e-a4c6-4746-ae03-d560cc83249d · claude-code · 831
+- e345dcfa-agent-ae1c394 · claude-code · 48
+- e421d72a-1993c559-3759-4090-8eaa-f7fcb6306e2b · claude-code · 3
+- e42686f2-7e22c3b4-beed-4487-b1f7-7b72d9d817df · claude-code · 2
+- e5da5807-agent-abf450468e6f3358c · claude-code · 3
+- e9170985-463c7d64-45df-40b5-8c2e-52dc1f47201a · claude-code · 3
 - ebed84b4-agent-aff28c03ddbf9b71f · claude-code · 46
 - ec1149e7-8bad7dad-b6a5-4015-8102-ccce5806b72f · claude-code · 84
+- ecfe08d1-52bb1d59-0b57-4f06-9dc5-64d30aea48b8 · claude-code · 9
 - ed8e4b87-agent-a3f86669190d6e138 · claude-code · 19
 - ee18f3a3-agent-a917b38fb6fad863e · claude-code · 33
 - f04c0e13-agent-a0e5bc51fe955179c · claude-code · 3
+- f0c1bfd0-2c86144b-b5d7-4d14-9d44-d73053fe240f · claude-code · 21
 - f1935e65-94d2e9b6-2836-4201-87ee-05c45a46e3be · claude-code · 350
 - f7863a95-48e368ef-0104-4688-88e3-64e2bbf780b5 · claude-code · 18
 - f95430ad-agent-a0930e7d094441519 · claude-code · 55
 - f9d5c673-agent-ae8a733 · claude-code · 34
+- fa95050b-agent-a446a39 · claude-code · 63
+- fc778a2f-agent-af05cd71233039c0c · claude-code · 38
 - fc8493cd-9015a719-a7e1-417a-b2ab-cd8546ea6013 · claude-code · 5
 - fe6df039-agent-ae25530 · claude-code · 6
 - fef0db28-4408db12-7aa6-443b-a833-26b6bc6df38e · claude-code · 6
+- 2720cb7c-bbe35efb-ae09-41f4-8c94-f199eff8414f · claude-web · 1
+- 2c4863f9-6d06ee72-13ff-4600-943c-1bb8562ecf15 · claude-web · 1
 - 2de35cd2-memories · claude-web · 1
+- 32b7ed58-7cd977fe-c9b8-46ef-a631-5cadae0d49c1 · claude-web · 1
 - 48d53181-019bd96a-41cf-775f-b5ea-60142eac92c3 · claude-web · 1
+- 4d3cccf3-7f45438e-57e4-44ba-8730-d921a2f00647 · claude-web · 1
 - 620e2f4a-memories · claude-web · 1
 - 784976a0-98642dbb-0128-4f74-ad5a-e1f943074f30 · claude-web · 1
 - 7d789d81-019bd96a-41cf-775f-b5ea-60142eac92c3 · claude-web · 1
-- Claude Sonnet 5 pricing claim accuracy · claude-web · 5932
-- Continuing Codex and pushing uncommitted changes · claude-web · 5922
-- Phase 3 substrate closure and canonical data verification · claude-web · 5741
+- Claude Sonnet 5 pricing claim accuracy · claude-web · 7596
+- Claude Sonnet 5 pricing claim accuracy · claude-web · 7596
+- Continuing Codex and pushing uncommitted changes · claude-web · 7586
+- Phase 3 substrate closure and canonical data verification · claude-web · 7253
+- a5176251-7cd977fe-c9b8-46ef-a631-5cadae0d49c1 · claude-web · 1
 - ab81740b-memories · claude-web · 1
+- c999933e-019eea47-8c6d-770e-8006-f4f0e9f2126f · claude-web · 1
+- d29af0cb-1ecf2752-960f-44e8-94d0-9d6c3755231e · claude-web · 1
+- d44397ef-d6af62d1-aeb0-4761-8089-8bffc49644c4 · claude-web · 1
+- 01ebd2b9-4a845536-e233-425a-a510-80f5608854c4 · cowork · 441
+- 048f4bc0-audit · cowork · 67
+- 049f7189-a219b7b6-6a55-4d23-a8d9-61a056c3264e · cowork · 89
 - 05cf5c6a-audit · cowork · 125
+- 06a2db61-24d575ea-85ca-45ee-80e0-9f5587f05448 · cowork · 528
+- 09362293-c6d2c450-4a3b-49a0-b219-13af133f23f7 · cowork · 19
 - 10616d37-audit · cowork · 73
+- 148879f8-4e2e9267-2960-46c7-9379-53601124ae24 · cowork · 518
+- 15b8ab5d-agent-a629679061eb33ced · cowork · 17
 - 1693077f-agent-a23d463e50058898f · cowork · 79
+- 1930323e-4e2e9267-2960-46c7-9379-53601124ae24 · cowork · 511
+- 193595fe-1603ed4e-c5bb-47af-b7cd-a752632ed542 · cowork · 74
 - 2496dfea-3ca91179-931d-4e9c-a7d4-0db46c6bc077 · cowork · 138
+- 25523a3e-9a90c109-2ce6-4d85-b7e0-9f398ae8e8b1 · cowork · 700
 - 2891dc2b-audit · cowork · 151
 - 2b7f0ba3-audit · cowork · 396
 - 2ddf56b3-3053faf9-201d-4792-b94c-21baf52fe209 · cowork · 25
 - 2f8a66ab-2ee56ed3-26c9-46a5-b948-b011953262f2 · cowork · 172
+- 3c686726-audit · cowork · 85
 - 4289e9a3-b3d49069-46e8-4752-9348-c3bb2019cebc · cowork · 53
 - 4594788b-b9985405-8506-44da-bad0-67e93ae79025 · cowork · 56
+- 570bdb1e-8e08b4b7-df62-4128-990f-5cd126cb675f · cowork · 3
+- 593b96b4-audit · cowork · 18
+- 5befc628-audit · cowork · 3
 - 6119ca35-audit · cowork · 508
 - 61ff3386-audit · cowork · 167
+- 638a5d59-audit · cowork · 427
+- 66fbee6d-audit · cowork · 123
 - 6bafe8c9-9a90c109-2ce6-4d85-b7e0-9f398ae8e8b1 · cowork · 122
 - 6e32f3be-9a90c109-2ce6-4d85-b7e0-9f398ae8e8b1 · cowork · 120
 - 70a11e47-41e090ee-e828-4a7e-80e8-e7d528541301 · cowork · 165
+- 7100327d-audit · cowork · 433
+- 725be026-audit · cowork · 14
 - 80e5403f-0046eb8c-3430-4c17-8801-08f5b26d4d7a · cowork · 494
+- 86579204-121b3c23-4c41-45de-8029-0faa2beb0f63 · cowork · 63
 - 8a534f45-9a92e5cb-4183-44fe-b2ad-18268bcedbba · cowork · 501
+- 8c191095-audit · cowork · 42
+- 8f10e87a-audit · cowork · 46
+- 9173ef09-audit · cowork · 57
+- 9415bf90-ddee831a-8b91-48dd-8fe6-eb0e07d5cd95 · cowork · 31
+- 94ecd86a-289cb4b1-5684-4366-98e2-b16b97faa1fb · cowork · 42
+- 95776dbd-audit · cowork · 529
 - 968e212e-60adafdc-1ecf-4407-943c-1d63152a8714 · cowork · 213
+- 9bbfed6b-815d3a2b-3093-45ad-bfef-b9503aeb4be6 · cowork · 122
+- 9f66a1b0-9d9e3bfa-b3c3-441d-932b-f882ffce6fe3 · cowork · 75
+- 9fc3bd02-99522433-ab56-4f26-a0ea-53ed1ea7344b · cowork · 508
 - 9ff79514-afdb0963-0d97-430d-b534-9b6b8d1f4463 · cowork · 339
+- a1cc25b8-ea875015-0d8e-4587-a564-6497c7687b58 · cowork · 102
+- a1df94a3-33a4eb7b-d202-47a8-a3dc-bba4bdbf9081 · cowork · 46
+- a31aa91d-31b23e86-d426-4f4b-80cf-552f5de5ef3e · cowork · 167
+- a7394565-audit · cowork · 62
+- a7ddc996-de91fbbd-49c0-4dac-8804-2faa0381385b · cowork · 82
+- a7e60ab0-agent-a5ca77859f76a73f8 · cowork · 41
+- aa05c3ce-agent-a7e300341f0536d7f · cowork · 46
 - ae13805c-audit · cowork · 53
 - b190cafb-93a56b70-7c1b-4abd-9d09-02f3018debfb · cowork · 73
+- b285c954-audit · cowork · 760
+- b3865906-audit · cowork · 16
+- b43e44ed-audit · cowork · 1
 - bbe3dcef-2bd8564e-6dd5-43fb-a659-80e5df00ed11 · cowork · 9
 - bcb55196-audit · cowork · 217
 - c0a94507-audit · cowork · 24
 - c128d863-b1ea4fcd-16f1-4133-8ccc-c45630c27a7b · cowork · 24
+- c5274ee7-audit · cowork · 64
+- c6b9f490-66485902-e8ac-4a23-a8d8-f9beffc5b3a7 · cowork · 16
+- ca905c63-audit · cowork · 536
+- cd1cd257-audit · cowork · 74
+- cd4a709e-e0c38ddc-fed1-4426-83c7-b3433d48c385 · cowork · 57
 - cf8248f7-audit · cowork · 56
 - d2064904-349feeec-ebe3-40bc-ad73-6b2b0e2f8ee4 · cowork · 144
+- d20c8e33-audit · cowork · 504
+- d20f3b37-4a845536-e233-425a-a510-80f5608854c4 · cowork · 449
+- d67ddeff-audit · cowork · 691
+- d785e86d-9a90c109-2ce6-4d85-b7e0-9f398ae8e8b1 · cowork · 770
 - da2ef15b-audit · cowork · 138
+- ddab1c58-317ce45e-97f7-4f51-b6c8-2e79384d13d4 · cowork · 48
+- e35b8023-audit · cowork · 13
 - e4ccde04-audit · cowork · 123
+- ed18cf7b-8275d12f-2254-4897-8ca7-00e993200f02 · cowork · 75
 - ee87edcf-audit · cowork · 9
 - f9ef6f21-audit · cowork · 565
+- ff930883-audit · cowork · 81
+- ffc214bb-audit · cowork · 76
+- 481107cc-4e2e9267-2960-46c7-9379-53601124ae24 · cowork-zip · 498
+- 9dffe354-afdb0963-0d97-430d-b534-9b6b8d1f4463 · cowork-zip · 69
+- db744c8d-1603ed4e-c5bb-47af-b7cd-a752632ed542 · cowork-zip · 39
+- dbb7f788-4e2e9267-2960-46c7-9379-53601124ae24 · cowork-zip · 517
+- # @babel/code-frame · distilled · 1
+- # @babel/compat-data · distilled · 1
+- # @babel/core · distilled · 1
+- # @babel/generator · distilled · 1
+- # @babel/helper-compilation-targets · distilled · 1
+- # @babel/helper-globals · distilled · 1
+- # @babel/helper-module-imports · distilled · 1
+- # @babel/helper-module-transforms · distilled · 1
+- # @babel/helper-plugin-utils · distilled · 1
+- # @babel/helper-string-parser · distilled · 1
+- # @babel/helper-validator-identifier · distilled · 1
+- # @babel/helper-validator-option · distilled · 1
+- # @babel/helpers · distilled · 1
+- # @babel/parser · distilled · 1
+- # @babel/plugin-transform-react-jsx-self · distilled · 1
+- # @babel/plugin-transform-react-jsx-source · distilled · 1
+- # @babel/template · distilled · 1
+- # @babel/traverse · distilled · 1
+- # @babel/types · distilled · 1
+- # @jridgewell/gen-mapping · distilled · 1
+- # @jridgewell/remapping · distilled · 1
+- # @jridgewell/resolve-uri · distilled · 1
+- # @jridgewell/sourcemap-codec · distilled · 1
+- # @jridgewell/trace-mapping · distilled · 1
+- # @vitejs/plugin-react [![npm](https://img.shields.io/npm/v/@vitejs/pl · distilled · 1
+- # AI certification decision (Cowork session, 2026-06-27) · distilled · 1
+- # AI-900 App — Session Report for Validation · distilled · 1
+- # AI-900 Blueprint Map + Coverage Audit · distilled · 1
+- # AI-900 Content Validation — Opus, against primary source · distilled · 1
+- # AI-900 Exam Night (phone copy) · distilled · 1
+- # AI-900 Exam-Night Runsheet · distilled · 1
+- # AI-900 Five-Evening Pass Plan — CONSOLIDATED (verified) · distilled · 1
+- # AI-900 Gap-Tools — BUILD PLAN (for Sonnet to implement) · distilled · 1
+- # AI-900 Practice Assessment Runsheet · distilled · 1
+- # AI-900 Study Tool — Art Direction Handoff · distilled · 1
+- # AI-900 Wording Traps · distilled · 1
+- # AI-900 exam study execution plan · distilled · 1
 - # AI-900 prompt and document review · distilled · 1
+- # Audit of missing study content in JSX app · distilled · 1
+- # Browserslist · distilled · 1
+- # Changelog · distilled · 1
+- # Chat and Cowork conversation history access · distilled · 1
 - # Deep research prompt review · distilled · 1
 - # GCP Credit Expenditure Playbook — Georges · distilled · 1
+- # GH-300: GitHub Copilot — Study Handbook · distilled · 1
+- # Incomplete material concern · distilled · 1
+- # Installation · distilled · 1
+- # Installation · distilled · 1
+- # Installation · distilled · 1
+- # Installation · distilled · 1
+- # JSON5 – JSON for Humans · distilled · 1
 - # Memory Spine — Design (B) · distilled · 1
+- # Nano ID · distilled · 1
+- # Node.js releases data · distilled · 1
+- # PostCSS · distilled · 1
 - # REM — Personal Memory Consolidation (Design) · distilled · 1
+- # Rollup core license · distilled · 1
+- # Source Map JS · distilled · 1
+- # Update Browserslist DB · distilled · 1
+- # Vite core license · distilled · 1
+- # [`baseline-browser-mapping`](https://github.com/web-platform-dx/web- · distilled · 1
+- # `react-dom` · distilled · 1
+- # `react` · distilled · 1
+- # `scheduler` · distilled · 1
+- # ai900 · distilled · 1
+- # caniuse-lite · distilled · 1
+- # convert-source-map [![Build Status][ci-image]][ci-url] · distilled · 1
+- # debug · distilled · 1
+- # esbuild · distilled · 1
+- # esbuild · distilled · 1
+- # escalade [![CI](https://github.com/lukeed/escalade/workflows/CI/badg · distilled · 1
+- # fsevents · distilled · 1
+- # gensync · distilled · 1
+- # jsesc · distilled · 1
+- # loose-envify · distilled · 1
+- # lru cache · distilled · 1
+- # ms · distilled · 1
+- # picocolors · distilled · 1
+- # react-refresh · distilled · 1
+- # vite ⚡ · distilled · 1
+- # yallist · distilled · 1
+- # ✅ AI-900 study app — content verified · distilled · 1
+- ### Made by [@kilianvalkhof](https://twitter.com/kilianvalkhof) · distilled · 1
+- ### Version 4.0.0 (2018-01-28) ### · distilled · 1
+- **Purpose & context** · distilled · 1
+- --- · distilled · 1
+- <p align="center"> · distilled · 1
+- <p align="center"> · distilled · 1
+- MIT License · distilled · 1
+- MIT License · distilled · 1
+- Overview [![Build Status](https://travis-ci.org/lydell/js-tokens.svg?b · distilled · 1
+- The MIT License (MIT) · distilled · 1
+- semver(1) -- The semantic versioner for npm · distilled · 1
+- ╭─── Claude Code v2.1.185 ──────────────────────────────────────────── · repo-txt · 1
+- ╭─── Claude Code v2.1.185 ──────────────────────────────────────────── · repo-txt · 1
+- ╭─── Claude Code v2.1.185 ──────────────────────────────────────────── · repo-txt · 1
+- ╭─── Claude Code v2.1.195 ──────────────────────────────────────────── · repo-txt · 1
+- ╭─── Claude Code v2.1.195 ──────────────────────────────────────────── · repo-txt · 1
+- ╭─── Claude Code v2.1.195 ──────────────────────────────────────────── · repo-txt · 1
+- ╭─── Claude Code v2.1.195 ──────────────────────────────────────────── · repo-txt · 1
+- ╭─── Claude Code v2.1.195 ──────────────────────────────────────────── · repo-txt · 1
+- ╭─── Claude Code v2.1.195 ──────────────────────────────────────────── · repo-txt · 1
+- ╭─── Claude Code v2.1.195 ──────────────────────────────────────────── · repo-txt · 1
+- ╭─── Claude Code v2.1.196 ──────────────────────────────────────────── · repo-txt · 1
+- ╭─── Claude Code v2.1.196 ──────────────────────────────────────────── · repo-txt · 1
+- ▐▛███▜▌   Claude Code v2.1.201 · repo-txt · 1
+- ▐▛███▜▌   Claude Code v2.1.201 · repo-txt · 1
+- ▐▛███▜▌   Claude Code v2.1.201 · repo-txt · 1
+- ▗ ▗   ▖ ▖  Claude Code v2.1.199 · repo-txt · 1
+- ▗ ▗   ▖ ▖  Claude Code v2.1.199 · repo-txt · 1
+- ▗ ▗   ▖ ▖  Claude Code v2.1.199 · repo-txt · 1
+- ▗ ▗   ▖ ▖  Claude Code v2.1.199 · repo-txt · 1
+- ▗ ▗   ▖ ▖  Claude Code v2.1.199 · repo-txt · 1
 - 4a0e100f-12f336bd-23dc-4da0-95e3-3295da2e1f1d · workbench · 1611
 - 89bae19c-5575b17e-a4c6-4746-ae03-d560cc83249d · workbench · 641
 - dfd7c7cc-fd8d4eda-fe3f-45a8-bb5b-ccc808d451b5 · workbench · 38
