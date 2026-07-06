@@ -4,6 +4,12 @@ Handoff for the next Opus (cowork). All numbers queried live 2026-07-06 against
 `slut_db/FRESH_2026/music_{v3,v4}.db` and the taghag Supabase (`rnscghanqopewyfxqjhp`).
 Reproduce with the queries noted; don't inherit these on faith.
 
+> **UPDATE 2026-07-06 PM (spine #80/#91):** §1 (identity key) is still current. §2 (MU ingest) is
+> now **DONE** — 19,819 tracks ingested scalars-only. The raw sidecar archive was moved off the
+> working disk to **`/Volumes/ATTIC/taghag_mu_sidecars`** (22,146 json / 144 GB) — `hag/tools/
+> apple_mu_analyses/` is now EMPTY. Wherever §2 below says the sidecars are "on disk at
+> hag/tools/apple_mu_analyses", read `/Volumes/ATTIC/taghag_mu_sidecars`.
+
 ## 1. §15 identity key: `v3.content_sha256` vs `v4.file_hash_sha256` — THEY ARE NOT THE SAME VALUE
 
 The crosswalk must NOT assume `v3.content_sha256 == v4.file_hash_sha256`. Evidence:
