@@ -93,7 +93,7 @@ stubs, not content. Edit **only this file**.
     bridge are PARKED; the only near-term v4 work is reproducibility (Q5).** *(Added 2026-07-04,
     operator-decided; amended 2026-07-05).* New download output does **not** need to appear in `music_v4.db` near-term. 
     Intake keeps writing the v3 layer (`track_identity`/`asset_file` → `music_v3.db` via the row-presence redirect). 
-    However, **v4 is NOT inert or out of the path**: the taghag brain population strictly reads `v4.track_file.file_hash_sha256` 
+    However — **REVISED 2026-07-06 (operator, spine #96): v4 is now INERT and OUT OF THE RUNTIME PATH** — frozen, not fed, not deleted. The brain no longer reads `music_v4.db` live; it uses the v4 hashes already ingested into `audio_file.checksum_sha256` + `crosswalk_v3v4_identity` (spine #87) to bridge to v3 identity by ISRC / `v3_content_sha256` / `v3_streaminfo_md5` — **not** a re-key of the brain to v3 full-file SHA, which diverges ~91% (`IDENTITY_KEY_AND_MU_INGEST`). Supabase (taghag) is the brain, and **populating it is the active priority.** The original 2026-07-04/05 stance is SUPERSEDED: ~~v4 is NOT inert or out of the path~~: the taghag brain population strictly reads `v4.track_file.file_hash_sha256` 
     because v3 lacks full SHA coverage. Consequence (accepted): a freshly downloaded track is invisible to
     v4/hag until the next migrate run — acceptable because hag's automix pool is curated and fed by the
     identity gate + ISRC/Essentia batch enrichment (spine #39/#40/#41), not by live v4 intake.
