@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# git-safe — serialized, scope-safe git for concurrent agents in the tag repos.
+#
+# Durable answer (incident 2026-07-05) to three failure modes that all share one
+# root cause — uncoordinated concurrent mutation of a shared git tree:
+#   * index.lock races ("another git process is running")   -> per-repo mutex
+#   * non-fast-forward push rejects                          -> pull --rebase first
+#   * one agent sweeping another's unstaged edits into its   -> explicit pathspecs,
+#     own commit (raw `git add -A` / `commit -a`)               bulk commits refused
+#
+# Usage:
+#   git-safe commit -m "msg" <path> [<path> ...]   # explicit paths ONLY
+#   git-safe push                                   # rebase-then-push, under lock
+#   git-safe sync                                   # pull --rebase --autostash
+#   git-safe install-hooks                          # wire this repo to the guard
+#
+# Escape hatch for a deliberate bulk commit:  TAG_ALLOW_BULK=1 git commit ...
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" || { echo "git-safe: not a git repo" >&2; exit 2; }
+GITDIR="$(git rev-parse --git-common-dir)"; [[ "$GITDIR" = /* ]] || GITDIR="$ROOT/$GITDIR"
+LOCKDIR="$GITDIR/git-safe.lock.d"
+
+acquire() {
+  local t=0 now age
+  until mkdir "$LOCKDIR" 2>/dev/null; do
+    if [ -d "$LOCKDIR" ]; then
+      now=$(date +%s); age=$(( now - $(stat -f %m "$LOCKDIR" 2>/dev/null || echo "$now") ))
+      [ "$age" -gt 300 ] && rm -rf "$LOCKDIR" 2>/dev/null && continue   # reclaim stale
+    fi
+    sleep 0.3; t=$((t+1)); [ "$t" -gt 400 ] && { echo "git-safe: lock timeout (120s)" >&2; exit 3; }
+  done
+  trap 'rm -rf "$LOCKDIR"' EXIT
+}
+
+self_dir() { cd "$(dirname "$(readlink "$0" 2>/dev/null || echo "$0")")" && pwd; }
+
+cmd="${1:-}"; shift 2>/dev/null || true
+case "$cmd" in
+  commit)
+    msg=""; paths=()
+    while (($#)); do case "$1" in
+      -m) msg="${2:-}"; shift 2;;
+      -a|--all|-A) echo "git-safe: refusing bulk '$1' — pass explicit paths (or TAG_ALLOW_BULK=1 git commit ...)" >&2; exit 4;;
+      *) paths+=("$1"); shift;;
+    esac; done
+    [ -n "$msg" ] || { echo "git-safe: need -m <msg>" >&2; exit 4; }
+    [ "${#paths[@]}" -gt 0 ] || { echo "git-safe: list explicit file paths to commit" >&2; exit 4; }
+    acquire
+    git add -- "${paths[@]}"
+    GIT_SAFE=1 git commit -q -m "$msg" -- "${paths[@]}"
+    echo "git-safe: committed ${#paths[@]} path(s) in ${ROOT##*/}"
+    ;;
+  push)  acquire; git pull --rebase --autostash -q && git push ;;
+  sync)  acquire; git pull --rebase --autostash ;;
+  install-hooks)
+    HOOKS="$(cd "$(self_dir)/../githooks" && pwd)"
+    git config core.hooksPath "$HOOKS"
+    echo "git-safe: ${ROOT##*/} core.hooksPath -> $HOOKS"
+    ;;
+  *) echo "usage: git-safe {commit -m MSG PATH... | push | sync | install-hooks}" >&2; exit 2;;
+esac

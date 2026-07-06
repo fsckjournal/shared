@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Guard (incident 2026-07-05): in a shared tag repo, commits must go through
+# `git-safe` (sets GIT_SAFE=1, stages explicit pathspecs only), so one agent
+# can't sweep another's unstaged edits into its commit. Deliberate bulk commits
+# stay possible via the TAG_ALLOW_BULK escape hatch.
+if [ "${GIT_SAFE:-}" = "1" ] || [ "${TAG_ALLOW_BULK:-}" = "1" ]; then
+  exit 0
+fi
+{
+  echo "✋ pre-commit blocked: raw 'git commit' in a shared tag repo."
+  echo "   Use:  git-safe commit -m \"msg\" <explicit paths>"
+  echo "   Deliberate bulk commit:  TAG_ALLOW_BULK=1 git commit ..."
+} >&2
+exit 1
+
