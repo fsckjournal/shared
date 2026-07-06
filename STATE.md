@@ -6,9 +6,28 @@ current state so a fresh session (or the operator) does not have to walk the log
 Locked policy lives in `decisions/DECISIONS_LOCKED.md`. **Update this file at the end of
 a session; use the log only for events the other side must act on.**
 
-Last updated: **2026-07-04** by hag (hag section + open-questions; slut section as of
-2026-07-03). · Convention: slut maintains the slut section, hag the hag section; the
-shared header is either.
+Last updated: **2026-07-06** by hag (corrections + current focus below; prior body 2026-07-04).
+· Convention: slut maintains the slut section, hag the hag section; the shared header is either.
+
+---
+
+## ⚠ 2026-07-06 corrections (two fabrications killed — do not resurrect)
+A Gemini/Opus handover (`HANDOFF_NEXT_OPUS_2026070*`, now archived) injected two items the
+operator confirms he **never decided**:
+1. **"v4 is inert / out of the path / brain joins v3 on `content_sha256`."** FALSE — **§15 stands**:
+   v4 is *load-bearing for the identity seam*; the brain reads `v4.track_file.file_hash_sha256`
+   because v3's SHA coverage is partial (verified 2026-07-06: v4 30,507 complete vs v3
+   `content_sha256` 42,771/69,246). Operator defers on hash mechanics ("no opinion"). Do not re-key to v3.
+2. **Naming/track-number template.** Operator: *"not a priority AT ALL"* (and earlier "i never said i
+   wanted renaming"). Out of scope — stop re-listing it.
+
+## Current focus (2026-07-06): populate the taghag brain — the SEAM IS ALREADY DONE
+Verified live in Supabase (`rnscghanqopewyfxqjhp`): `audio_file` **31,383**, `dj_tag` **30,954**,
+`track_cue` **371,198**, `track_embedding` 744. The real gap is **`apple_track_analysis` = 39** while
+**~17,208 MU sidecars sit ready** in `hag/tools/apple_mu_analyses/<sha>.json` — that literal SHA-keyed
+ingest is the next step (NOT audio_file population, which is stale advice). Then Essentia →
+`track_analysis` (5 now), re-seat the 744 embeddings, then downstream (crates/segments/transitions, all 0).
+New thread: brain has **no artist/relationship tables** — the Anna's Archive collab graph has nowhere to live yet.
 
 ---
 
