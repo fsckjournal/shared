@@ -1,0 +1,189 @@
+#!/usr/bin/env python3
+"""Daily routine: summarise recent handoff-spine activity and open items.
+
+Run this at the start of a session (after `git pull`) to get a fast digest
+of what happened, what is still waiting for action, and how the spine has
+been used.
+
+Usage:
+    daily-log-report                    # last 24 h + all open items
+    daily-log-report --days 3           # last 3 days
+    daily-log-report --to hag           # filter to events addressed to hag
+    daily-log-report --all              # every event, not just recent ones
+    daily-log-report --json             # machine-readable JSON to stdout
+"""
+from __future__ import annotations
+import argparse, datetime, json, os, sys
+from collections import Counter
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LOG = os.path.join(ROOT, "handoffs", "handoff.jsonl")
+
+
+def load():
+    if not os.path.exists(LOG):
+        return []
+    out = []
+    for ln in open(LOG, encoding="utf-8"):
+        ln = ln.strip()
+        if not ln:
+            continue
+        try:
+            out.append(json.loads(ln))
+        except json.JSONDecodeError:
+            print("daily-log-report: WARNING skipping malformed line", file=sys.stderr)
+    return out
+
+
+def _parse_ts(ts_str):
+    """Return a UTC datetime, or None on failure."""
+    try:
+        return datetime.datetime.strptime(ts_str, "%Y-%m-%dT%H:%M:%SZ").replace(
+            tzinfo=datetime.timezone.utc
+        )
+    except Exception:
+        return None
+
+
+def _open_items(all_evts, to_filter=None):
+    answered = {e["re"] for e in all_evts if e.get("status") == "answered" and e.get("re")}
+    open_evts = []
+    for e in all_evts:
+        if e.get("status") == "open" and e.get("id") not in answered:
+            if to_filter and e.get("to") not in (to_filter, "both"):
+                continue
+            open_evts.append(e)
+    return open_evts
+
+
+def main():
+    p = argparse.ArgumentParser(description="Daily handoff-spine digest.")
+    p.add_argument("--days", type=float, default=1.0,
+                   help="how many days back to show (default 1 = last 24 h)")
+    p.add_argument("--to", choices=["hag", "slut"],
+                   help="only events addressed to this repo (or 'both')")
+    p.add_argument("--all", dest="show_all", action="store_true",
+                   help="show every event, ignore --days cutoff")
+    p.add_argument("--json", dest="as_json", action="store_true",
+                   help="emit a machine-readable JSON report to stdout")
+    args = p.parse_args()
+
+    all_evts = load()
+    if not all_evts:
+        if args.as_json:
+            print(json.dumps({"recent": [], "open": [], "stats": {}}))
+        else:
+            print("(no handoff events — log is empty)")
+        return
+
+    now = datetime.datetime.now(datetime.timezone.utc)
+    cutoff = now - datetime.timedelta(days=args.days)
+
+    if args.show_all:
+        recent = all_evts
+    else:
+        recent = [e for e in all_evts if (_parse_ts(e.get("ts","")) or cutoff) >= cutoff]
+
+    if args.to:
+        recent = [e for e in recent if e.get("to") in (args.to, "both")]
+
+    open_items = _open_items(all_evts, to_filter=args.to)
+
+    # ── stats over the full log (not just the window) ──────────────────────
+    kind_counts = Counter(e.get("kind", "unknown") for e in all_evts)
+    from_counts = Counter(e.get("from", "?") for e in all_evts)
+    total = len(all_evts)
+    oldest_ts = _parse_ts(all_evts[0].get("ts", "")) if all_evts else None
+    newest_ts = _parse_ts(all_evts[-1].get("ts", "")) if all_evts else None
+
+    if args.as_json:
+        report = {
+            "generated_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "window_days": None if args.show_all else args.days,
+            "to_filter": args.to,
+            "recent": recent,
+            "open": open_items,
+            "stats": {
+                "total_events": total,
+                "by_kind": dict(kind_counts),
+                "by_from": dict(from_counts),
+                "open_count": len(open_items),
+                "oldest_event_ts": all_evts[0].get("ts") if all_evts else None,
+                "newest_event_ts": all_evts[-1].get("ts") if all_evts else None,
+            },
+        }
+        print(json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True))
+        return
+
+    # ── human-readable output ───────────────────────────────────────────────
+    window_label = "all time" if args.show_all else f"last {args.days:.0f}d"
+    to_label = f" (to: {args.to})" if args.to else ""
+    print(f"=== daily-log-report  [{now.strftime('%Y-%m-%d %H:%M')} UTC]{to_label} ===\n")
+
+    # ── spine overview ──────────────────────────────────────────────────────
+    span = ""
+    if oldest_ts and newest_ts:
+        days_span = (newest_ts - oldest_ts).days
+        span = f"  span {days_span}d: {oldest_ts.strftime('%Y-%m-%d')} → {newest_ts.strftime('%Y-%m-%d')}"
+    print(f"Spine: {total} total events{span}")
+    by_kind_str = "  " + "  ".join(f"{k}:{v}" for k, v in sorted(kind_counts.items()))
+    by_from_str = "  " + "  ".join(f"{k}:{v}" for k, v in sorted(from_counts.items()))
+    print(f"  by kind:  {by_kind_str.strip()}")
+    print(f"  by repo:  {by_from_str.strip()}")
+    print()
+
+    # ── recent events ───────────────────────────────────────────────────────
+    print(f"--- Recent events ({window_label}, {len(recent)} shown) ---")
+    if not recent:
+        print("  (nothing in this window)")
+    for e in recent:
+        g = e.get("git", {})
+        pos = f" @{g['sha']}/{g['branch']}" if g else ""
+        re_s = f" re#{e['re']}" if e.get("re") else ""
+        st = e.get("status", "?")
+        print(
+            f"  #{e.get('id','?')} [{e.get('ts','?')}] "
+            f"{e.get('from','?')}→{e.get('to','?')} "
+            f"{e.get('kind','?').upper()}/{st}{re_s}{pos}"
+        )
+        summary = e.get("summary", "").strip()
+        # Wrap long summaries at 100 chars
+        while len(summary) > 100:
+            split = summary.rfind(" ", 0, 100)
+            split = split if split > 60 else 100
+            print(f"      {summary[:split]}")
+            summary = summary[split:].lstrip()
+        if summary:
+            print(f"      {summary}")
+        for a in e.get("artifacts", []):
+            gen = f" gen{a['generation']}" if "generation" in a else ""
+            print(f"      · artifact: {a.get('repo','?')}:{a['path']}{gen}")
+    print()
+
+    # ── open items ──────────────────────────────────────────────────────────
+    print(f"--- Open items ({len(open_items)}) ---")
+    if not open_items:
+        print("  (nothing open — all questions answered)")
+    for e in open_items:
+        age = ""
+        ts = _parse_ts(e.get("ts", ""))
+        if ts:
+            days_old = (now - ts).days
+            age = f" {days_old}d old"
+        print(
+            f"  #{e['id']} [{e.get('from')}→{e.get('to')}]{age}  "
+            f"{e.get('summary','').strip()[:120]}"
+        )
+        for q in e.get("open_questions", []):
+            print(f"      ? {q}")
+        for nd in e.get("needs", []):
+            print(f"      ⛔ needs: {nd}")
+    print()
+
+    # ── tip ─────────────────────────────────────────────────────────────────
+    print("Tip: use 'handoff-tail --to <repo> --open' to see only your open items.")
+    print("     use 'daily-log-report --json' for a machine-readable full report.")
+
+
+if __name__ == "__main__":
+    main()
