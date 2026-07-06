@@ -6,7 +6,7 @@
 ---
 
 ## 1. What was done
-1. **Apple MU Scan Execution**: Managed the queue for `run_mu_scan.py` to churn through the 30k track backlog.
+1. **Apple MU Scan Execution**: Pre-emptively bypassed junk tracks using placeholder `.json` files so the Apple MU scanner (`run_mu_scan.py`) wouldn't waste compute churning through the full 30k track backlog.
 2. **Nature-Gate (#50) Enforcement**: The operator explicitly ordered us to apply the Nature-gate ratification (#50) logic ahead of compute work. I wrote a strict SQL-to-Mock script that enforced:
     - **N-Reject on Structure**: Any track > 20 mins OR **< 1 minute** (added to `POOL_DEFINITION.md` as of today per operator instruction), OR titled "dj mix"/"continuous mix" is bypassed.
     - **N-Reject on Genre**: Excluded `Rock`, `Classical`, `Metal`, `Alternative`, `Indie`, `Country`, `Folk`, `Blues`, `New Age`, `Chanson`, and `Pop` **UNLESS** they possess a positive signal.
