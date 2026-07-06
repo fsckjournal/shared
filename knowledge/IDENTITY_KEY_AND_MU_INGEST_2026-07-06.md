@@ -42,11 +42,12 @@ engineering call, governed by DECISIONS_LOCKED §15 (v4 load-bearing for the sea
 
 ## 2. MU-sidecar ingest: READY, but NOT a "literal join"
 
-`apple_track_analysis` currently holds ~42 rows; **~17,208 real sidecars sit ready** in
-`hag/tools/apple_mu_analyses/<file_hash_sha256>.json` (skip-mocks are the tiny `{"skipped":true}`
-files — exclude by size >300B or by parsing the flag).
+`apple_track_analysis` currently holds ~42 rows; **~17,850 real sidecars sit ready** (and still
+growing as the scan runs) in `hag/tools/apple_mu_analyses/<file_hash_sha256>.json` (skip-mocks are
+the tiny `{"skipped":true}` files — exclude by size >300B or by parsing the flag).
 
-- **Each sidecar is the raw ~5 MB Apple MusicUnderstanding blob** (`pace`, `loudness.{momentary,
+- **Each sidecar is the raw Apple MusicUnderstanding blob — measured avg 7.3 MB, median 6.5 MB,
+  max 206 MB, ~130 GB total on disk** (`pace`, `loudness.{momentary,
   shortTerm,peak,integrated}`, `instrumentActivity`, `key`, `structurePredictions`, `rhythm`
   incl. `beatsPerMinute`, `structure`). It is NOT shaped like the target tables — there is a
   feature-engineering step (`taghag_import/apple_derived_features.py`, `apple_music_adapter.py`)
@@ -61,10 +62,12 @@ files — exclude by size >300B or by parsing the flag).
     `{drum,bass,vocal}_activity`, `loudness_{momentary,short_term}` jsonb).
 
 ### Blockers / decisions before batch-running
-- **DO NOT store the raw 5 MB blob for all 17k.** `apple_analysis_runs.raw_result_json` × ~17k ×
-  ~5 MB ≈ **~85 GB** — infeasible on the current tier. Decide: store derived + track_analysis
-  only, keep the raw sidecars on disk as the archive, and either skip `raw_result_json` or store
-  a compressed/trimmed subset. **This is the #1 thing to settle first.**
+- **DO NOT store the raw blob in Postgres.** Measured: the ~17,850 real sidecars are **~130 GB on
+  disk** (avg 7.3 MB, one 206 MB outlier) — and jsonb would be larger. Infeasible on any Supabase
+  tier (free 0.5 GB, Pro 8 GB base). Decide: store `apple_derived_features` + `apple_track_analysis`
+  only, keep the raw sidecars on disk as the archive, and leave `apple_analysis_runs.raw_result_json`
+  NULL (or store a small trimmed subset). **This is the #1 thing to settle first** — it's not a
+  judgment call, the raw blob physically won't fit.
 - **Don't run Gemini's `ingest_*.py` leftovers blind.** Use the `taghag_import.apple_*` path that
   produced the clean 42 rows; upsert idempotently on `source_artifact_sha256`; dry-run 10, verify,
   then batch.
