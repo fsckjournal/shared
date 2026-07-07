@@ -1,7 +1,38 @@
-# PLAN — supersede XML-first-cue energy with MIK-DB ZENERGY
+# PLAN — supersede XML-first-cue energy with clean MIK key+energy
 
-**Owner:** hag lane. **Status:** ready to run. **Spine:** #99 (open question this closes).
+**Owner:** hag lane. **Status:** ready to run. **Spine:** #99/#100 (open question this closes).
 **Written:** 2026-07-07 by Claude, for whoever runs next (Gemini or Claude).
+
+## ⭐ PRIMARY ROUTE (use this) — operator's clean RBXMIK_RE.xml
+
+The operator rebuilt a clean Rekordbox+MIK export at `~/Projects/tag/RBXMIK/RBXMIK_RE.xml`
+and it is the best source we have. VERIFIED: 24,416 TRACK rows, 24,365 real FLACs, only
+**2 Spotify ghosts**, MIK Energy trajectory on 24,361 tracks, 100% of real-FLAC keys in
+Camelot. Ghosts are `Kind="Unknown Format"` + `spotify:track` Location + musical-notation
+Tonality — filtered by requiring `file://localhost/` path AND Camelot Tonality.
+
+Script: `hag/tools/ingest_rbxmik_re.py` — does energy (MODAL, not first-cue) + re-validated
+Camelot key in one pass, ghost-filtered, path-joined, provenance `tag_source='mik'`.
+
+```bash
+cd ~/Projects/tag/hag
+python3 tools/ingest_rbxmik_re.py                    # PROBE: parse+join report, no writes
+python3 tools/ingest_rbxmik_re.py --apply --limit 50 # smoke test
+python3 tools/ingest_rbxmik_re.py --apply            # full write (mik-source rows)
+```
+Verify / undo:
+```sql
+select count(*) filter(where energy is not null) e, count(*) filter(where key_camelot is not null) k
+from dj_tag where tag_source='mik';
+-- undo: delete from dj_tag where tag_source='mik';
+```
+Energy scalar = **mode of the trajectory** (the §47 documented reduction), NOT Gemini's
+first-cue. After it lands, recompute the pool (Step 5 below) and, if you want, retire the
+XML-first-cue `rekordbox_xml` energy values (Step 4).
+
+---
+
+## FALLBACK ROUTE — MIK-DB ZENERGY (only if RBXMIK_RE.xml is unavailable)
 
 This is a **fool-proof, copy-paste** plan. Every step says exactly what to run and what
 you should see. Nothing here writes to `music_v3.db`/`music_v4.db` (slut's lane) or to
