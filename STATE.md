@@ -39,8 +39,8 @@ by a one-shot migration). Live intake is still **v3-native** and redirects to a 
 sibling `music_v3.db` as an interim; the v4 write-side port is **drafted, not built**.
 
 ## Where things live
-- **DBs:** `slut_db/FRESH_2026/music_v4.db` (canonical, `$TAGSLUT_DB`) · sibling
-  `music_v3.db` (intake redirect target, `$TAGSLUT_V3_DB`) · masters `$MASTER_LIBRARY`.
+- **DBs:** `slut_db/FRESH_2026/music_v4.db` (write-frozen identity-seam source, `$TAGSLUT_DB`; see `DECISIONS_LOCKED §15`) · sibling
+  `music_v3.db` (live intake write target / system-of-record for identity, `$TAGSLUT_V3_DB`) · masters `$MASTER_LIBRARY`.
 - **Identity seam (hag's read interface):** `slut:tools/v4/export_identity_seam.py` →
   `identity_seam.jsonl`, keyed `content_sha256` (primary) + `track_id` (secondary),
   ISRC nullable tertiary.
