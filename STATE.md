@@ -14,6 +14,7 @@ a session; use the log only for events the other side must act on.**
 Ready-to-run, resolve-from-the-record shaped prompts. Each is READ-ONLY / staged-on-copy, gated, masters never touched. Run in a Code session; boot the advisor first.
 - `~/Projects/tag/dupeguru_classify_prompt.md` — classify the dupeGuru scan (2,702 files/1,235 groups) into 4 buckets by v4 join; read-only, NO dedupe. (re #157; dupeguru_classified.csv already produced — see slut/output.)
 - ✅ **DONE (spine #176, 2026-07-10):** ~~`~/Projects/tag/metadata_correctness_stage_prompt.md`~~ — EXECUTED. `slut/tools/v4/stage_metadata_correctness.py` built+ran, staged 21,907 rows into `music_v4.metadata_wip.db` (8.5M diff-table; real v4 sha identical, idempotent). See 🟢 block below.
+- `~/Projects/tag/isrc_conflict_fix_prompt.md` — fix stage_metadata_correctness.py ISRC classifier (split multi-value + casefold before conflict test) & re-stage; 520 flagged -> ~70 real conflicts + 415 auto-safe alias-ops + 32 encoding_norm + 3 malformed. (re #177.)
 - **SHELVED (do NOT build):** FLAC-tag garbage-scrub / `stage_metadata.py` — RULED OUT OF SCOPE (#175): v4-canonical demotes on-disk tags to a derived view; not worth master-write risk. Surgical per-key only if a reader is proven to break.
 
 ---
