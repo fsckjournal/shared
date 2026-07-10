@@ -8,7 +8,16 @@ current state so a fresh session (or the operator) does not have to walk the log
 Locked policy lives in `decisions/DECISIONS_LOCKED.md`. **Update this file at the end of
 a session; use the log only for events the other side must act on.**
 
-Last updated: **2026-07-10** by slut (artist changeset applied to real v4; see the ✅ block below)
+Last updated: **2026-07-10** by slut (RADICAL COLLAPSE 3 builds staged on copy, await GO — see ⏸ block; artist changeset already applied — see ✅ block)
+
+---
+
+## ⏸ 2026-07-10 — RADICAL COLLAPSE: 3 builds STAGED+PROVEN on COPY, await operator GO (spine #133/#138)
+All on `slut_db/FRESH_2026/music_v4.collapse_wip.db` (real v4 UNTOUCHED — no `membership`/`artist_alias` cols; verified). Split re-verified EXACT vs 07-09: MASTER 25649 / ICEBERG 4695 / BOTH 0 / NEITHER 1101 (31445). #116 "5741 missing" = drain+off-disk, NOT corruption.
+- **PRIMARY membership** (`slut/tools/v4/build_membership_evidence.py` + `apply_membership.py`): adds `membership TEXT CHECK(work/iceberg/unclassified)` + `membership_reason`; doc-faithful agreement backfill → **work 19560 / iceberg 4695 / unclassified 7190** (1101 off-disk `no_signal` + **6089 `DISAGREE_pending_operator`** held, not forced). **Purple #107 is a GHOST on disk** (1 Purple / 40 Orange / 0 iceberg) → filed **#133**, NOT used; MASTER-mass split via listening-artists list (= hag `is_listening_artist` #121). Rule-once set → `slut/tools/v4/output/membership_disagreements.csv`.
+- **FORK 1 artist_alias** (`slut/tools/v4/apply_artist_alias.py`): new `artist_alias(artist_id,alias,source)` mirrors `track_alias`; **69** folder-string aliases loaded from `artist_tail_worksheet` (#123 opt-a, #125 set; excludes Isolee/Pacific!/Slo per #125). Option (b) folder-rename OUT.
+- **FORK 2 measured-key** (`hag/tools/reconcile_mik_keys.py`, READ-ONLY re-run): **206** candidate drift reproduced (14846 raw, 98.6% notation), 4011 join-loss, 6126 same-row `musical_key`≠`key_camelot`. NOTHING written to brain.
+- **AWAITS operator:** (a) #133 purple-vs-orange + MASTER-mass rule; (b) alias GO; (c) key column-retarget (`musical_key`→deprecate, `key_camelot` canonical) + `0`→NULL backfill GO. Scripts idempotent+guarded, dry-run default; real apply per item on GO.
 
 ---
 
