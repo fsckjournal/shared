@@ -8,12 +8,22 @@ current state so a fresh session (or the operator) does not have to walk the log
 Locked policy lives in `decisions/DECISIONS_LOCKED.md`. **Update this file at the end of
 a session; use the log only for events the other side must act on.**
 
+---
+
+## 📋 OPEN CODE-SESSION PROMPTS (armed, awaiting a Code session — paths on the operator's machine)
+Ready-to-run, resolve-from-the-record shaped prompts. Each is READ-ONLY / staged-on-copy, gated, masters never touched. Run in a Code session; boot the advisor first.
+- `~/Projects/tag/dupeguru_classify_prompt.md` — classify the dupeGuru scan (2,702 files/1,235 groups) into 4 buckets by v4 join; read-only, NO dedupe. (re #157; dupeguru_classified.csv already produced — see slut/output.)
+- `~/Projects/tag/metadata_correctness_stage_prompt.md` — stage the 13,427 tag↔DB **correctness** disagreements into `music_v4.metadata_wip.db` (v4-canonical, no FLAC writes, substantive picks staged-not-stamped). (re #175/#170.)
+- **SHELVED (do NOT build):** FLAC-tag garbage-scrub / `stage_metadata.py` — RULED OUT OF SCOPE (#175): v4-canonical demotes on-disk tags to a derived view; not worth master-write risk. Surgical per-key only if a reader is proven to break.
+
+---
+
 Last updated: **2026-07-10** by slut (LIBRARY HYGIENE CENSUS — terminal read-only audit sizing the nuclear canonicalization pass, spine #170 re #168 — see 🟢 block; prior: MASTER audit 2,020 backlog — 🟡 block; RADICAL COLLAPSE membership + Fork1 alias — 🟢 block)
 
 ---
 
 ## 🟢 2026-07-10 — PHASE 0 GARBAGE CENSUS complete (READ-ONLY, spine #173 re #170/#168)
-`slut/tools/v4/metadata_census.py` (mutagen all-keys, uppercase-canonicalized/multivalue-explicit, v4-join as COLUMN ro+immutable, resumable+idempotent; writes NOTHING to v4/FLAC). GARBAGE axis (worthless-regardless-of-agreement) — measured FRESH, orthogonal to #170's disagreement axis (the #170 cache stores only 6 fields, can't answer all-keys). **34,355 files → 586 distinct case-normalized Vorbis keys** (inherited "336" was an 800-file-sample UNVERIFIED figure; full-scale ~1.7×). Buckets (ADVISORY): keep-signal 86 / hag-review 18 (DJ base64 blobs — route hag, not trash) / operator-decide 482. Loudest junk: COMMENT empty 15,026, LEXICON_RATING=0 14,325, RATING=0 9,647. Artifacts `slut/output/{tag_field_census,tag_sentinels,embedded_art_outliers}.csv + CENSUS_REPORT.md` (gitignored). **STOP — operator fork:** rule the keep/trash key list on `tag_field_census.csv`; THEN Phase 1 (`stage_metadata.py`, NOT yet built) builds a WIP staging db. Apply-to-real-v4 = separate gated `--apply` per class. FLAC tags never touched.
+`slut/tools/v4/metadata_census.py` (mutagen all-keys, uppercase-canonicalized/multivalue-explicit, v4-join as COLUMN ro+immutable, resumable+idempotent; writes NOTHING to v4/FLAC). GARBAGE axis (worthless-regardless-of-agreement) — measured FRESH, orthogonal to #170's disagreement axis (the #170 cache stores only 6 fields, can't answer all-keys). **34,355 files → 586 distinct case-normalized Vorbis keys** (inherited "336" was an 800-file-sample UNVERIFIED figure; full-scale ~1.7×). Buckets (ADVISORY): keep-signal 86 / hag-review 18 (DJ base64 blobs — route hag, not trash) / operator-decide 482. Loudest junk: COMMENT empty 15,026, LEXICON_RATING=0 14,325, RATING=0 9,647. Artifacts `slut/output/{tag_field_census,tag_sentinels,embedded_art_outliers}.csv + CENSUS_REPORT.md` (gitignored). **SUPERSEDED by #175:** the garbage-scrub/keep-trash ruling is SHELVED — v4-canonical demotes on-disk tags to a derived view, not worth master-write risk. The census stands as evidence (it PROVED the tags are junk-filled). No `stage_metadata.py` scrub tool to build. Only CORRECTNESS-staging proceeds (see OPEN CODE-SESSION PROMPTS above). FLAC tags never touched.
 
 ## 🟢 2026-07-10 — LIBRARY HYGIENE CENSUS: nuclear-pass execution plan armed (READ-ONLY, spine #170 re #168)
 `slut/tools/v4/library_hygiene_audit.py` (mode=ro+immutable, resumable/cached, argparse; 4 proofs pass: conservation 31445=31445, join delta=38, DB-write-blocked, byte-identical re-run). Whole-library census over all 31,445 track_file rows + both mounts (34,318 disk FLACs). Applies NOTHING — emits `slut/output/library_hygiene_*` (gitignored): `per_file.csv`, `canonical_plan.csv` (the executable plan), `collisions.csv`, `recording_clusters.csv`, `byte_dupes.csv`, `tag_disagreements.csv`, `metadata_noise.csv`, `REPORT.md`.
