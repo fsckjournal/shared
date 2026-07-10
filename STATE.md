@@ -1,5 +1,7 @@
 # STATE — current truth, both repos (read this FIRST)
 
+> **Boot: read `shared/OPERATOR.md`** — how to work with Georges (believe his reports, verify, move-dont-menu, never delete masters, collapse-dont-reconcile).
+
 **This is a snapshot of what is true NOW, not history.** The log
 (`handoffs/handoff.jsonl`) is chronological events; this file is the reconstructed
 current state so a fresh session (or the operator) does not have to walk the log.
