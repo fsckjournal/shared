@@ -8,9 +8,17 @@ current state so a fresh session (or the operator) does not have to walk the log
 Locked policy lives in `decisions/DECISIONS_LOCKED.md`. **Update this file at the end of
 a session; use the log only for events the other side must act on.**
 
-Last updated: **2026-07-10** by slut (RADICAL COLLAPSE membership FULLY RULED+APPLIED mix/listen/unclassified + Fork1 alias LANDED on real v4 — see 🟢 block)
+Last updated: **2026-07-10** by slut (MASTER audit: 2,020 present-on-disk masters ABSENT from v4 = ingestion backlog, no write made — see 🟡 block; prior: RADICAL COLLAPSE membership applied + Fork1 alias — 🟢 block)
 
 ---
+
+## 🟡 2026-07-10 — MASTER metadata audit: 2,020 present-on-disk masters ABSENT from v4 (ingestion-gap finding; NO write made)
+Tool 1 `slut/tools/v4/audit_master_metadata.py` (read-only auditor) ran over the 2,689-path MIK-reprocess MASTER list (`_backups/mik/mik_reprocess_MASTER_only.m3u8`). Report: `slut/output/tool1_master_audit.{csv,md}` (output/ gitignored, local only).
+- **Headline:** of 2,689, only **669 are in v4** (666 canonical path + 3 basename); **2,020 are physically present in `/Volumes/MUSIC/MASTER_LIBRARY` but have NO `track`/`track_file` row** — verified `os.path.exists` all 2,020 at MASTER path, **0** at `/Volumes/ATTIC/ICEBERG` (mount confirmed present) → **not** iceberg-drained, **not** stale paths: a true v4 **ingestion backlog**, outside the 31,445. The 669 in-v4 are all ISRC-null (the un-enriched tail).
+- **Join bugs fixed in-tool:** path join must **casefold+NFC** (macOS case-insensitive vol; `AtJazz`vs`Atjazz` false-orphaned ~31); provider IDs join via `ref_bp_track`/`ref_spotify_track` on ISRC, `track` has no provider cols (§12 confirmed). ⚠️ `tagslut/storage/v3/backfill_ids.py` writes v3 husk `track_identity` — **NOT** v4-reusable for Tool 2 without rebasing onto `ref_*`.
+- **MIK now complete for this list:** via clean rekordbox+MIK scan (`~/Documents/updated.xml`, 2,523 entries) + `.Mixedinkey/Collection11.mikdb` (full lib 33,596/32,410 keyed): **2,682 keyed**, **7** unkeyable continuous-mixes/sets (§16 pool-excluded), 0 unaccounted.
+- **Delivered artifacts** (operator ask): `_backups/mik/mik_reprocess_MIK_keyed.m3u8` (2,682 paths) + `_backups/mik/mik_reprocess_MIK_keyed_links/` (2,682 flat symlinks, 0 broken, collisions disambiguated by album). Builder `slut/tools/v4/build_reprocess_manifest.py` (dry-run default, ro on masters+mikdb).
+- **OPEN — ingestion of the 2,020 deferred (operator not-sure, deliberately held):** it's a slut-lane project, NOT a snap write. Prereqs from the record: 639 alt-named (`NN-NN. Title - Artist`) need canonicalizing per **ADR 0012 track-number-first**; each needs a `membership` on arrival (§17); the **411 Various-Artists compilations** hit **§11 (compilations=memberships not duplicates)** — naive dedupe would corrupt memberships. No pressure (MIK-keyed artifacts cover the immediate scan need). Decision pending. Spine question filed.
 
 ## 🟢 2026-07-10 — RADICAL COLLAPSE: membership FULLY RULED+APPLIED (mix/listen/unclassified) + Fork1 alias LANDED on real v4 (spine #148/#149)
 Split re-verified EXACT vs 07-09: MASTER 25649 / ICEBERG 4695 / BOTH 0 / NEITHER 1101 (31445). #116 "5741 missing" = drain+off-disk, NOT corruption. Purple was NOT a ghost-contradiction — **#135**: real tags (#107) consumed by the MUSIC→ATTIC drain, curation now = LOCATION (#133 closed).
