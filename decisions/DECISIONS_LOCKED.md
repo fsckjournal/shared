@@ -69,6 +69,20 @@ stubs, not content. Edit **only this file**.
     per-run intake receipt AND as a `release_package_membership` row at intake time — the deferred
     `virtual_release_membership_or_physical_duplicate` CSV parking lot is retired. Physical-by-copy is
     the default; virtual membership is an explicit flag, never a silent fallback.
+    **(e) Quality-upgrade replaces, never deletes-and-forgets** *(Added 2026-07-10, operator-ruled;
+    context: dupeGuru sha-disagree drill-down, spine #165/#166.)* §11 forbids deleting/dissolving a
+    membership; it is silent on the *audio quality* of the file that carries it. Ruling: when a **better
+    copy of the same recording** exists, the **better audio replaces the worse file AND inherits the
+    worse file's metadata** (the membership-bearing release/compilation tags). Membership is preserved,
+    only the bytes are upgraded — this is an in-place UPGRADE, not a dedupe-delete, and it applies **even
+    inside a compilation/§11 group** (a compilation may legitimately hold a copy that is simply a worse
+    master). Non-negotiable gate: a replace fires **only** when the two files are confirmed the **same
+    recording** — sha-disagreement is the *flag*, never the identity proof. Identity is confirmed by
+    **ISRC match, else acoustic-fingerprint match** (Chromaprint/`fpcalc`, ~0.1s/file, calibrated against
+    ISRC-confirmed pairs), with duration±tolerance as a corroborator; anything failing the gate goes to a
+    manual worksheet, never auto-replace. "Better" ranks bit_depth > sample_rate > bitrate > size. The
+    replace itself is a SEPARATE gated pass on a COPY: copy→verify→replace→inherit-metadata, operator GO
+    per batch, masters never `rm`'d blind.
 13. **Qobuz download identity & auth.** *(Added 2026-07-04, operator-confirmed.)* The **paid,
     download-eligible** Qobuz account is **`county-cog.6z@icloud.com`** (user_id **`12779111`**).
     The free account `spindly_rhythms2u@icloud.com` (user_id `12024329`) is **download-ineligible**
