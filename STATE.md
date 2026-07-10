@@ -8,7 +8,18 @@ current state so a fresh session (or the operator) does not have to walk the log
 Locked policy lives in `decisions/DECISIONS_LOCKED.md`. **Update this file at the end of
 a session; use the log only for events the other side must act on.**
 
-Last updated: **2026-07-10** by slut (MASTER audit: 2,020 present-on-disk masters ABSENT from v4 = ingestion backlog, no write made — see 🟡 block; prior: RADICAL COLLAPSE membership applied + Fork1 alias — 🟢 block)
+Last updated: **2026-07-10** by slut (LIBRARY HYGIENE CENSUS — terminal read-only audit sizing the nuclear canonicalization pass, spine #170 re #168 — see 🟢 block; prior: MASTER audit 2,020 backlog — 🟡 block; RADICAL COLLAPSE membership + Fork1 alias — 🟢 block)
+
+---
+
+## 🟢 2026-07-10 — LIBRARY HYGIENE CENSUS: nuclear-pass execution plan armed (READ-ONLY, spine #170 re #168)
+`slut/tools/v4/library_hygiene_audit.py` (mode=ro+immutable, resumable/cached, argparse; 4 proofs pass: conservation 31445=31445, join delta=38, DB-write-blocked, byte-identical re-run). Whole-library census over all 31,445 track_file rows + both mounts (34,318 disk FLACs). Applies NOTHING — emits `slut/output/library_hygiene_*` (gitignored): `per_file.csv`, `canonical_plan.csv` (the executable plan), `collisions.csv`, `recording_clusters.csv`, `byte_dupes.csv`, `tag_disagreements.csv`, `metadata_noise.csv`, `REPORT.md`.
+- **THE SPLIT (decision-ready):** RENAME half = **31,445** files (99% artist-first-legacy shape; exact-conform ~0, shape-conform 5) — **BLOCKED on #168**. METADATA-FIX half = **19,695** files **EXECUTABLE TODAY (#168-independent)**: missing fields (isrc 4,978 / year 3,009 / track_no 946 / disc_no 5,978) + tag↔DB disagreements. The nuclear pass can START on metadata without #168.
+- **NEW never-measured:** **13,427** files disagree embedded-tag vs DB (14,423 substantive [album 5,363/artist 4,787/title 3,786/isrc 487] vs 5,888 case/punct noise) — DIRECTION-NEUTRAL (DB may be the canonicalized-correct side; per-field win decided in the pass, not here).
+- **Collisions:** 291 groups / 599 files → same ADR-0012 target (dominated by case-only folder/title variants that clobber on the case-insensitive volume; 42 missing-track_no). Gate before any blind rename.
+- **Dupes/identity:** byte-dupes (identical sha) = 31 grp / 66 files = ONLY zero-risk collapse set. Same-recording clusters 1,272 — CONFIRMED 1,194 (**mostly LEGIT §11 memberships, NOT a dedupe worklist**) / HELD 78 (weak title+artist+dur or disagreeing-ISRC = the #167 fuzzy trap, NOT dedup-ready). Identity infra tables (recording_cluster/identity_duplicate_cohort/identity_evidence/scan_issues/file_quarantine/file_path_history/file_metadata_archive) all **0** → nuclear pass BUILDS identity from scratch (gap, not contradiction). fpcalc pass OFFERED, NOT run (~4min ro) to harden the 78 HELD — operator go/no-go.
+- **Physical:** on-disk∉v4 backlog **3,936** (whole-tree superset of #157's MIK-list 2,020); off-disk 1,027 (≈ membership off_disk 1,101).
+- **RANKED BLOCKING DECISIONS:** 1) #168 naming form (gates all renames) → 2) collision policy → 3) HELD-cluster fpcalc go/no-go → 4) #157 §11/§17-aware intake. **Nuclear pass = SEPARATE gated session** (COPY of lib + COPY of v4, dry→copy→verify→swap→path-sync, operator GO per batch, masters never rm'd blind); consumes `library_hygiene_canonical_plan.csv`. This census is TERMINAL — no further analysis proposed.
 
 ---
 
