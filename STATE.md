@@ -23,6 +23,12 @@ Last updated: **2026-07-10** by slut (ISRC classifier FIXED — 520 flat conflic
 
 ---
 
+## 🟡 2026-07-10 — OVERNIGHT: full-library acoustic fingerprint pass RUNNING (spine #180, READ-ONLY)
+`slut/tools/v4/fingerprint_masters.py` launched in background — Chromaprint (fpcalc -length 120) over all **30,507 present FLACs** → sidecar `slut_db/FRESH_2026/fingerprints_v1.db` (prior coverage 643). READ-ONLY on masters + real v4 (both untouched, sidecar only); resumable/idempotent (keyed track_file_id+sha); ~6.6 files/s → **~76 min ETA**. Progress log `slut/output/fingerprint_run.log`.
+- **WHY:** identity infra tables were all 0; this builds the fingerprint corpus that the held sets need to resolve — **70 isrc mistag_candidates (#178), 78 HELD recording-clusters + 132 disagreeing-ISRC (#167 fuzzy trap), 195 ambiguous dupeGuru (#166)**.
+- **NEXT (separate gated GO):** (a) merge fp → `v4.track_file.acoustic_fingerprint`, (b) cross-match to confirm/deny the held sets. hag may want the corpus for similarity.
+- **On resume:** check `sqlite3 fingerprints_v1.db "SELECT count(*) FROM acoustic_fp WHERE fingerprint IS NOT NULL"` — expect ~30,507; re-run the tool to finish any tail (idempotent).
+
 ## 🟢 2026-07-10 — ISRC classifier FIXED + re-staged (spine #178 re #177, READ-ONLY on v4)
 `slut/tools/v4/stage_metadata_correctness.py` ISRC branch reworked: classify AFTER split multi-value (`[;,/|]`) + upper/strip, against the **known-ISRC union = 25,292** (4 v4 stores: `track.isrc`, `track_alias` alias_type=isrc, `ref_bp_track.isrc`, `ref_spotify_track.isrc`). The old flat `isrc_conflict=520` was a bug (compared raw multi-valued strings).
 - **520 → `isrc_conflict` 70** (tag well-formed but unknown anywhere in v4 = REAL mistag_candidates, the operator's ONLY ISRC ruling set) / **`isrc_multi_superset` 369** (tag=`DB;OTHER` — extras are alt-release ISRCs → `track_alias(alias_type='isrc')`, AUTO-SAFE provenance) / **`isrc_multi_preserve_both` 46** (tag ISRC known elsewhere in v4 → alias, AUTO-SAFE) / **encoding_norm +33** (equal after upper/strip) / **`isrc_malformed` 2** (db wins). Conservation **520==520**. **415 auto-safe alias-ops** (superset+preserve_both).
