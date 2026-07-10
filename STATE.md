@@ -14,14 +14,20 @@ a session; use the log only for events the other side must act on.**
 Ready-to-run, resolve-from-the-record shaped prompts. Each is READ-ONLY / staged-on-copy, gated, masters never touched. Run in a Code session; boot the advisor first.
 - `~/Projects/tag/dupeguru_classify_prompt.md` — classify the dupeGuru scan (2,702 files/1,235 groups) into 4 buckets by v4 join; read-only, NO dedupe. (re #157; dupeguru_classified.csv already produced — see slut/output.)
 - ✅ **DONE (spine #176, 2026-07-10):** ~~`~/Projects/tag/metadata_correctness_stage_prompt.md`~~ — EXECUTED. `slut/tools/v4/stage_metadata_correctness.py` built+ran, staged 21,907 rows into `music_v4.metadata_wip.db` (8.5M diff-table; real v4 sha identical, idempotent). See 🟢 block below.
-- `~/Projects/tag/isrc_conflict_fix_prompt.md` — fix stage_metadata_correctness.py ISRC classifier (split multi-value + casefold before conflict test) & re-stage; 520 flagged -> ~70 real conflicts + 415 auto-safe alias-ops + 32 encoding_norm + 3 malformed. (re #177.)
+- ✅ **DONE (spine #178, 2026-07-10):** ~~`~/Projects/tag/isrc_conflict_fix_prompt.md`~~ — EXECUTED. ISRC classifier fixed (split multi-value + upper/strip before conflict test). 520 -> **70 real isrc_conflict** (operator ruling set) / 369 superset + 46 preserve_both = **415 auto-safe alias-ops** / 33 encoding_norm / 2 malformed. Conservation 520==520; real v4 sha identical. See 🟢 block below.
 - **SHELVED (do NOT build):** FLAC-tag garbage-scrub / `stage_metadata.py` — RULED OUT OF SCOPE (#175): v4-canonical demotes on-disk tags to a derived view; not worth master-write risk. Surgical per-key only if a reader is proven to break.
 
 ---
 
-Last updated: **2026-07-10** by slut (METADATA CORRECTNESS staging BUILT+RAN — 21,907 rows into WIP diff-table, safety-inverted the inherited noise labels, spine #176 re #175/#170 — see top 🟢 block; prior: LIBRARY HYGIENE CENSUS #170; MASTER audit 2,020 backlog #157; RADICAL COLLAPSE membership + Fork1 alias)
+Last updated: **2026-07-10** by slut (ISRC classifier FIXED — 520 flat conflicts → 70 real + 415 auto-safe alias-ops via multi-value split, spine #178 re #177; prior same session: METADATA CORRECTNESS staging BUILT+RAN spine #176 re #175/#170 — see top 🟢 blocks; prior: LIBRARY HYGIENE CENSUS #170; MASTER audit 2,020 backlog #157; RADICAL COLLAPSE membership + Fork1 alias)
 
 ---
+
+## 🟢 2026-07-10 — ISRC classifier FIXED + re-staged (spine #178 re #177, READ-ONLY on v4)
+`slut/tools/v4/stage_metadata_correctness.py` ISRC branch reworked: classify AFTER split multi-value (`[;,/|]`) + upper/strip, against the **known-ISRC union = 25,292** (4 v4 stores: `track.isrc`, `track_alias` alias_type=isrc, `ref_bp_track.isrc`, `ref_spotify_track.isrc`). The old flat `isrc_conflict=520` was a bug (compared raw multi-valued strings).
+- **520 → `isrc_conflict` 70** (tag well-formed but unknown anywhere in v4 = REAL mistag_candidates, the operator's ONLY ISRC ruling set) / **`isrc_multi_superset` 369** (tag=`DB;OTHER` — extras are alt-release ISRCs → `track_alias(alias_type='isrc')`, AUTO-SAFE provenance) / **`isrc_multi_preserve_both` 46** (tag ISRC known elsewhere in v4 → alias, AUTO-SAFE) / **encoding_norm +33** (equal after upper/strip) / **`isrc_malformed` 2** (db wins). Conservation **520==520**. **415 auto-safe alias-ops** (superset+preserve_both).
+- **ONE delta vs #177 triage (malformed 2 not 3):** `BE-Q75-09-00029` dash-strips to `BEQ750900029` = valid ISRC identical to DB → correctly `encoding_norm`. Classifier MORE correct than the estimate (investigated, not papered over).
+- Real v4 sha256 identical before==after [89e240ed], idempotent, NO FLAC, NO renames. Full superset + conflict sets in `metadata_correctness_STAGING.md`. Tool committed slut (dev). **APPLY = SEPARATE gated `--apply`:** 415 alias-extras appliable on GO; 70 conflicts only after operator rules each.
 
 ## 🟢 2026-07-10 — METADATA CORRECTNESS staging BUILT+RAN (spine #176 re #175/#170, READ-ONLY on v4)
 `slut/tools/v4/stage_metadata_correctness.py` — reads `library_hygiene_tag_disagreements.csv` (13,427 files) + `per_file.csv`; writes ONLY `slut_db/FRESH_2026/music_v4.metadata_wip.db` (**8.5M thin diff-table keyed by track_file_id, NOT a v4 clone** — collapse-don't-reconcile). Real v4 opened ro+immutable; **sha256 identical before==after [89e240ed], idempotent**. Garbage-scrub stays SHELVED (#175) — not built.
