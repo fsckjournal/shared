@@ -83,10 +83,13 @@ Different denominators — NOT reconciled to one number; both cited with their q
    copy, editing the upstream intent field so **downstream views regenerate** (never edit a view). **Dep:**
    none to start the contract; **operator drives the design.** Lane basis: §5 (v4 sole writer = slut) + §17.
 
-**Scope-creep flags (collapse, don't add layers):** MIK-waveform corruption scan (#191/#194) is a
-WEAK signal (4 net-new corrupt = 0 beyond #186's 64) — do NOT fold into v3-kill prereqs as new work;
-it's noise unless a specific master blocks the bridge. The 5,741 nightly "missing" false-alarm
-(#192/#193) is a verifier path-contract bug, not data loss — fix the verifier, don't chase files.
+**v3-kill prerequisite (CORRECTED — I first mis-filed this as scope-creep):** the MIK no_waveform
+*flag* is a weak corruption signal (#194: 0 net-new corrupt beyond #186's 64), BUT the *stub/corrupt-
+preferred-master finding* is **load-bearing and IS a blocker-(2) prerequisite**: the append-only bridge
+must not canonicalize new intake onto a track whose preferred master is a 15s stub / truncated file
+(the resolver would attach to garbage). Gate the bridge on the 64-row `corrupt_masters_REVIEW.csv` set.
+See v3_kill_prompt.md blocker (2). — The 5,741 nightly "missing" (#192/#193) IS a genuine scope-creep
+trap: verifier path-contract false-alarm, not data loss — fix the verifier, don't chase files.
 
 ---
 
