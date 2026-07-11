@@ -24,7 +24,7 @@ metrics — every KPI carries its live query as means-of-verification._
 | **Library integrity** | 64 masters redownload / fp 99.6% | integrity_v1.db + fingerprints_v1.db | corrupt = re-acquire only, NEVER delete | record |
 | **Record hygiene** | 29 open Q / 18 ⛔ / 5 locked this wk | handoff-tail --open; git log | stale-opens must be reconciled vs ledger | record |
 | **Land stranded fix** | 74c4a94b on dev? **N** | `git branch --contains 74c4a94b` = worktree only | verified fix marooned on isolated worktree | record |
-| **Membership console → slut-lane, Claude-Design rebuild** | writes §17 enum on wip copy? **N** (retire Swift app) | `membership-console/Sources/*.swift` (standalone, unversioned) | UI = operator lane (Claude Design); I land the data contract only | **capture** |
+| **Membership console → slut-lane, Claude-Design rebuild** | writes §17 enum on wip copy? **N** (retire Swift app) | relocated → `slut/apps/membership-console` (spine #195, 3aace6b8) | UI = operator lane (Claude Design); I land the data contract only | **capture** |
 
 ---
 
@@ -75,7 +75,7 @@ Different denominators — NOT reconciled to one number; both cited with their q
    can land anytime, independent of 2/3. **Needs operator GO.**
 
 7. **Membership console → slut-lane, rebuild in Claude Design** _(capture-sourced, this week)_.
-   Retire the standalone Swift app (`~/Projects/tag/membership-console`, unversioned, `SQLITE_OPEN_READWRITE`
+   Swift app relocated → `slut/apps/membership-console` (spine #195, 3aace6b8); to be retired once the rebuild lands (`SQLITE_OPEN_READWRITE`
    on a wip copy, writes mocked). **UI/UX = operator lane (Claude Design) — not mine to build.** My
    backbone deliverable = the **data contract** the redesign must honor: reads `track` + writes
    `track.membership` **enum `mix`/`listen`/`unclassified`** (§17, spine #134/#148 — NOT the app's stale
