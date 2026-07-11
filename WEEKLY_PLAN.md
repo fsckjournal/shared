@@ -2,7 +2,8 @@
 
 _Living current-week snapshot; overwritten each Monday, history in git. Grounded in the
 record consolidated by this run (rem sync → spine #194 / shared @036646c). Capture inbox
-EMPTY this run (header only) → planned from the record alone (the normal case). No invented
+file EMPTY this run (header only), but ONE live capture folded in from operator direction this session:
+membership-console → slut-lane, rebuild in Claude Design (obj. + milestone 7, source=capture). No invented
 metrics — every KPI carries its live query as means-of-verification._
 
 **HEADLINE: KILL V3.** v3 is **still live** — all 5 blockers uncleared (verified in code
@@ -23,6 +24,7 @@ metrics — every KPI carries its live query as means-of-verification._
 | **Library integrity** | 64 masters redownload / fp 99.6% | integrity_v1.db + fingerprints_v1.db | corrupt = re-acquire only, NEVER delete | record |
 | **Record hygiene** | 29 open Q / 18 ⛔ / 5 locked this wk | handoff-tail --open; git log | stale-opens must be reconciled vs ledger | record |
 | **Land stranded fix** | 74c4a94b on dev? **N** | `git branch --contains 74c4a94b` = worktree only | verified fix marooned on isolated worktree | record |
+| **Membership console → slut-lane, Claude-Design rebuild** | writes §17 enum on wip copy? **N** (retire Swift app) | `membership-console/Sources/*.swift` (standalone, unversioned) | UI = operator lane (Claude Design); I land the data contract only | **capture** |
 
 ---
 
@@ -71,6 +73,15 @@ Different denominators — NOT reconciled to one number; both cited with their q
    head-fp for acoustic-twin sweep first; 13 hard-redownload). **Operator manual, NEVER delete.**
 6. **v3-kill (4) — neutralize `validate_v3_dual_write_parity.py`** (+3 wt copies). Mechanical;
    can land anytime, independent of 2/3. **Needs operator GO.**
+
+7. **Membership console → slut-lane, rebuild in Claude Design** _(capture-sourced, this week)_.
+   Retire the standalone Swift app (`~/Projects/tag/membership-console`, unversioned, `SQLITE_OPEN_READWRITE`
+   on a wip copy, writes mocked). **UI/UX = operator lane (Claude Design) — not mine to build.** My
+   backbone deliverable = the **data contract** the redesign must honor: reads `track` + writes
+   `track.membership` **enum `mix`/`listen`/`unclassified`** (§17, spine #134/#148 — NOT the app's stale
+   `pool`/`iceberg` + `membership(scope,scope_key,class)` shape), always on a gated `music_v4.membership_wip.db`
+   copy, editing the upstream intent field so **downstream views regenerate** (never edit a view). **Dep:**
+   none to start the contract; **operator drives the design.** Lane basis: §5 (v4 sole writer = slut) + §17.
 
 **Scope-creep flags (collapse, don't add layers):** MIK-waveform corruption scan (#191/#194) is a
 WEAK signal (4 net-new corrupt = 0 beyond #186's 64) — do NOT fold into v3-kill prereqs as new work;
