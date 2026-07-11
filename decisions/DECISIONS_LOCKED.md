@@ -103,7 +103,9 @@ stubs, not content. Edit **only this file**.
     intake instead of aborting. Only a **missing or corrupt** batch is a real download failure. The 
     manual recovery for an already-staged album remains `ts-stage '<staged dir>' --source qobuz --execute` 
     (registers → integrity → promote → verify off the on-disk files, no re-download).
-15. **v4 is write-frozen but LOAD-BEARING for the identity seam; live intake stays v3-native. The resolver + append-only
+15. **⛔ SUPERSEDED 2026-07-11 (operator-advisor ruling, spine #189/#190 re#113/#146): v4 is the SOLE canonical store, NOT inert.** The "v4 INERT / out-of-runtime-path / brain-bridges-to-v3" stance below is HISTORY, kept for provenance only — do NOT boot from it as current. Current truth: `music_v4.db` is canonical (membership #148, provider refs #158/#159/#187 written to real v4); no bridge/sync/parity/dual-write to v3. v3-kill gated only on: (2) intake off v3 [still v3-native, `intake.py:2522/2532`], (3) brain re-key off `crosswalk_v3v4_identity`, (4) neutralize `validate_v3_dual_write_parity.py`, (5) view regen + copy→verify→delete. Governed by `slut/docs/decisions/RADICAL_COLLAPSE_one_db_one_membership.md`. — *Original entry (superseded) follows:*
+
+    **v4 is write-frozen but LOAD-BEARING for the identity seam; live intake stays v3-native. The resolver + append-only
     bridge are PARKED; the only near-term v4 work is reproducibility (Q5).** *(Added 2026-07-04,
     operator-decided; amended 2026-07-05).* New download output does **not** need to appear in `music_v4.db` near-term. 
     Intake keeps writing the v3 layer (`track_identity`/`asset_file` → `music_v3.db` via the row-presence redirect). 
