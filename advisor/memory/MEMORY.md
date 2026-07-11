@@ -9,3 +9,4 @@
 - [Provider matching method](project_provider-matching-method.md) — Lexicon export bridge + duration-as-tie-breaker (mix-field disambiguation) to link owned masters to Beatport/Spotify IDs; ran 2026-07-10 (spine #158)
 - [Beatport API gotchas](reference_beatport-api-gotchas.md) — catalog_list_tracks({isrc}) works w/ search bearer + keeps numeric IDs; catalog_get_track 403s→session-dead, never loop it
 - [Operator rulings are not a lane](feedback_operator-rulings-not-a-lane.md) — cross-collapse operator decisions are general/shared scope, not slut/hag; handoff-append lacks an operator --from (tooling trap, spine #163)
+- [Don't be optimistic; prove identity](feedback_dont-be-optimistic-prove-identity.md) — Georges flags optimistic framing; a tool's grouping (dupeGuru/fuzzy/quality) is a FLAG not identity; require ISRC/fingerprint before treating as same; lead with the risk surface
