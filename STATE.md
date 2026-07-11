@@ -23,11 +23,11 @@ Last updated: **2026-07-10** by slut (ISRC classifier FIXED — 520 flat conflic
 
 ---
 
-## 🟡 2026-07-10 — OVERNIGHT: full-library acoustic fingerprint pass RUNNING (spine #180, READ-ONLY)
-`slut/tools/v4/fingerprint_masters.py` launched in background — Chromaprint (fpcalc -length 120) over all **30,507 present FLACs** → sidecar `slut_db/FRESH_2026/fingerprints_v1.db` (prior coverage 643). READ-ONLY on masters + real v4 (both untouched, sidecar only); resumable/idempotent (keyed track_file_id+sha); ~6.6 files/s → **~76 min ETA**. Progress log `slut/output/fingerprint_run.log`.
-- **WHY:** identity infra tables were all 0; this builds the fingerprint corpus that the held sets need to resolve — **70 isrc mistag_candidates (#178), 78 HELD recording-clusters + 132 disagreeing-ISRC (#167 fuzzy trap), 195 ambiguous dupeGuru (#166)**.
-- **NEXT (separate gated GO):** (a) merge fp → `v4.track_file.acoustic_fingerprint`, (b) cross-match to confirm/deny the held sets. hag may want the corpus for similarity.
-- **On resume:** check `sqlite3 fingerprints_v1.db "SELECT count(*) FROM acoustic_fp WHERE fingerprint IS NOT NULL"` — expect ~30,507; re-run the tool to finish any tail (idempotent).
+## 🟢 2026-07-10 — OVERNIGHT: full-library acoustic fingerprint pass COMPLETE (spine #180→#182, READ-ONLY)
+`slut/tools/v4/fingerprint_masters.py` ran 73.8min → **30,384/30,507 fingerprinted = 99.6%** into sidecar `fingerprints_v1.db` (was 643). Real v4 + all FLACs untouched. Progress log `slut/output/fingerprint_run.log`.
+- **123 non-fp, verified + exported:** **13 CORRUPT masters** (fpcalc decode-error, CONFIRMED by `flac -t` on all 13 = END_OF_STREAM/ABORTED, truncated files; Supertramp/Peaches/David August/2×Crazy P/Metronomy/etc.) → `slut/output/corrupt_masters_REVIEW.csv` = **RE-DOWNLOAD candidates, NEVER delete**. **110 file_not_found** (present=1 in v4 but absent on both mounts = present-flag/path drift, not corruption) → `slut/output/fingerprint_notfound.csv`.
+- **WHY it was run:** identity infra tables all 0; corpus unblocks **70 isrc mistag_candidates (#178), 78 HELD recording-clusters + 132 disagreeing-ISRC (#167), 195 ambiguous dupeGuru (#166)**.
+- **NEXT (separate gated GO):** (a) merge 30,384 fp → `v4.track_file.acoustic_fingerprint`; (b) cross-match to auto-resolve the held sets (shrinks the operator's 70-row manual review); hag may want the corpus for similarity.
 
 ## 🟢 2026-07-10 — ISRC classifier FIXED + re-staged (spine #178 re #177, READ-ONLY on v4)
 `slut/tools/v4/stage_metadata_correctness.py` ISRC branch reworked: classify AFTER split multi-value (`[;,/|]`) + upper/strip, against the **known-ISRC union = 25,292** (4 v4 stores: `track.isrc`, `track_alias` alias_type=isrc, `ref_bp_track.isrc`, `ref_spotify_track.isrc`). The old flat `isrc_conflict=520` was a bug (compared raw multi-valued strings).
