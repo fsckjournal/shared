@@ -30,6 +30,12 @@ Last updated: **2026-07-10** by slut (ISRC classifier FIXED — 520 flat conflic
 - **WHY it was run:** identity infra tables all 0; corpus unblocks **70 isrc mistag_candidates (#178), 78 HELD recording-clusters + 132 disagreeing-ISRC (#167), 195 ambiguous dupeGuru (#166)**.
 - **NEXT (separate gated GO):** (a) merge 30,384 fp → `v4.track_file.acoustic_fingerprint`; hag may want the corpus for similarity.
 
+## 🟢 2026-07-11 — WHOLE-LIBRARY INTEGRITY SCAN COMPLETE (spine #186 re #183, READ-ONLY)
+`slut/tools/v4/integrity_scan.py` full-decoded (`flac -ts`, 3× retry to reject transient /Volumes I/O) all **30,507 present FLACs** in 27.7min → sidecar `integrity_v1.db`. Real v4 + all FLACs untouched.
+- **Histogram:** 21,290 clean · **9,043 intact-but-NO_MD5** (no stored hash — informational, *not* damage) · **44 CORRUPT** (25 ABORTED + 19 END_OF_STREAM, all fail 3/3 = genuine) · **20 TRUNCATED?** (>5%&>3s duration vs v4, decode clean) · 110 not_found.
+- **SUPERSEDES the fingerprint pass's "13 CORRUPT"** (that was a 120s head-decode; full-file decode finds the tail damage → 44). `output/corrupt_masters_REVIEW.csv` now = **64 rows** (44 corrupt + 20 truncated).
+- **Twin-check: 0/64 have an intact same-`track_id` sibling** → all **REDOWNLOAD**, none restorable-from-twin. **51/64 retain an intact head-fingerprint** (tail damage) = acoustic-twin sweep *possible* before re-download; 13 hard-redownload. **NO total losses** (min 9MB). NEVER delete — re-acquire only.
+
 ## 🟢 2026-07-10 — ACOUSTIC CROSS-MATCH of 78 HELD clusters COMPLETE (spine #183, READ-ONLY)
 `slut/tools/v4/acoustic_crossmatch.py` — best-offset Chromaprint bit-agreement over the 78 HELD recording-clusters (#167 fuzzy trap), calibrated vs `confirmed` clusters (median 1.000). READ-ONLY, nothing applied. Worksheet `slut/output/acoustic_crossmatch_HELD.csv`.
 - **78 HELD → 72 decisively resolved:** **65 acoustic_same / 7 acoustic_different / 1 ambiguous / 5 uncomputable.** By signal: all **22 weak_title_artist_dur = SAME**; **56 isrc_disagree = 43 SAME** (multi-ISRC-same-recording → extra ISRC is provenance, alias like the 415 auto-safe) **/ 7 genuinely DIFFERENT** (agree 0.50–0.64 ≈ random → disagreeing ISRC was a TRUE content signal = **DO-NOT-MERGE**) / 1 ambiguous (0.716) / 5 uncomputable (corrupt/missing member).
