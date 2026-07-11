@@ -19,18 +19,19 @@ Operator-advisor ruling closed the §15↔collapse contradiction (#113/#146). `m
 
 #168 naming: CLOSED (spine #188) — template DECIDED (ADR-0012 track-number-first); only the rename ACTION was deferred, now unblocked post-audit + collision-policy rule.
 
-## 📋 OPEN CODE-SESSION PROMPTS (armed, awaiting a Code session — paths on the operator's machine)
-Ready-to-run, resolve-from-the-record shaped prompts. Each is READ-ONLY / staged-on-copy, gated, masters never touched. Run in a Code session; boot the advisor first.
-- 🆕 **ARMED 2026-07-11 (weekly-plan session):**
-  - ⭐ `~/Projects/tag/v3_kill_prompt.md` — **HEADLINE: kill v3.** 5-blocker sequence, gated; recommended order = neutralize parity (#4, clean win) → v4-reproducibility Q5 → append-only bridge (#2). NEVER declare v3 dead until (2)∧(3) provably off v3 in code.
-  - `~/Projects/tag/land_stranded_fix_prompt.md` — cherry-pick verified fix `74c4a94b` (title-aware batch-root) from `worktree-listen-flag-v4-bridge` → dev; gu_nubreed8 masters remediation left gated for operator GO.
-  - `slut/apps/membership-console/docs/` — the membership-console rebuild pack (committed with the app, spine #195): `membership_console_brief.md` (the "what/why" for Claude Design), `membership_console_design_prompt.md` (UI build spec + API shape), `membership_console_contract_prompt.md` (slut-lane data contract — write `track.membership` enum mix/listen/unclassified on a wip copy; retire the Swift app; fix pre-#134 pool/iceberg vocab). UI/art = operator lane (Claude Design); apply-here backbone = slut lane.
-  - `~/Projects/tag/capture_track_shortcut_prompt.md` — sign+validate `hag/Capture Track.xml` via shortcuts-playground → installable `.shortcut`; honor the getstoredcontent-not-DataJar advice; validate `getnowplaying` + token offsets first.
-- ⭐ **NEXT (2026-07-11):** `~/Projects/tag/library_hygiene_audit_prompt.md` — THOROUGH read-only whole-library metadata + naming hygiene audit (the census the operator has wanted for months; it ARMS the whole-library "nuclear" canonicalization, is explicitly NOT another distraction). Builds `slut/tools/v4/library_hygiene_audit.py` (resumable/cached), 5 dimensions over all 31,445 tracks: (A) naming shape + ADR-0012 dry canonical-target + collision detection; (B) 3-way tag↔DB↔filename truth split (metaflac) + completeness + noise + ISRC sanity; (C) library-wide same-recording clusters from v4's own signals (reuse `recording_cluster`/`identity_duplicate_cohort`); (D) disk↔v4 physical reconcile (#157); (E) membership §17. Deliverable = `library_hygiene_canonical_plan.csv` (pre-computed executable plan) + REPORT sizing the nuclear pass + ranked blocking decisions. Routes around **#168** (naming-form: template DECIDED ADR-0012, CLOSED spine #188; rename ACTION unblocked post-audit + collision-policy rule) via `blocked_by` col. Canonicalization itself = SEPARATE gated copy→verify→swap session, never in this audit.
-- `~/Projects/tag/dupeguru_classify_prompt.md` — classify the dupeGuru scan (2,702 files/1,235 groups) into 4 buckets by v4 join; read-only, NO dedupe. (re #157; dupeguru_classified.csv already produced — see slut/output.)
-- ✅ **DONE (spine #176, 2026-07-10):** ~~`~/Projects/tag/metadata_correctness_stage_prompt.md`~~ — EXECUTED. `slut/tools/v4/stage_metadata_correctness.py` built+ran, staged 21,907 rows into `music_v4.metadata_wip.db` (8.5M diff-table; real v4 sha identical, idempotent). See 🟢 block below.
-- ✅ **DONE (spine #178, 2026-07-10):** ~~`~/Projects/tag/isrc_conflict_fix_prompt.md`~~ — EXECUTED. ISRC classifier fixed (split multi-value + upper/strip before conflict test). 520 -> **70 real isrc_conflict** (operator ruling set) / 369 superset + 46 preserve_both = **415 auto-safe alias-ops** / 33 encoding_norm / 2 malformed. Conservation 520==520; real v4 sha identical. See 🟢 block below.
-- **SHELVED (do NOT build):** FLAC-tag garbage-scrub / `stage_metadata.py` — RULED OUT OF SCOPE (#175): v4-canonical demotes on-disk tags to a derived view; not worth master-write risk. Surgical per-key only if a reader is proven to break.
+## 📋 OPEN CODE-SESSION PROMPTS → see the runlist: `~/Projects/tag/prompts/INDEX.md`
+All armed prompts now live in ONE numbered folder — `~/Projects/tag/prompts/` — with
+`INDEX.md` as the single source of truth. STATE no longer keeps its own copy (that
+divergence is how the old broken `library_hygiene_audit_prompt` pointer got born).
+Each prompt is READ-ONLY / staged-on-copy, gated, masters never touched; boot the advisor first.
+
+Numbers = suggested do-order (easiest → headline), NOT a dependency chain:
+- **1** `prompts/1-land-stranded-fix.md` — land verified `ts-get` fix `74c4a94b` → dev (quick; GO).
+- **2** `prompts/2-capture-track-shortcut.md` — sign+validate `hag/Capture Track.xml` → `.shortcut` (quick).
+- **3** `prompts/3-dupeguru-classify.md` — classify the dupeGuru scan into 4 buckets by v4 join (read-only, no dedupe).
+- **4** ★ HEADLINE `prompts/4-v3-kill.md` — kill v3, the 5-blocker campaign (multi-session, gated, GO). NEVER declare v3 dead until (2)∧(3) provably off v3 in code.
+- ⏸ Parked: `prompts/parked/hag-measured-key-fork.md` (hag-lane, GO); membership-console pack at `slut/apps/membership-console/docs/` (operator's Claude-Design lane, spine #195).
+- ✅ Done: `prompts/done/` — **library-metadata-audit EXECUTED Jul 11 00:30** (output = the 4 ranked operator decisions; nuclear pass is a separate gated session, NOT a re-run); metadata-correctness-stage #176; isrc-conflict-fix #178. Shelved: `prompts/shelved/metadata-scrub-stage.md` (garbage-scrub OUT OF SCOPE #175).
 
 ---
 

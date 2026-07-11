@@ -59,14 +59,21 @@ Different denominators — NOT reconciled to one number; both cited with their q
 
 ## 3. This week's milestones + dependencies (ordered, gated)
 
+> **The armed Code-session prompts are numbered in `~/Projects/tag/prompts/INDEX.md`** (1=land-fix,
+> 2=capture-shortcut, 3=dupeguru, 4=v3-kill★headline). Numbers = do-order, not a chain. The
+> milestones below include those plus the operator-manual items (provider gap, corrupt masters).
+
 1. **Land stranded `ts-get` fix `74c4a94b`** (title-aware batch-root selection, verified) from
    `worktree-listen-flag-v4-bridge` → **dev**. Operator was mid-`merge with dev` (interrupted,
    plan mode). **Dep:** none. **Needs operator GO** (merge vs cherry-pick). _Low-risk, do first._
 2. **v3-kill (2) — append-only content_sha256 bridge** so intake writes v4. **Dep:** v4
    reproducibility (spec §6 Q5) FIRST; then identity_resolver.py sha-first. **Needs operator GO**
    (this is the headline path; multi-phase). Plan: `~/.claude/plans/shimmering-mixing-stonebraker.md`.
-3. **⭐ Run `library_hygiene_audit_prompt.md`** (armed, read-only, whole-library census; arms the
-   nuclear canonicalization). **Dep:** none — read-only, no gate to RUN. Output = decision surface.
+3. **⭐ Library census — DONE (ran Jul 11 00:30, `prompts/done/library-metadata-audit.md`).** Output in
+   `slut/output/library_hygiene_*` (REPORT + `canonical_plan.csv`). **This week's move is NOT re-running it —
+   it's the 4 ranked operator decisions it surfaced:** #168 naming form → collision policy → HELD-cluster
+   fpcalc go/no-go → #157 backlog. Nuclear canonicalization pass = SEPARATE gated session that consumes
+   the plan. **Needs operator rulings on the 4.**
 4. **Provider gap → 0:** hand operator M3U of still-unmatched `mix` masters
    (`slut/output/still_unmatched_{beatport,spotify}.m3u8`) → his Lexicon export loop. **Operator manual.**
 5. **Corrupt masters (64):** operator re-acquire from `corrupt_masters_REVIEW.csv` (51 have intact
@@ -88,7 +95,7 @@ Different denominators — NOT reconciled to one number; both cited with their q
 preferred-master finding* is **load-bearing and IS a blocker-(2) prerequisite**: the append-only bridge
 must not canonicalize new intake onto a track whose preferred master is a 15s stub / truncated file
 (the resolver would attach to garbage). Gate the bridge on the 64-row `corrupt_masters_REVIEW.csv` set.
-See v3_kill_prompt.md blocker (2). — The 5,741 nightly "missing" (#192/#193) IS a genuine scope-creep
+See `prompts/4-v3-kill.md` blocker (2). — The 5,741 nightly "missing" (#192/#193) IS a genuine scope-creep
 trap: verifier path-contract false-alarm, not data loss — fix the verifier, don't chase files.
 
 ---
