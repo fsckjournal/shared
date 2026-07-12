@@ -7,3 +7,8 @@
 .DS_Store
 _secret*/
 .aider*
+
+# personal — advisor brain is a local mirror of ~/.claude/agent-memory/advisor; never publish
+advisor/
+# session / command transcript dumps (may contain personal conversation)
+*command-message*.txt
