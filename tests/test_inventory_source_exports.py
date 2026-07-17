@@ -8,10 +8,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "tools"))
 
-from inventory_source_exports import scan, write_outputs
+from inventory_source_exports import scan, should_prune, write_outputs
 
 
 class SourceInventoryTests(unittest.TestCase):
+    def test_prunes_internal_roon_backup_tree(self):
+        self.assertTrue(should_prune(Path("RoonBackups")))
+
     def test_classifies_provider_and_software_exports(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

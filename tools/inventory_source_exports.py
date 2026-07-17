@@ -52,6 +52,7 @@ PRUNE_DIR_NAMES = {
     ".cache", "cache", "caches", "temporaryitems", ".trash", "deriveddata",
     "build", "dist", "target", "pods", "cachedata", "cachestorage",
     "service worker", "code cache", "gpucache", "indexeddb", "blob_storage",
+    "roonbackups",
 }
 
 SOURCE_RULES = {
