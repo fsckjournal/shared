@@ -264,3 +264,52 @@ excluded population; spine #41.)
 - **ReccoBeats:** no evidence it ever ran (no rows/tables in v3 or v4; only an intake default).
 - **v4 `ref_*` layer LEGITIMIZED** (#54 → #57 CLOSED, 2026-07-04): migration 0019 applied;
   nature gate unblocked on `ref_bp_track` for N4 signal.
+
+## 2026-07-17 — ISRC recovery, whole-disk integrity, spine repair (spine #285–#292)
+
+- **OPERATOR RULING (#285, general scope — `from=slut` is the `handoff-append` tooling gap, see
+  #286/#163):** *"counting on ISRC or metadata for identity especially for old acquisition is not
+  wise — that's the randomly picard-tagged era."* **Identity/damage verdicts must come from
+  content (decode / STREAMINFO / fingerprint), never tags alone.** Evidence: v4.isrc vs
+  `ref_spotify_track.duration_ms` over 23,313 masters → 87.5% agree ≤5s, but the 12.5% that
+  disagree **conflate wrong-tags with real damage and no metadata method can separate them**.
+  Nuance: ISRC is not *always* wrong — it just can't tell you *when* it is.
+- **WHOLE-DISK INTEGRITY = 34,721 FLACs, 100% covered, decode-based (#288).**
+  `integrity_v1.db` (ran 2026-07-11) is **AUTHORITATIVE and already existed** — check it before
+  deriving any damage/duration claim. **NEW GAP FOUND+CLOSED:** the scan walks
+  `track_file WHERE present=1` = **the DB, not the disk**, so **4,324 FLACs had never been
+  checked** (the v4 ingestion backlog). New sidecar `integrity_backlog_v1.db` → 11 bad.
+  **TOTAL: 75 damaged (46 CORRUPT + 29 TRUNCATED) = 0.22%; 58+ are `mix`.**
+  Backlog damage rate 0.25% ≈ scanned 0.21% → **backlog is NOT a hotspot** (hypothesis disproven).
+  `9,043 NO_MD5` decode fine but carry no checksum → **bit-rot there is undetectable**.
+- **RETRACTED (#289):** the "682 truncated / 325 severe" claim and
+  `TRUNCATED_masters_20260717.csv` — tag-derived, conflated damage + Picard mis-tags + previews.
+  **Survives (tag-independent):** ~63 files at **exactly 30.0s** (spike of 59 vs 2–4/sec baseline,
+  hi-res bitrate) = **store preview clips as archive_masters** — valid files, re-acquire not repair.
+- **ACOUSTID = DEAD END for the electronic/no-ISRC tail — do not retry (#287):** 0/60; 63% of audio
+  recognised ≥0.99 but **zero MB recording links** → no MBID → no ISRC. Repo keys
+  `RTtjLWyPHA`/`2rf3oP7XMV` are **user** keys and are rejected; lookup needs an **application** key.
+  Also: **truncated/short files cannot be fingerprint-identified at all** (a 4s fingerprint is not a
+  prefix-match to a 346s recording) — audio identity structurally fails on that population.
+- **LISTENBRAINZ → MB → ISRC works (#287):** 68% MB yield. **v1 normalizer stripped parentheticals
+  → 39% wrong recordings** (remix↔original). **v2** (version-aware key + gate on MB `length` vs the
+  **file** duration) → **447 confirmed ISRCs**, median delta 0.68s. Use `lb_mb_isrc_v2.db`.
+  The win was the **length gate**, not the key.
+- **SOUNDIIZ GOAL: 2,311 unmatched excl iceberg.** Read **Soundiiz's own `*Missing*.csv`** — do not
+  reconstruct the match with fuzzy joins. ~880 addressable now (435 bare + 447 recovered);
+  the remaining ~1,400 need the **Roon Path+ISRC export (never delivered)**.
+- **ERA IS NOT RECOVERABLE FROM ANY DB (#289):** v4 `track.created_at` *and* archived v3
+  `files.download_date` are both **all-2026 DB-build artifacts**. `/Volumes/BACKUP/SAD` archived DBs
+  carry full duration-verification + recovery schemas but they are **VESTIGIAL**
+  (`duration_status` 51 `ok` vs 28,783 NULL; `recovery_status` 100% NULL) — **inherit nothing**.
+- **ROON (#290):** exactly **one** backup exists — `/Volumes/ATTIC/RoonBackups` (156G, 15 snapshots,
+  Jun 4→Jul 16, `ROON BACKUP ROOT v2`, no truncation). `/Volumes/bad` has **zero** Roon data
+  (~484 GiB free). Restore = point Roon at the **root**, not a snapshot. **RISK: the only backup is a
+  single copy on the known-flaky disk11/ATTIC.**
+- **SPINE INTEGRITY REPAIR #2 (#292):** line 115 held **#112 glued to #113** — unreadable since
+  2026-07-09 (in git HEAD). The glued note *was* #112 "SPINE INTEGRITY REPAIR", which prescribed
+  *"bake leading-`\n` into the append helper"* — **the fix was never applied because the note that
+  prescribed it became invisible**. `handoff-append:173` still writes a trailing `\n` only.
+  Repaired (backup + split at `}{`, 0 content changed; 297 lines, 0 parse failures).
+  **KNOWN-DUP IDS CORRECTED: `{41, 105, 106, 112, 113}`** (#112 recorded only `{41,105}`) — any
+  id-keyed tool must treat these as **non-unique**.
