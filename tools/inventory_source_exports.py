@@ -42,10 +42,16 @@ MEDIA_EXTENSIONS = {
     ".so", ".bin", ".app", ".exe", ".plist", ".pyc",
 }
 
+CODE_EXTENSIONS = {
+    ".py", ".pyc", ".js", ".jsx", ".ts", ".tsx", ".css", ".scss", ".html",
+    ".md", ".rst", ".sh", ".swift", ".m", ".mm", ".sql",
+}
+
 PRUNE_DIR_NAMES = {
     ".git", ".hg", ".svn", ".venv", "venv", "node_modules", "__pycache__",
     ".cache", "cache", "caches", "temporaryitems", ".trash", "deriveddata",
-    "build", "dist", "target", "pods",
+    "build", "dist", "target", "pods", "cachedata", "cachestorage",
+    "service worker", "code cache", "gpucache", "indexeddb", "blob_storage",
 }
 
 SOURCE_RULES = {
@@ -363,7 +369,7 @@ def should_record(path: Path) -> bool:
     extension = path.suffix.casefold()
     if extension in DATA_EXTENSIONS:
         return True
-    if extension in MEDIA_EXTENSIONS:
+    if extension in MEDIA_EXTENSIONS or extension in CODE_EXTENSIONS:
         return False
     path_norm = normalize(str(path))
     return any(normalize(marker) in path_norm for markers in SOURCE_RULES.values() for marker in markers)
@@ -398,13 +404,22 @@ def iter_candidate_files(roots: Iterable[Path]) -> tuple[Iterable[Path], list[st
     return generator(), errors
 
 
-def scan(roots: Iterable[Path], hash_mode: str, full_hash_limit: int, inspect_databases: bool, max_files: int | None) -> tuple[list[dict[str, Any]], list[str]]:
+def scan(
+    roots: Iterable[Path],
+    hash_mode: str,
+    full_hash_limit: int,
+    inspect_databases: bool,
+    max_files: int | None,
+    progress_every: int = 0,
+) -> tuple[list[dict[str, Any]], list[str]]:
     candidates, errors = iter_candidate_files(roots)
     rows: list[dict[str, Any]] = []
     for path in candidates:
         if max_files is not None and len(rows) >= max_files:
             break
         rows.append(record_file(path, hash_mode, full_hash_limit, inspect_databases))
+        if progress_every and len(rows) % progress_every == 0:
+            print(f"indexed {len(rows)} candidates...", file=sys.stderr, flush=True)
     return rows, errors
 
 
@@ -483,17 +498,18 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Inventory provider/software exports without modifying source files.")
     parser.add_argument("--root", action="append", type=Path, help="Root to scan; repeatable. Defaults to home and /Volumes.")
     parser.add_argument("--out-dir", type=Path, required=True, help="Directory for REPORT.md, files.csv, files.jsonl, and scan_errors.log.")
-    parser.add_argument("--hash-mode", choices=("none", "small", "all"), default="small", help="Hash candidates: none, files up to the limit, or all. Default: small.")
+    parser.add_argument("--hash-mode", choices=("none", "small", "all"), default="none", help="Hash candidates: none, files up to the limit, or all. Default: none; hash after triage.")
     parser.add_argument("--full-hash-limit", type=int, default=256 * 1024 * 1024, help="Maximum size in bytes for --hash-mode small. Default: 256 MiB.")
     parser.add_argument("--inspect-sqlite", action="store_true", help="Read SQLite schemas with mode=ro. Never writes; omit for a faster signature-only scan.")
     parser.add_argument("--max-files", type=int, help="Stop after this many candidates; useful for a smoke test.")
+    parser.add_argument("--progress-every", type=int, default=1000, help="Print progress every N candidates; 0 disables it. Default: 1000.")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     roots = args.root or default_roots()
-    rows, errors = scan(roots, args.hash_mode, args.full_hash_limit, args.inspect_sqlite, args.max_files)
+    rows, errors = scan(roots, args.hash_mode, args.full_hash_limit, args.inspect_sqlite, args.max_files, args.progress_every)
     write_outputs(args.out_dir, rows, errors, roots)
     print(f"indexed {len(rows)} candidate files")
     print(f"wrote {args.out_dir / 'REPORT.md'}")
