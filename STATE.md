@@ -267,6 +267,14 @@ excluded population; spine #41.)
 
 ## 2026-07-17 — ISRC recovery, whole-disk integrity, spine repair (spine #285–#292)
 
+- **READ-ONLY CATALOG-UNION RECONCILIATION:** `slut/tools/v4/reconcile_catalog_union.py` joins
+  `/Users/g/Downloads/soundiiz/CATALOG_enriched_union.csv` to current v4 by resolved
+  `track_file.path` under `/Volumes/MUSIC/MASTER_LIBRARY`; it writes no v4 or master data.
+  Live receipt: 32,040 preferred archive masters, 25,841 v4 ISRCs, 31,884 union rows, 25,685
+  union ISRCs, all 31,884 paths exact, and 156 current-v4 ISRC gaps. Outputs:
+  `/Users/g/Desktop/tagslut-source-inventory-2026-07-17/current-v4-reconcile/`.
+  Provider manifest remains review-only: 28,325 eligible rows and 3,559 conflict rows; no apply ran.
+
 - **OPERATOR RULING (#285, general scope — `from=slut` is the `handoff-append` tooling gap, see
   #286/#163):** *"counting on ISRC or metadata for identity especially for old acquisition is not
   wise — that's the randomly picard-tagged era."* **Identity/damage verdicts must come from
