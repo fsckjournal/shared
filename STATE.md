@@ -12,6 +12,15 @@ a session; use the log only for events the other side must act on.**
 
 ## 2026-07-21 — Tagslut legacy-restore enrichment state
 
+- **#305 repaired and registered in canonical v4:** `slut@dev` `86d1ded0` adds the
+  explicit `admin intake stage-v4 --register-existing --execute` route for a release
+  already present in its exact declared `MASTER_LIBRARY` folder. It is DB-only — no
+  copy/move/rename/retag/replace is possible — and fails if the supplied root is not that
+  exact destination. Applied after preview and a SQLite backup to the four receipt-backed
+  SpotiFLACnext releases: 8 v4 tracks, 8 `track_file` paths, 8 ordered occurrences;
+  `foreign_key_check` 0, integrity `ok`, all eight FLAC decoders pass (their STREAMINFO
+  MD5 values are unset). Snapshot: `music_v4.db.pre_spotiflacnext_register_20260721T072229Z.sqlite`.
+
 - Tagslut `dev` commits `587730b0`, `fac99d23`, and `eabd74d0` make standalone
   enrichment resumable/identity-guarded, keep Beatport detail `403` from killing
   search, make `tokens.json` the complete-pair-first Spotify credential source,
