@@ -431,8 +431,13 @@ class Auditor:
     def self_trust(self) -> dict[str, Any]:
         path = Path(__file__).resolve()
         working = sha256_file(path)
-        code, blob = run_capture(["git", "show", "HEAD:bin/audit_ledger.py"], cwd=ROOT)
-        committed = sha256_bytes(blob.encode()) if code == 0 else None
+        try:
+            result = subprocess.run(["git", "show", "HEAD:bin/audit_ledger.py"], cwd=ROOT,
+                                    stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+                                    timeout=30, check=False)
+            committed = sha256_bytes(result.stdout) if result.returncode == 0 else None
+        except (OSError, subprocess.TimeoutExpired):
+            committed = None
         status = "PASS" if committed == working else "WARN"
         self.add("SELF-001", status,
                  "Auditor matches committed Git blob" if status == "PASS" else "Auditor is uncommitted or differs from committed Git blob",
