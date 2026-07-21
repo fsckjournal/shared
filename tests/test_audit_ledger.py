@@ -183,6 +183,33 @@ class AuditorTests(unittest.TestCase):
         self.assertEqual(command[:2], ["/usr/bin/osascript", "-e"])
         self.assertIn("exit 1", command[2])
 
+    def test_rem_privacy_rejects_default_private_indexing(self):
+        rem_root = self.root / "rem"
+        (rem_root / "normalized").mkdir(parents=True)
+        (rem_root / "config").mkdir()
+        (rem_root / "bin").mkdir()
+        (rem_root / "private").mkdir()
+        (rem_root / ".git").mkdir()
+        cold_store = self.root / "retired"
+        cold_store.mkdir()
+        (rem_root / "config/sensitivity.json").write_text(json.dumps({
+            "schema_version": 1,
+            "surface_defaults": {"chatgpt": "private", "codex": "indexed"},
+        }))
+        (rem_root / "bin/sensitivity_filter.py").write_text(
+            "def tier1_categories(title, text):\n    return []\n"
+        )
+        (rem_root / "normalized/records.jsonl").write_text(json.dumps({
+            "id": "abc", "surface": "chatgpt", "visibility": "indexed",
+            "sensitivity_categories": [], "title": "work", "text": "work",
+        }) + "\n")
+        runner = audit.Auditor(args(self.root / "reports"))
+        with mock.patch.object(audit, "run_capture", return_value=(0, "")):
+            runner.check_rem_privacy(rem_root, cold_store=cold_store)
+        finding = next(f for f in runner.findings if f.check_id == "REM-PRIV-001")
+        self.assertEqual(finding.status, "FAIL")
+        self.assertEqual(finding.evidence["failures"]["default_private_surface_indexed"], 1)
+
 
 if __name__ == "__main__":
     unittest.main()

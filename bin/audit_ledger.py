@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import hashlib
+import importlib.util
 import json
 import os
 import re
@@ -410,6 +411,81 @@ class Auditor:
         self.add("REM-003", "PASS" if code == 0 else "WARN",
                  "REM status command succeeded" if code == 0 else "REM status command unavailable",
                  exit_code=code, output=output[-2000:])
+        self.check_rem_privacy(root)
+
+    def check_rem_privacy(
+        self,
+        root: Path,
+        cold_store: Path = Path("/Users/g/Projects/_retired/rem_chatgpt_masters_20260721"),
+    ) -> None:
+        records = root / "normalized/records.jsonl"
+        config_path = root / "config/sensitivity.json"
+        classifier_path = root / "bin/sensitivity_filter.py"
+        failures: Counter[str] = Counter()
+        samples = 0
+        sample_hits = 0
+        sample_fingerprints: list[str] = []
+        try:
+            config = load_json(config_path)
+            default_private = {
+                surface for surface, visibility in config.get("surface_defaults", {}).items()
+                if visibility == "private"
+            }
+            spec = importlib.util.spec_from_file_location("rem_sensitivity_audit", classifier_path)
+            if not spec or not spec.loader:
+                raise ValueError("cannot load sensitivity classifier")
+            classifier = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(classifier)
+            classifier_sha = sha256_file(classifier_path)
+            with records.open(encoding="utf-8", errors="replace") as handle:
+                for raw in handle:
+                    try:
+                        row = json.loads(raw)
+                    except json.JSONDecodeError:
+                        failures["malformed_record"] += 1
+                        continue
+                    visibility = row.get("visibility")
+                    if visibility not in {"indexed", "private", "review"}:
+                        failures["missing_or_invalid_visibility"] += 1
+                    if visibility != "indexed":
+                        continue
+                    if row.get("surface") in default_private:
+                        failures["default_private_surface_indexed"] += 1
+                    if row.get("sensitivity_categories"):
+                        failures["categorized_record_indexed"] += 1
+                    # Deterministic spread across the file without loading the corpus.
+                    record_id = str(row.get("id", ""))
+                    if samples < 200 and record_id and int(sha256_bytes(record_id.encode())[:4], 16) % 97 == 0:
+                        samples += 1
+                        categories = classifier.tier1_categories(
+                            str(row.get("title", "")), str(row.get("text", ""))
+                        )
+                        if categories:
+                            sample_hits += 1
+                            sample_fingerprints.append(sha256_bytes(record_id.encode())[:12])
+            code, tracked = run_capture(["git", "ls-files", "private", "quarantine"], cwd=root)
+            if code != 0:
+                failures["git_tracking_check_unavailable"] += 1
+            elif tracked.strip():
+                failures["sensitive_tier_tracked"] += len(tracked.splitlines())
+            if (root / "masters/chatgpt").exists():
+                failures["chatgpt_master_source_reappeared"] += 1
+            if not cold_store.exists():
+                failures["chatgpt_cold_store_missing"] += 1
+            if not (root / "private").is_dir():
+                failures["private_tier_missing"] += 1
+            if sample_hits:
+                failures["tier1_hit_in_indexed_sample"] += sample_hits
+            self.add(
+                "REM-PRIV-001", "FAIL" if failures else "PASS",
+                "REM privacy boundary violated" if failures else "REM privacy boundary is enforced",
+                failures=dict(failures), sampled_indexed_records=samples,
+                sample_hit_fingerprints=sample_fingerprints,
+                classifier_sha256=classifier_sha,
+            )
+        except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
+            self.add("REM-PRIV-001", "UNKNOWN", "REM privacy boundary could not be audited",
+                     error=str(exc))
 
     def check_secrets(self) -> None:
         pattern = re.compile(

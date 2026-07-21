@@ -125,6 +125,12 @@ manifest is deliberately updated.
 - `integrity_manifest.json`: reviewed advisor/persona/skill hashes and the advisor-memory
   tree digest.
 
+`REM-PRIV-001` verifies the REM sensitivity boundary: every record has a valid
+visibility, default-private surfaces and categorized records are absent from the index,
+a deterministic indexed sample has no Tier-1 hits, private/quarantine paths are not
+tracked, ChatGPT masters remain ejected, and the cold store/private tier remain present.
+Only counts and record-ID fingerprints enter audit reports—never matched private text.
+
 The auditor compares its working bytes with `HEAD:bin/audit_ledger.py`. A mismatch is a
 self-integrity warning. Updating a manifest to silence a finding is a governed decision,
 not an automatic repair.
