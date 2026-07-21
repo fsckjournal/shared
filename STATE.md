@@ -12,9 +12,13 @@ a session; use the log only for events the other side must act on.**
 
 ## 2026-07-21 — Tagslut legacy-restore enrichment state
 
-- Tagslut `dev` commits `587730b0` and `fac99d23` make standalone enrichment
-  resumable/identity-guarded, keep Beatport detail `403` from killing search,
-  and make `tokens.json` the complete-pair-first Spotify credential source.
+- Tagslut `dev` commits `587730b0`, `fac99d23`, and `eabd74d0` make standalone
+  enrichment resumable/identity-guarded, keep Beatport detail `403` from killing
+  search, make `tokens.json` the complete-pair-first Spotify credential source,
+  and record completion in a byte-neutral `com.tagslut.enriched_at` xattr while
+  continuing to recognize legacy embedded markers. The robustly recognizable
+  132-file subset of the pre-resume prefix was retrofitted with that xattr; a
+  controlled before/after SHA256 audit reported 0/132 content-hash changes.
 - `/Volumes/MUSIC/staging/legacy_discard_restore_20260717`: 639 FLACs. Resume
   cohort 152-639 has 488 readable files: 461 matched/marked, 27 no-match, zero
   failed. Spotify's stale-env expiry tail was timestamp-bounded and rerun after
