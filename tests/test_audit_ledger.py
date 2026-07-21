@@ -101,6 +101,22 @@ class AuditorTests(unittest.TestCase):
         self.assertTrue(any(f.check_id == "POLICY-001" and f.status == "FAIL"
                             for f in runner.findings))
 
+    def test_historical_ledger_secret_is_current_failure_and_redacted(self):
+        self.write_configs()
+        row = self.entry(summary="access_token=ghp_abcdefghijklmnopqrstuvwxyz123456")
+        (self.root / "audit/rules.json").write_text(json.dumps({
+            "schema_version": 1, "historical_ledger_cutoff_line": 99,
+            "protected_paths": ["MASTER_LIBRARY"], "destructive_verbs": ["rm"],
+            "policy_exceptions": [],
+            "semantic_change_review": {"principles": ["keep evidence"]}}))
+        (self.root / "handoffs/handoff.jsonl").write_text(json.dumps(row) + "\n")
+        runner = audit.Auditor(args(self.root / "reports"))
+        runner.check_config()
+        runner.check_ledger()
+        finding = next(f for f in runner.findings if f.check_id == "SECRET-LEDGER-001")
+        self.assertEqual(finding.status, "FAIL")
+        self.assertNotIn("ghp_", json.dumps(finding.evidence))
+
     def test_semantic_transport_failure_is_unknown(self):
         self.write_configs()
         runner = audit.Auditor(args(self.root / "reports", no_semantic=False))
@@ -142,6 +158,30 @@ class AuditorTests(unittest.TestCase):
         self.assertEqual(conclusion["accepted_historical_warnings"], 1)
         self.assertEqual(conclusion["current_advisories"], 1)
         self.assertEqual(conclusion["review_recommended"][0]["check_id"], "LEDGER-008")
+
+    def test_forced_failure_writes_marker_and_notification_command(self):
+        self.write_configs()
+        runner = audit.Auditor(args(self.root / "reports"))
+        report = {
+            "started_at": "2026-07-21T00:00:00Z", "exit_code": 1, "mode": "full",
+            "auditor": {"working_sha256": "0" * 64},
+            "conclusion": {
+                "verdict": "FAIL", "summary": "Fixture violation; immediate action required.",
+                "immediate_action_required": True, "established_violations": 1,
+                "degraded_checks": 0, "accepted_historical_warnings": 0,
+                "current_advisories": 0, "review_recommended": []
+            },
+            "findings": [],
+        }
+        markdown, _ = runner.write_report(report)
+        marker = self.root / "reports/NEEDS_ATTENTION"
+        self.assertTrue(marker.exists())
+        self.assertIn("exit=1", marker.read_text())
+        with mock.patch.object(audit.subprocess, "run") as invoked:
+            audit.notify(markdown, 1)
+        command = invoked.call_args.args[0]
+        self.assertEqual(command[:2], ["/usr/bin/osascript", "-e"])
+        self.assertIn("exit 1", command[2])
 
 
 if __name__ == "__main__":

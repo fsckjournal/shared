@@ -244,9 +244,23 @@ class Auditor:
         targets = "|".join(re.escape(v) for v in rules["protected_paths"])
         destructive = re.compile(rf"(?is)\b(?:{verbs})\b.{{0,120}}(?:{targets})|(?:{targets}).{{0,120}}\b(?:{verbs})\b")
         completion = re.compile(r"(?i)\b(?:fixed|completed|resolved|deployed|landed|verified)\b")
+        ledger_secret = re.compile(
+            r"(?ix)(?:\b(?:sk-[a-z0-9_-]{16,}|ghp_[a-z0-9]{20,}|github_pat_[a-z0-9_]{20,}|"
+            r"xox[baprs]-[a-z0-9-]{16,}|AKIA[A-Z0-9]{16}|eyJ[a-z0-9_-]{10,}\.[a-z0-9_-]{10,}\.[a-z0-9_-]{10,})\b|"
+            r"\b(?:api[_-]?key|client[_-]?secret|access[_-]?token|refresh[_-]?token|password)\b\s*[:=]\s*['\"]?[a-z0-9_./+=-]{16,})"
+        )
         for entry in self.entries:
             summary = str(entry.get("summary", ""))
             line = entry["_audit_line"]
+            secret_match = ledger_secret.search(summary)
+            if secret_match:
+                matched = secret_match.group(0)
+                digest = sha256_bytes(matched.encode())
+                self.add("SECRET-LEDGER-001", "FAIL",
+                         "Potential live credential material appears in ledger history",
+                         line=line, entry_id=entry.get("id"),
+                         fingerprint=f"{digest[:4]}...{digest[-4:]}",
+                         historical_cutoff_ignored=True)
             if destructive.search(summary):
                 status = "WARN" if line <= historical_cutoff else "FAIL"
                 self.add("POLICY-001", status,

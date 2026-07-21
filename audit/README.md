@@ -100,6 +100,10 @@ Model timeout, malformed JSON, unavailable endpoint, or failed calibration is al
 `UNKNOWN`, never `PASS`. Deterministic findings remain in the report even when the
 semantic layer is degraded.
 
+The historical ledger cutoff never grandfathers credential exposure. High-confidence
+token/key patterns in any ledger line are `SECRET-LEDGER-001` current failures, with only
+a SHA-256 fingerprint reported; the matching credential material is never reproduced.
+
 The Markdown report is the operator summary. The JSON report is the machine-readable
 record. Exact semantic evidence packets are local files with mode 0600; ordinary reports
 contain their path and hash rather than copying private persona content.
@@ -148,3 +152,6 @@ do.
 
 The staleness check can detect a missed weekly run only when the auditor next executes;
 it is not an independent liveness monitor.
+
+The dated deployment verification receipt is
+[`ACCEPTANCE_2026-07-21.md`](ACCEPTANCE_2026-07-21.md).
