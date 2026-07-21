@@ -10,6 +10,35 @@ a session; use the log only for events the other side must act on.**
 
 ---
 
+## 2026-07-21 (later) — Automix→Roon chain: bridge wired (spine #317/#318)
+
+- **Roon extension now points at the sanctioned CrateBuilder bridge.** `slut/roon-extension/app.js:64`
+  `oraclePath` repointed from the SUPERSEDED `hag/tools/automix/roon_oracle.py` (fuzzy title/artist,
+  sonic7_v1, flagged untrusted Gemini WIP) to `hag/tools/automix/roon_crate_bridge.py` (CrateBuilder /
+  `find_harmonic_pool` RPC, apple_hybrid_v1, the path #316 verified live). This closes spine #106's
+  2026-07-08 "ACTION NEEDED" one-liner, open for 13 days. `[verified: node --check app.js` passes;
+  `hag/.venv/bin/python tools/automix/roon_crate_bridge.py --title "Night Flight Reprise" --artist
+  "Franc Moody"` returned a real mate `{mate_title: Koko, mate_artist: Modeselektor, ...}` via the live
+  RPC, both before and mirrored after the edit — the edit only changes which script the extension spawns,
+  not the bridge's own behavior]. **CORRECTION to this entry's first pass:** "spawn path proven" was an
+  overclaim — that run used `hag/.venv/bin/python` with `.env` sourced by hand, not the actual
+  `spawn(process.env.TAGHAG_PYTHON || "python3", ...)` call with node's inherited env. **Re-checked with
+  the real gap reproduced:** `env -i ... python3 tools/automix/roon_crate_bridge.py --title ... --artist
+  ...` (no `.env`, no venv) → `Config error: TAGHAG_SUPABASE_URL is required`, prints `{}`, **exit 0**
+  — fails silently, app.js would log "No mate found" and just not queue, no crash. **Confirmed this is
+  the live launch-time behavior, not a hypothetical:** `slut/roon-extension/README.md` and `package.json`
+  document ZERO wiring for `TAGHAG_PYTHON` / `TAGHAG_SUPABASE_URL` / `_SECRET_KEY` / `_OWNER_USER_ID` —
+  the README only documents `TAGSLUT_DB` / `TAGSLUT_PYTHON` for a separate, older tag-preview feature in
+  the same `app.js`; no launchd plist exists on this machine. **So: bridge script itself is proven
+  correct under the right interpreter+env; the extension's actual launch path currently supplies
+  neither, and would silently no-op rather than queue a mate. NOT run against a live Roon core either
+  way this session** (headless, no zone). Follow-up filed separately (spine — see next entry) rather than
+  reopening #106, whose literal one-liner is genuinely done. **Not committed** (`slut` tree already
+  carried unrelated pre-existing modifications; this one-line change is staged/edited only, awaiting an
+  explicit commit ask). Optional #106 follow-up (recordFeedback() on played/skipped in `handleZoneUpdate`)
+  still open, separate scope. `roon_oracle.py`/`roon_dj.py` (hag, uncommitted local hardening from a prior
+  session, already SUPERSEDED-banner'd) left untouched — not this lane, not the sanctioned path.
+
 ## 2026-07-21 — Tagslut legacy-restore enrichment state
 
 - **#305 repaired and registered in canonical v4:** `slut@dev` `86d1ded0` adds the
