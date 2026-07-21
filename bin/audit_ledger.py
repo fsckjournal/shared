@@ -411,6 +411,16 @@ class Auditor:
         self.add("REM-003", "PASS" if code == 0 else "WARN",
                  "REM status command succeeded" if code == 0 else "REM status command unavailable",
                  exit_code=code, output=output[-2000:])
+        verify_code, verify_output = run_capture(
+            [sys.executable, str(root / "bin/rem_capture.py"), "verify"], cwd=root
+        )
+        verify_summary = verify_output.splitlines()[-1] if verify_output else "no output"
+        self.add(
+            "REM-004", "PASS" if verify_code == 0 else "WARN",
+            "REM captured-master hashes match their manifest" if verify_code == 0
+            else "REM captured-master integrity has unresolved mismatches",
+            exit_code=verify_code, summary=verify_summary,
+        )
         self.check_rem_privacy(root)
 
     def check_rem_privacy(

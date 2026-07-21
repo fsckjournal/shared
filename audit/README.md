@@ -130,6 +130,9 @@ visibility, default-private surfaces and categorized records are absent from the
 a deterministic indexed sample has no Tier-1 hits, private/quarantine paths are not
 tracked, ChatGPT masters remain ejected, and the cold store/private tier remain present.
 Only counts and record-ID fingerprints enter audit reports—never matched private text.
+`REM-004` runs the existing capture-manifest verifier and surfaces its final aggregate
+receipt. Mismatches are a current advisory until separately investigated; the auditor
+does not rewrite or re-baseline captured masters.
 
 The auditor compares its working bytes with `HEAD:bin/audit_ledger.py`. A mismatch is a
 self-integrity warning. Updating a manifest to silence a finding is a governed decision,
