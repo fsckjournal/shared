@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "historical_ledger_cutoff_line": 316,
+  "historical_cutoff_review": "Observed and accepted as pre-auditor history on 2026-07-21; new findings after this line fail",
+  "protected_paths": ["/Volumes/MUSIC", "MASTER_LIBRARY", "music_v4.db"],
+  "destructive_verbs": ["rm", "unlink", "delete", "drop", "truncate", "rmtree"],
+  "policy_exceptions": [
+    {
+      "id": "SECRET-TIDDL-DEFAULT-AUTH",
+      "path": "/Users/g/Projects/tag/slut/tools/_tiddl_auth.py",
+      "symbol": "DEFAULT_AUTH",
+      "reason": "Documented third-party downloader application credential",
+      "source_citation": "decisions/DECISIONS_LOCKED.md section 22"
+    }
+  ],
+  "semantic_change_review": {
+    "principles": [
+      "Do not weaken record-first evidence requirements",
+      "Do not grant the auditor write authority",
+      "Do not reverse locked lane ownership",
+      "Do not claim a result without a resolvable receipt"
+    ]
+  }
+}

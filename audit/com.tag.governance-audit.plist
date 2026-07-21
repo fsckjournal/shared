@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.tag.governance-audit</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/local/bin/python3</string>
+    <string>/Users/g/Projects/tag/shared/bin/audit_ledger.py</string>
+    <string>--full</string>
+    <string>--notify</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/g/Projects/tag/shared</string>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key>
+    <integer>2</integer>
+    <key>Hour</key>
+    <integer>8</integer>
+    <key>Minute</key>
+    <integer>30</integer>
+  </dict>
+  <key>RunAtLoad</key>
+  <false/>
+  <key>StandardOutPath</key>
+  <string>/Users/g/Library/Logs/tag-governance-audit/launchd.stdout.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/g/Library/Logs/tag-governance-audit/launchd.stderr.log</string>
+</dict>
+</plist>

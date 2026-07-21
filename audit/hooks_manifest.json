@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "repo_hooks_path": [
+    {"repo":"shared","repo_path":"/Users/g/Projects/tag/shared","expected":"/Users/g/Projects/tag/shared/githooks"},
+    {"repo":"slut","repo_path":"/Users/g/Projects/tag/slut","expected":"/Users/g/Projects/tag/shared/githooks"},
+    {"repo":"hag","repo_path":"/Users/g/Projects/tag/hag","expected":"/Users/g/Projects/tag/shared/githooks"}
+  ],
+  "hooks": [
+    {"repo":"shared","path":"/Users/g/Projects/tag/shared/githooks/pre-commit","sha256":"ef01d3f368fe919a3848e5180e0de52170226f9a72b9d5f2b810e8fd1f86dbf8","role":"tracked git-safe enforcement"},
+    {"repo":"shared","path":"/Users/g/Projects/tag/shared/.git/hooks/pre-commit","sha256":"0ddabf0e2edae94feb6c3c9cf1df4d62149b08a7f65d65997575731679e3c9ea","role":"dormant legacy protected-action guard; bypassed by core.hooksPath"},
+    {"repo":"slut","path":"/Users/g/Projects/tag/slut/tools/hooks/pre-commit","sha256":"0ddabf0e2edae94feb6c3c9cf1df4d62149b08a7f65d65997575731679e3c9ea","role":"dormant tracked protected-action guard; bypassed by core.hooksPath"},
+    {"repo":"slut","path":"/Users/g/Projects/tag/slut/.git/hooks/pre-commit","sha256":"0ddabf0e2edae94feb6c3c9cf1df4d62149b08a7f65d65997575731679e3c9ea","role":"dormant installed protected-action guard; bypassed by core.hooksPath"},
+    {"repo":"hag","path":"/Users/g/Projects/tag/hag/tools/hooks/pre-commit","sha256":"0ddabf0e2edae94feb6c3c9cf1df4d62149b08a7f65d65997575731679e3c9ea","role":"dormant tracked protected-action guard; bypassed by core.hooksPath"},
+    {"repo":"hag","path":"/Users/g/Projects/tag/hag/.git/hooks/pre-commit","sha256":"0ddabf0e2edae94feb6c3c9cf1df4d62149b08a7f65d65997575731679e3c9ea","role":"dormant installed protected-action guard; bypassed by core.hooksPath"}
+  ]
+}

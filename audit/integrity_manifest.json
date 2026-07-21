@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-07-21",
+  "accepted_by": "operator-approved auditor plan v3",
+  "files": [
+    {"path":"/Users/g/Projects/tag/shared/advisor/advisor.md","sha256":"de1e9255a7e12d89db4b1fe70a6e100e5e5ca88197c1794b4e6bbe312949670e","role":"canonical advisor persona","semantic_review":true},
+    {"path":"/Users/g/.claude/agents/advisor.md","sha256":"de1e9255a7e12d89db4b1fe70a6e100e5e5ca88197c1794b4e6bbe312949670e","role":"advisor persona mirror","semantic_review":true},
+    {"path":"/Users/g/.claude/skills/advisor/SKILL.md","sha256":"fa9438aae34cc0044819895c40f1b30160e4e0b0ab5884c8af05b19afb06ea70","role":"advisor skill canonical copy","semantic_review":true},
+    {"path":"/Users/g/.agents/skills/advisor/SKILL.md","sha256":"fa9438aae34cc0044819895c40f1b30160e4e0b0ab5884c8af05b19afb06ea70","role":"advisor skill mirror","semantic_review":true},
+    {"path":"/Users/g/.codex/skills/advisor/SKILL.md","sha256":"fa9438aae34cc0044819895c40f1b30160e4e0b0ab5884c8af05b19afb06ea70","role":"advisor skill mirror","semantic_review":true},
+    {"path":"/Users/g/.claude/skills/resolve-from-the-record/SKILL.md","sha256":"25c720c33cd6b92c761e3ee1537049161f2c011340e4d65d324a14186ae1963a","role":"record skill canonical copy","semantic_review":true},
+    {"path":"/Users/g/.agents/skills/resolve-from-the-record/SKILL.md","sha256":"25c720c33cd6b92c761e3ee1537049161f2c011340e4d65d324a14186ae1963a","role":"record skill mirror","semantic_review":true},
+    {"path":"/Users/g/.codex/skills/resolve-from-the-record/SKILL.md","sha256":"25c720c33cd6b92c761e3ee1537049161f2c011340e4d65d324a14186ae1963a","role":"record skill mirror","semantic_review":true}
+  ],
+  "trees": [
+    {"path":"/Users/g/Projects/tag/shared/advisor/memory","sha256":"f39a1e6b770d08db4a048c7c9f100898885aac2fa6d4194a22c47f8e6a39e5b3","role":"advisor memory markdown tree"}
+  ]
+}

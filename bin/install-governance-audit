@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+label="com.tag.governance-audit"
+source_plist="/Users/g/Projects/tag/shared/audit/${label}.plist"
+target_plist="/Users/g/Library/LaunchAgents/${label}.plist"
+domain="gui/$(id -u)"
+
+usage() {
+  echo "usage: $0 install|uninstall|status" >&2
+  exit 2
+}
+
+case "${1:-}" in
+  install)
+    /usr/bin/plutil -lint "$source_plist"
+    /bin/mkdir -p /Users/g/Library/LaunchAgents /Users/g/Library/Logs/tag-governance-audit
+    /usr/bin/install -m 600 "$source_plist" "$target_plist"
+    /bin/launchctl bootout "$domain/$label" >/dev/null 2>&1 || true
+    /bin/launchctl bootstrap "$domain" "$target_plist"
+    /bin/launchctl print "$domain/$label"
+    ;;
+  uninstall)
+    /bin/launchctl bootout "$domain/$label" >/dev/null 2>&1 || true
+    if [ -e "$target_plist" ]; then
+      /bin/mv "$target_plist" "${target_plist}.retired.$(/bin/date +%Y%m%dT%H%M%S)"
+    fi
+    ;;
+  status)
+    /bin/launchctl print "$domain/$label"
+    ;;
+  *) usage ;;
+esac
