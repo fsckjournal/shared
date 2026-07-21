@@ -45,7 +45,12 @@ shared/
   schema/handoff.schema.json  # JSON Schema (draft-07) for one event
   bin/handoff-append          # validated, atomic writer (auto-fills ts/git/env)
   bin/handoff-tail            # reader — run this FIRST on every session resume
+  bin/audit_ledger.py         # weekly/on-demand read-only governance auditor
+  audit/README.md             # auditor operator runbook and authority boundary
 ```
+
+The governance auditor is documented in [`audit/README.md`](audit/README.md). It runs
+weekly and on demand, writes reports outside the repository, and never repairs findings.
 
 ## Contract
 
