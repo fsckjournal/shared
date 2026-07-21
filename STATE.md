@@ -12,6 +12,13 @@ a session; use the log only for events the other side must act on.**
 
 ## 2026-07-21 (later) — Automix→Roon chain: bridge wired (spine #317/#318)
 
+- **READ-ONLY CURRENT-v4 UNION EXTENSION:** `slut/tools/v4/reconcile_catalog_union.py --extend-union`
+  preserves the July 13 Soundiiz union and appends v4-only preferred paths marked
+  `row_source=v4.track_alias`; it never writes v4 or masters. Live receipt: 32,747 preferred
+  archive masters, 31,884 original union rows, 863 v4-only paths appended, 785 distinct v4
+  ISRC gaps, and 75 appended paths without ISRC. Output:
+  `/Users/g/Desktop/tagslut-source-inventory-2026-07-17/current-v4-reconcile/current_v4_union.csv`.
+
 - **Roon extension now points at the sanctioned CrateBuilder bridge.** `slut/roon-extension/app.js:64`
   `oraclePath` repointed from the SUPERSEDED `hag/tools/automix/roon_oracle.py` (fuzzy title/artist,
   sonic7_v1, flagged untrusted Gemini WIP) to `hag/tools/automix/roon_crate_bridge.py` (CrateBuilder /
