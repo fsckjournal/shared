@@ -73,6 +73,20 @@ indefinitely in v1.
 
 ## Interpret results
 
+Every terminal, Markdown, and JSON result begins with a deterministic executive
+conclusion. It states the verdict, whether immediate action is required, established
+violation and degraded-check counts, accepted historical-warning count, current advisory
+count, and a short `review_recommended` list. Reading this conclusion does not require
+Codex, Claude, or another model.
+
+Verdicts are:
+
+- `PASS`: no violations, degraded checks, or warnings.
+- `PASS_WITH_HISTORICAL_WARNINGS`: only accepted pre-auditor history remains visible.
+- `PASS_WITH_ADVISORIES`: no immediate action; listed current advisories merit review.
+- `FAIL`: an established deterministic violation requires action.
+- `DEGRADED`: at least one required check could not produce a trustworthy result.
+
 Exit codes are 0 for clean/warning-only, 1 for established violations, and 2 for an
 incomplete or degraded audit. `NEEDS_ATTENTION` is confined to the report directory.
 

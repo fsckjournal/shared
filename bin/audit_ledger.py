@@ -204,7 +204,8 @@ class Auditor:
                 parsed_ts = dt.datetime.fromisoformat(str(clean.get("ts", "")).replace("Z", "+00:00"))
                 if previous_ts and parsed_ts < previous_ts - dt.timedelta(minutes=10):
                     self.add("LEDGER-005", "WARN", "Timestamp moved backwards beyond tolerance",
-                             line=line, timestamp=clean.get("ts"))
+                             line=line, timestamp=clean.get("ts"),
+                             historical=line <= historical_cutoff)
                 previous_ts = parsed_ts
             except ValueError:
                 status = "WARN" if line <= historical_cutoff else "FAIL"
@@ -214,7 +215,8 @@ class Auditor:
             if "re" in entry and entry["re"] not in known_ids:
                 status = "WARN" if entry["_audit_line"] <= historical_cutoff else "FAIL"
                 self.add("LEDGER-004", status, "Reply references a missing ledger ID",
-                         line=entry["_audit_line"], referenced_id=entry["re"])
+                         line=entry["_audit_line"], referenced_id=entry["re"],
+                         historical=status == "WARN")
         duplicates = {key: rows for key, rows in ids.items() if len(rows) > 1}
         for entry_id, rows in duplicates.items():
             hashes = {value for _, value in rows}
@@ -551,6 +553,55 @@ class Auditor:
         except (OSError, ValueError):
             return None
 
+    def build_conclusion(self, statuses: Counter[str]) -> dict[str, Any]:
+        warnings = [finding for finding in self.findings if finding.status == "WARN"]
+
+        def accepted_history(finding: Finding) -> bool:
+            return (
+                bool(finding.evidence.get("historical"))
+                or finding.summary.startswith("Historical ")
+                or finding.summary.startswith("Accepted historical ")
+                or (
+                    finding.check_id == "LEDGER-003"
+                    and isinstance(finding.evidence.get("line"), int)
+                    and finding.evidence["line"] <= int(finding.evidence.get("historical_cutoff", 0))
+                )
+            )
+
+        historical = [finding for finding in warnings if accepted_history(finding)]
+        current = [finding for finding in warnings if not accepted_history(finding)]
+        if statuses["FAIL"]:
+            verdict = "FAIL"
+            summary = f"{statuses['FAIL']} established violation(s); immediate action required."
+        elif statuses["UNKNOWN"]:
+            verdict = "DEGRADED"
+            summary = f"{statuses['UNKNOWN']} check(s) could not reach a trustworthy result; review required."
+        elif current:
+            verdict = "PASS_WITH_ADVISORIES"
+            summary = (
+                f"No established violations or degraded checks. No immediate action required; "
+                f"review {len(current)} current advisory item(s) when convenient."
+            )
+        elif historical:
+            verdict = "PASS_WITH_HISTORICAL_WARNINGS"
+            summary = "No established violations, degraded checks, or current advisories."
+        else:
+            verdict = "PASS"
+            summary = "No established violations, degraded checks, or advisory findings."
+        return {
+            "verdict": verdict,
+            "immediate_action_required": bool(statuses["FAIL"] or statuses["UNKNOWN"]),
+            "summary": summary,
+            "established_violations": statuses["FAIL"],
+            "degraded_checks": statuses["UNKNOWN"],
+            "accepted_historical_warnings": len(historical),
+            "current_advisories": len(current),
+            "review_recommended": [
+                {"check_id": finding.check_id, "summary": finding.summary}
+                for finding in current
+            ],
+        }
+
     def execute(self) -> tuple[int, dict[str, Any]]:
         self.check_config()
         if self.wants("ledger"):
@@ -578,6 +629,7 @@ class Auditor:
         semantic = self.semantic() if self.wants("semantic") else None
         statuses = Counter(f.status for f in self.findings)
         exit_code = 1 if statuses["FAIL"] else (2 if statuses["UNKNOWN"] else 0)
+        conclusion = self.build_conclusion(statuses)
         finished = dt.datetime.now(dt.timezone.utc)
         report = {
             "schema_version": 1,
@@ -588,6 +640,7 @@ class Auditor:
             "semantic": "disabled" if self.args.no_semantic or self.args.quick else (semantic or "degraded"),
             "auditor": trust,
             "status_counts": dict(statuses),
+            "conclusion": conclusion,
             "exit_code": exit_code,
             "findings": [asdict(f) for f in self.findings],
         }
@@ -598,9 +651,19 @@ class Auditor:
         json_path = self.report_dir / f"audit-{stamp}.json"
         md_path = self.report_dir / f"audit-{stamp}.md"
         self.secure_write(json_path, json.dumps(report, indent=2, ensure_ascii=False) + "\n")
-        lines = ["# Tag Governance Audit", "", f"- Started: `{report['started_at']}`",
+        conclusion = report["conclusion"]
+        lines = ["# Tag Governance Audit", "", "## Executive conclusion", "",
+                 f"**{conclusion['verdict']}** — {conclusion['summary']}", "",
+                 f"- Immediate action required: `{'yes' if conclusion['immediate_action_required'] else 'no'}`",
+                 f"- Established violations: `{conclusion['established_violations']}`",
+                 f"- Degraded checks: `{conclusion['degraded_checks']}`",
+                 f"- Accepted historical warnings: `{conclusion['accepted_historical_warnings']}`",
+                 f"- Current advisories: `{conclusion['current_advisories']}`", ""]
+        for item in conclusion["review_recommended"]:
+            lines.append(f"- Review when convenient: **{item['check_id']}** — {item['summary']}")
+        lines.extend(["", "## Run metadata", "", f"- Started: `{report['started_at']}`",
                  f"- Exit code: `{report['exit_code']}`", f"- Mode: `{report['mode']}`",
-                 f"- Auditor: `{report['auditor']['working_sha256']}`", "", "## Findings", ""]
+                 f"- Auditor: `{report['auditor']['working_sha256']}`", "", "## Findings", ""])
         for item in report["findings"]:
             lines.append(f"- **{item['status']} {item['check_id']}** — {item['summary']}")
             if item["evidence"]:
@@ -650,8 +713,9 @@ def main(argv: list[str] | None = None) -> int:
     auditor = Auditor(args)
     exit_code, report = auditor.execute()
     md_path, json_path = auditor.write_report(report)
-    print(json.dumps({"exit_code": exit_code, "markdown_report": str(md_path),
-                      "json_report": str(json_path), "status_counts": report["status_counts"]}, indent=2))
+    print(json.dumps({"conclusion": report["conclusion"], "exit_code": exit_code,
+                      "markdown_report": str(md_path), "json_report": str(json_path),
+                      "status_counts": report["status_counts"]}, indent=2))
     if args.notify and exit_code:
         notify(md_path, exit_code)
     return exit_code

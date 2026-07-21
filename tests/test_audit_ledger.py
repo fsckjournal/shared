@@ -5,6 +5,7 @@ import json
 import sys
 import tempfile
 import unittest
+from collections import Counter
 from pathlib import Path
 from unittest import mock
 
@@ -129,6 +130,18 @@ class AuditorTests(unittest.TestCase):
         self.assertIsNone(result)
         self.assertTrue(any(f.check_id == "SEMANTIC-001" and f.status == "UNKNOWN"
                             for f in runner.findings))
+
+    def test_conclusion_separates_history_from_current_advisory(self):
+        self.write_configs()
+        runner = audit.Auditor(args(self.root / "reports"))
+        runner.add("LEDGER-006", "WARN", "Accepted historical duplicate ID", entry_id=41)
+        runner.add("LEDGER-008", "WARN", "Backup litter exists beside the append-only ledger")
+        conclusion = runner.build_conclusion(Counter(f.status for f in runner.findings))
+        self.assertEqual(conclusion["verdict"], "PASS_WITH_ADVISORIES")
+        self.assertFalse(conclusion["immediate_action_required"])
+        self.assertEqual(conclusion["accepted_historical_warnings"], 1)
+        self.assertEqual(conclusion["current_advisories"], 1)
+        self.assertEqual(conclusion["review_recommended"][0]["check_id"], "LEDGER-008")
 
 
 if __name__ == "__main__":
