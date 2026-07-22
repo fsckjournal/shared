@@ -10,6 +10,16 @@ a session; use the log only for events the other side must act on.**
 
 ---
 
+## 2026-07-22 — explicit reissue/compilation membership override
+
+- `slut` adds `ts-stage <exact-release-root> --bob`: default same-ISRC/different-byte
+  intake remains fail-closed, while this explicit release-level override accepts the
+  duration-guarded recording as a new §11 membership. It retains the incoming staged
+  FLAC, materializes the existing owned master into the declared release slot, records
+  `decision=bob_variant` in the receipt, and never overwrites or upgrades a master.
+  Real preview for TIDAL's `Nova la plage` compilation: 8 planned new members and 3
+  planned owned-master memberships; next handoff preserves `--bob`.
+
 ## 2026-07-21 (later) — Automix→Roon chain: bridge wired (spine #317/#318)
 
 - **READ-ONLY CURRENT-v4 UNION EXTENSION:** `slut/tools/v4/reconcile_catalog_union.py --extend-union`
