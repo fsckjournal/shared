@@ -18,7 +18,9 @@ a session; use the log only for events the other side must act on.**
   FLAC, materializes the existing owned master into the declared release slot, records
   `decision=bob_variant` in the receipt, and never overwrites or upgrades a master.
   Real preview for TIDAL's `Nova la plage` compilation: 8 planned new members and 3
-  planned owned-master memberships.
+  planned owned-master memberships. `--bob` also repairs the known TIDAL box-set
+  `DISC n: <set> - <title>` pollution before promotion and chooses a coherent remaster
+  year over a downloader timestamp.
 
 ## 2026-07-22 — New Order trashed-master DB cleanup
 
