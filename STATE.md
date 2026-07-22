@@ -20,6 +20,13 @@ a session; use the log only for events the other side must act on.**
   Real preview for TIDAL's `Nova la plage` compilation: 8 planned new members and 3
   planned owned-master memberships.
 
+## 2026-07-22 — New Order trashed-master DB cleanup
+
+- Operator trashed the two supplied New Order master-release directories. The 2025 box
+  set had one exclusive v4 release and was removed transactionally after a DB snapshot:
+  47 memberships, 47 files, 47 tracks, 47 credits, 48 provenance rows, and one alias.
+  The 2026 path had no v4 rows. Post-delete FK check is zero and integrity is `ok`.
+
 ## 2026-07-21 (later) — Automix→Roon chain: bridge wired (spine #317/#318)
 
 - **READ-ONLY CURRENT-v4 UNION EXTENSION:** `slut/tools/v4/reconcile_catalog_union.py --extend-union`
