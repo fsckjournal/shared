@@ -10,6 +10,24 @@ a session; use the log only for events the other side must act on.**
 
 ---
 
+## 2026-07-23 — streaming exports joined read-only through MusicBrainz and v4
+
+- New timestamped output (not the old ATTIC report) joins the 29,324-row
+  Soundiiz export through MusicBrainz, corrected redirect-aware ListenBrainz,
+  and strict canonical-v4 ISRC evidence. Soundiiz exact-ISRC confirmation:
+  7,328 source rows / 2,858 distinct ISRCs / 2,856 MusicBrainz recordings.
+  Explicit row cohorts: 1,332 MusicBrainz-ambiguous, 797 strict-ISRC-divergent,
+  8,559 ISRC-not-found-in-dump, and 11,308 no-ISRC.
+- Fresh `f6d66a97` verification: 28,679 direct MBIDs; 101 redirects recovering
+  548 listen events; one missing MBID/event; strict v4 overlap 5,284
+  recordings / 28,094 events. Current title/primary-artist candidate-only
+  cohort: 1,150 recordings / 6,378 events.
+- Rich SongShift `local_path` surface deduplicates from 14,000 physical CSV
+  rows to 7,000 legacy MP3 path strings, zero present. Exact-v4-ISRC paths:
+  8,476 source-row/path records, 7,130 present, covering 6,404 confirmed
+  source rows. Inputs/v4/tags/ATTIC output stayed read-only. Report:
+  `/Users/g/Documents/Codex/2026-07-23/handoff-spotify-soundiiz-musicbrainz-listenbrainz-v4/outputs/soundiiz_musicbrainz_listenbrainz_v4_20260723T145502Z/`.
+
 ## 2026-07-22 — explicit reissue/compilation membership override
 
 - `slut` adds `ts-stage <exact-release-root> --bob` (implicit execute): default same-ISRC/different-byte
