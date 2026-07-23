@@ -25,7 +25,10 @@ a session; use the log only for events the other side must act on.**
 - Rich SongShift `local_path` surface deduplicates from 14,000 physical CSV
   rows to 7,000 legacy MP3 path strings, zero present. Exact-v4-ISRC paths:
   8,476 source-row/path records, 7,130 present, covering 6,404 confirmed
-  source rows. Inputs/v4/tags/ATTIC output stayed read-only. Report:
+  source rows. Main joins were read-only; one early SQLite open-mode diagnostic
+  was RW-capable but issued only read SQL. The v4 binary hash later moved, so
+  byte-level non-touch is not claimed; `quick_check` and all load-bearing
+  logical join counts were re-derived unchanged. Report:
   `/Users/g/Documents/Codex/2026-07-23/handoff-spotify-soundiiz-musicbrainz-listenbrainz-v4/outputs/soundiiz_musicbrainz_listenbrainz_v4_20260723T145502Z/`.
 
 ## 2026-07-22 — explicit reissue/compilation membership override
