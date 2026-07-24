@@ -42,6 +42,15 @@ re-derive before promoting any of them into a deliverable. The three extractor f
 - Mixonset/Offtrack `playhistory.txt`: 769 played rows May–Jul 2026, 155 Spotify tracks, 307
   explicitly-marked transition edges — machine-generated mixes from an operator-supplied pool,
   to be labeled as generated (not hand-authored) evidence. [inherited]
+- ATTIC forensic inventory (read-only, `attic_modified: false`):
+  `/Users/g/Documents/Codex/ATTIC_AUDITS/attic_forensic_20260723T225819+0300/` — 80,799 records,
+  0 filesystem errors; 15,716 music-service/DJ artifacts cataloged (manifest category only —
+  presence ≠ lineage). **Its exclusion list matters:** ICEBERG, Music, AAC_LIBRARY, RoonBackups,
+  both automix_payloads trees, taghag_mu_sidecars, and rekordbox backups were excluded, so this
+  inventory says nothing about the drained-iceberg FLACs or the payload split. The three
+  "unresolved" `artists*.csv` seed files are single-column artist-name rosters (no delimiter →
+  parser error), artist-axis evidence, not identity mappings. Report's inspection-status counts
+  88 unresolved vs 29 rows in `unresolved.csv` — unreconciled, check before relying on either.
 - Evidence limit: Spotify and ListenBrainz both start Jan 2012; iTunes XML has no historical play
   dates. The pre-2012 indie baseline is an **operator-known anchor**, not derivable from these
   exports. Do not claim to reconstruct it.
