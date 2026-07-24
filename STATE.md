@@ -10,6 +10,19 @@ a session; use the log only for events the other side must act on.**
 
 ---
 
+## 2026-07-24 — transition-evidence plan v2 (spine #339)
+
+- The ListenBrainz-primary transition approach is SUPERSEDED. New settled design:
+  `knowledge/TRANSITION_EVIDENCE_PLAN_2026-07-24.md` — 7 lanes (playlist-order intentional /
+  Spotify-export observed / corrected-LB corroboration / repeat-artifact audit / era model /
+  identity ladder with explicit unresolved nodes / session-capped provenance scoring).
+- Strict v4 event coverage 26.46% (3,440 IDs / 32,516 events) via the full 24-CSV Soundiiz
+  join + exact-path catalog bridge — supersedes 20.64%. Duration gate ran off the small
+  `export_soundiiz.csv` and must be rerun AFTER the identity-join rebuild (sequence in the doc).
+- Two Spotify Account Data ZIPs are different identities (97.3% vs 0% overlap match) — never
+  merge. `flibrary 2.db` = archival evidence only. Pre-2012 baseline is operator-known, not
+  derivable from the exports. Figures inherited from the 2026-07-23/24 Codex sessions.
+
 ## 2026-07-23 — streaming exports joined read-only through MusicBrainz and v4
 
 - New timestamped output (not the old ATTIC report) joins the 29,324-row
